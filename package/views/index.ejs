@@ -1,0 +1,300 @@
+<% include ./common/header %>
+<div class="banner">
+    <ul>
+        <li style="background:url(/images/banner01.jpg)  top center">first slide.</li>
+        <li style="background:url(/images/banner01.jpg)  top center">second slide.</li>
+        <li style="background:url(/images/banner01.jpg)  top center">third slide.</li>
+    </ul>
+    <div class="unslider-arrow-bar">
+        <div class="unslider-arrow prev"></div>
+        <div class="unslider-arrow next"></div>
+    </div>
+</div>
+<!--end: banner 横幅 -->
+<% include ./common/nav_index %>
+<!--end: nav 导航 -->
+<div class="main">
+    <div class="info bgc-gray">
+        <div class="info-box">
+            <div class="jyfw">
+                <h3 class="title">
+                    <span  class="title-text">诊疗服务</span>
+                    <a class="title-img" href="/service/58fdc89d642663116fc5122e"></a>
+                </h3>
+                <div class="jyfw-content">
+                    <div class="jyfw-lf lf">
+                        <h4 class="sub-title">
+                            名医荟萃
+                            <a class="rt" href="diagnosisDoctor.html">更多专家》</a>
+                        </h4>
+                        <div class="md-list">
+                            <div class="md-item lf">
+                                <div class="item-lf-img lf">
+                                    <img class="item-img" src="/images/doctor_img.jpg" alt="">
+                                </div>
+                                <div class="md-item-rt lf">
+                                    <h4 class="name">吴主任</h4>
+                                    <div class="item-info">副教授 副主任医师</div>
+                                    <div class="item-info"> 科室：呼吸科</div>
+                                    <a class="btn" href="diagnosisDoctor.html">简介详情</a>
+                                </div>
+                            </div>
+                            <div class="md-item lf">
+                                <div class="item-lf-img lf">
+                                    <img class="item-img" src="/images/doctor_img.jpg" alt="">
+                                </div>
+                                <div class="md-item-rt lf">
+                                    <h4 class="name">吴主任</h4>
+                                    <div class="item-info">副教授 副主任医师</div>
+                                    <div class="item-info"> 科室：呼吸科</div>
+                                    <a class="btn" href="diagnosisDoctor.html">简介详情</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="md-list">
+                            <div class="md-item lf">
+                                <div class="item-lf-img lf">
+                                    <img class="item-img" src="/images/doctor_img.jpg" alt="">
+                                </div>
+                                <div class="md-item-rt lf">
+                                    <h4 class="name">吴主任</h4>
+                                    <div class="item-info">副教授 副主任医师</div>
+                                    <div class="item-info"> 科室：呼吸科</div>
+                                    <a class="btn" href="diagnosisDoctor.html">简介详情</a>
+                                </div>
+                            </div>
+                            <div class="md-item lf">
+                                <div class="item-lf-img lf">
+                                    <img class="item-img" src="/images/doctor_img.jpg" alt="">
+                                </div>
+                                <div class="md-item-rt lf">
+                                    <h4 class="name">吴主任</h4>
+                                    <div class="item-info">副教授 副主任医师</div>
+                                    <div class="item-info"> 科室：呼吸科</div>
+                                    <a class="btn" href="diagnosisDoctor.html">简介详情</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="jyfw-rt rt">
+                        <h4 class="sub-title">
+                            预约挂号
+                        </h4>
+                        <form class="form rt">
+                            <div class="form-group">
+                                <label class="form-label"><span class="form-text">医生：</span><input class="form-input"></label>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label"><span class="form-text">科室：</span><input class="form-input"></label>
+                            </div>
+                            <div class="btn-group">
+                                <button class="btn color-white bgc-orange">预约挂号</button>
+                                <button class="btn color-white bgc-jf">查询</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!--end:jyfw 就医服务-->
+    
+    
+            
+        </div>
+
+        <!--end:news 新闻-->
+    </div>
+    <!--end:info 服务、概况、动态信息-->
+    <div class="news">
+        <div class="news-box">
+            <h3 class="title">
+                <span class="title-text">新闻图片</span>
+                <a class="title-img" href="/news/58ddc4b34a354c08cee7cf8d"></a>
+            </h3>
+            <ul class="news-content">
+                <% imgNewList.forEach(function(item){ %>
+                <li>
+                    <a class="item" href="/news/58ddc4b34a354c08cee7cf8d?pid=<%= item._id%>" title="<%= item.title%>">
+                        <img src="<%= item.imgUrl%>" alt="">
+                        <p><%= item.title.length>12 ? item.title.substr(0,11)+'...' : item.title%></p>
+                    </a>
+                </li>
+                <% }) %>
+            </ul>
+        </div>
+    </div>
+    <div  class="md bgc-gray">
+        <ul class="notice">
+            <li class="notice-md lf">
+                <h3 class="title">
+                    <span  class="title-text">各地动态</span>
+                    <a class="title-img" href="/news/58ddecf916f4200bc52294d3"></a>
+                </h3>
+                <% if(localNewList){ %>
+                <ul class="situation-content list">
+                    <% localNewList.forEach(function(item){%>
+                    <li>
+                        <a class="item" href="/news/58ddecf916f4200bc52294d3?pid=<%= item._id %>"><%= item.title.length>15? item.title.substr(0,14)+'...' : item.title%><span class="time rt"><%= item.publishDate%></span>
+                        </a>
+                    </li>
+                    <% }) %>
+                </ul>
+                <% } %>
+            </li>
+            <!--end:dynamic 各地动态-->
+            <li class="notice-md rt">
+                <h3 class="title">
+                    <span class="title-text">结控动态</span>
+                    <a class="title-img" href="/news/58df12e859d47b094dcab9ed"></a>
+                </h3>
+                <% if(localNewList){ %>
+                <ul class="list">
+                    <% centerList.forEach(function(item){%>
+                    <li>
+                        <a class="item" href="/news/58df12e859d47b094dcab9ed?pid=<%= item._id %>"><%= item.title.length>15? item.title.substr(0,14)+'...' : item.title%><span class="time rt"><%= item.publishDate%></span>
+                        </a>
+                    </li>
+                    <% }) %>
+                </ul>
+                <% } %>
+            </li>
+        </ul>
+        <ul class="notice">
+            <li class="notice-md lf">
+                <h3 class="title">
+                    <span class="title-text">活动公告</span>
+                    <a class="title-img" href="/news/58df143959d47b094dcab9f3"></a>
+                </h3>
+				<% if(localNewList){ %>
+                <ul class="list">
+                    <% noticeList.forEach(function(item){%>
+                    <li>
+                        <a class="item" href="/news/58df143959d47b094dcab9f3?pid=<%= item._id %>"><%= item.title.length>15? item.title.substr(0,14)+'...' : item.title%><span class="time rt"><%= item.publishDate%></span>
+                        </a>
+                    </li>
+                    <% }) %>
+                </ul>
+                <% } %>
+            </li>
+            <li class="notice-md rt">
+                <h3 class="title">
+                    <span class="title-text">招标采购中心</span>
+                    <a class="title-img" href="/info/58df152959d47b094dcab9f9"></a>
+                </h3>
+                <% if(localNewList){ %>
+                <ul class="list">
+                    <% zbList.forEach(function(item){%>
+                    <li>
+                        <a class="item" href="/info/58df152959d47b094dcab9f9?pid=<%= item._id %>"><%= item.title.length>15? item.title.substr(0,14)+'...' : item.title%><span class="time rt"><%= item.publishDate%></span>
+                        </a>
+                    </li>
+                    <% }) %>
+                </ul>
+                <% } %>
+            </li>
+        </ul>
+        <!--end:notice 公告-->
+        <div class="ad-bar">
+            <img src="/images/ad_bar.jpg" alt="">
+        </div>
+        <!--end:ours 广告条-->
+        <div class="ours">
+            <ul class="card">
+                <li class="card-item lf bgc-white">
+                    <h3 class="card-title">诊疗服务</h3>
+                    <div class="lf">
+                        <a href="/ing" class="ours-item">
+                            <i class="icon_famousDoctor"></i>
+                            名医荟萃
+                        </a>
+                        <a href="/ing" class="ours-item">
+                            <i class="icon_guide"></i>
+                            就医指南
+                        </a>
+                        <a href="/ing" class="ours-item">
+                            <i class="icon_query"></i>
+                            结果查询
+                        </a>
+                    </div>
+                    <div class="lf mgl70">
+                         <a href="/ing" class="ours-item">
+                            <i class="icon_registration"></i>
+                            预约挂号
+                        </a>
+                    </div>
+                </li>
+                <li class="card-item lf bgc-white">
+                    <h3 class="card-title">结核病志愿者</h3>
+                    <div class="lf">
+                         <a href="/jkcj/58ef199640027a02befb9038" class="ours-item">
+                            <i class="icon_news"></i>
+                            新闻动态
+                        </a>
+                         <a href="/jkcj/58ef19d340027a02befb903a?type=page&path=proposer" class="ours-item">
+                            <i class="icon_volunteer_recruit"></i>
+                            志愿招募
+                        </a>
+                         <a href="/ing" class="ours-item">
+                            <i class="icon_train"></i>
+                            培训管理
+                        </a>
+                    </div>
+                    <div class="lf mgl70">
+                         <a href="/jkcj/58ef19ac40027a02befb9039" class="ours-item">
+                            <i class="icon_introduce"></i>
+                            团队介绍
+                        </a>
+                         <a href="/jkcj/58ef19ec40027a02befb903b" class="ours-item">
+                            <i class="icon_volunteer_service"></i>
+                            志愿服务
+                        </a>
+                    </div>
+                </li>
+                <li class="card-item lf bgc-white">
+                    <h3 class="card-title">科研培训</h3>
+                    <div class="lf">
+                         <a href="/train/58feea04f73e4e071e6dd26c" class="ours-item">
+                            <i class="icon_research"></i>
+                            科学研究
+                        </a>
+                         <a href="/train/58eaf2801d4295089e0073b4" class="ours-item">
+                            <i class="icon_library"></i>
+                            管理制度
+                        </a>
+                         <a href="/ing" class="ours-item">
+                            <i class="icon_data"></i>
+                            培训管理系统
+                        </a>
+                    </div>
+                    <div class="lf mgl40">
+                         <a href="https://www.91huayi.com/" class="ours-item">
+                            <i class="icon_education"></i>
+                            学分查询
+                        </a>
+                        <a href="http://www.cnki.net/" class="ours-item">
+                            <i class="icon_library"></i>
+                            电子图书馆
+                        </a>
+                        <a href="/train/58eaf2f21d4295089e0073b7" class="ours-item">
+                            <i class="icon_data"></i>
+                            资料下载
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <!--end:ours-->
+        <div class="link bgc-white">
+            <span class="link-title">友情链接</span>
+            <a href="http://www.nhfpc.gov.cn/">中华人民共和国国家卫生和计划生育委员会</a>
+            <a href="http://www.gdwst.gov.cn/">广东省卫生和计划生育委员会</a>
+            <a href="http://www.chinatb.org/">中国结核网</a>
+            <a href="http://www.tb123.org/">中国CDC结核病防治临床中心</a>
+            <a href="http://www.cata1933.cn/">中国防痨协会</a>
+            <a href="http://www.gdhealth.net.cn/">广东卫生信息网</a>
+        </div>
+        <!--end:link 友情链接-->
+    </div>
+</div>
+
+<!--end:main-->
+<% include ./common/footer %>

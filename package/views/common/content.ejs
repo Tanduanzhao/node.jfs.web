@@ -1,0 +1,13 @@
+<% if(typeof(childrenType)== 'undefined' || childrenType == 'list' ){ %>
+    <% include list %>
+    <% include pagnation %>
+
+<% }else if(childrenType == 'post'){ %>
+    <% include post %>
+<%}else if(childrenType == 'page'){%>
+	<% if(path){%>
+    	<%- include(path) %>
+    <%}%>
+<%}else{%>
+    <% include nav_list %>
+<% }%>

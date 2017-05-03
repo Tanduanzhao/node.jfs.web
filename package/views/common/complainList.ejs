@@ -1,0 +1,82 @@
+<div class="main-rt-content supervision">
+        <a  href="/supervise/58f5ce6ad6799e0d45b1d1a0?type=page&path=feedback" class="btn border-clear">
+            我要投诉
+        </a>
+        <div class="line"></div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th style="width: 26%">受理编号</th>
+                    <th>主题</th>
+                    <th style="width: 14%">处理状态</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <div class="pagination"></div>
+    </div>
+    <script type="text/javascript">
+        function loadData(page){
+            var html='';
+            var pagnation = '';
+            $.ajax({
+                url:'/feedback',
+                method:'GET',
+                data:{
+                    page:page
+                },
+                success:function(res){
+                    if(res.status == 1){
+                        res.datas.forEach(function(item){
+                            html+='<tr><td><a href="/supervise/58f5ce6ad6799e0d45b1d1a0?type=page&path=complainPage#'+item._id+'" class="color-blue">'+item._id+'</a></td><td><a href="/supervise/58f5ce6ad6799e0d45b1d1a0?type=page&path=complainPage#'+item._id+'" class="color-blue">'+item.title+'</a></td>';
+                            if(!!item.replay){
+                                 html += '<td>已处理</td>'
+                             }else{
+                                 html += '<td>未处理</td>'
+                             }
+                             html+='</tr>';
+                           
+                        })
+                        $('.table tbody').empty().append(html);
+                        if(res.page.total>=res.page.pageSize){
+                            console.log(pagnation);
+                            var i=0;
+                            pagnation = '<a href="javascript:void(0)" onClick="loadData(1)">首页</a><a href="javascript:void(0)"';
+                            if(page>1){
+                                pagnation += '  onClick="loadData('+(page-1)+')"';
+                            }else{
+                                pagnation += ' class="itemReadOnly"';
+                            }
+                            pagnation += '>&lt;上一页</a>';
+                            while(res.page.total/res.page.pageSize>=i){
+                                console.log(i);
+                                i++
+                                pagnation+='<a class="item';
+                                if(i==res.page.page){
+                                    pagnation+= ' active"';
+                                }else{
+                                    pagnation+='"';
+                                }
+                                pagnation+=' href="javascript:void(0)" onClick="loadData('+i+')">'+i+'</a>';
+                                
+                            }
+                            pagnation += '<a href="javascript:void(0)"';
+                            if(page<res.page.total/res.page.pageSize){
+                                pagnation += ' onClick="loadData('+(page+1)+')"';
+                            }else{
+                                pagnation += ' class="itemReadOnly"';
+                            }
+                            pagnation += '>下一页&gt;</a>';
+                            console.log(pagnation);
+                            $('.pagination').empty().append(pagnation);
+                        }
+                    }
+                }
+            })
+
+        }
+        loadData(1);
+
+    </script>
+</div>

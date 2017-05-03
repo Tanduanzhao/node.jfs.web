@@ -1,0 +1,53 @@
+<div class="main-rt-content supervision">
+    <div class="main-rt-time">发布时间：<span class="time"></span></div>
+    <div class="content">
+        <h3 class="content-title"></h3>
+        <div class="content-info">
+            受理编号：  <span class="bh"></span> <br>
+
+            姓&nbsp;&nbsp;名：  <span class="user"></span><br>
+
+            主&nbsp;&nbsp;题：  <span class="r-title"></span><br>
+
+            来信时间：  <span class="publishDate"></span><br>
+
+            回复时间：  <span class="replayDate"></span><br>
+
+            投诉内容：  <span class="r-content"></span>
+        </div>
+        <div class="line"></div>
+        <div class="reply">
+            <span class="color-blue">[回复]：</span>  <span class="r-replay"></span>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var hash = location.hash.slice(1);
+        if(hash){
+            loadData(hash)
+        }
+        function loadData(id){
+            $.ajax({
+                url:'/feedback/'+id,
+                method:'GET',
+                success:function(res){
+                    if(res.status == 1){
+                        $('.time').text(res.datas.publishDate);
+                        $('.content-title').text(res.datas.title);
+                        $('.bh').text(res.datas._id);
+                        $('.user').text(res.datas.user);
+                        $('.r-title').text(res.datas.title);
+                        $('.publishDate').text(res.datas.publishDate);
+                        $('.replayDate').text(res.datas.replayDate);
+                        $('.r-content').text(res.datas.content);
+                        if(res.datas.replay){
+                            $('.r-replay').text(res.datas.replay);
+                        }else{
+                            $('.r-replay').text('处理中');
+                        }
+                        
+                    }
+                }
+            })
+        }
+    </script>
+</div>

@@ -1,0 +1,138 @@
+<div class="main-rt-content">
+   <form class="form">
+       <div class="form-group">
+           <label class="form-label">
+               <span class="form-text">投稿论文：</span><input class="theme form-input" type="text" placeholder="请填写投稿论文">
+           </label>
+           <div class="prompt">
+               <span class="edge"><s class="fill"></s></span>
+               <span class="prompt-text">请填写投稿论文</span>
+           </div>
+       </div>
+       <div class="form-group">
+           <label class="form-label">
+               <span class="form-text">作者名字：</span><input class="name form-input" type="text" placeholder="请填写作者名字">
+           </label>
+           <div class="prompt">
+               <span class="edge"><s class="fill"></s></span>
+               <span class="prompt-text">请填写作者名字</span>
+           </div>
+       </div>
+       <div class="form-group">
+           <label class="form-label">
+               <span class="form-text">联系方式：</span><input class="contact form-input" type="text" placeholder="请填写联系方式">
+           </label>
+           <div class="prompt">
+               <span class="edge"><s class="fill"></s></span>
+               <span class="prompt-text">请填写联系方式</span>
+           </div>
+       </div>
+       <div class="form-group">
+           <label class="form-label">
+               <span class="form-text">通讯地址：</span><input class="site form-input" type="text"  placeholder="请填写通讯地址">
+           </label>
+           <div class="prompt">
+               <span class="edge"><s class="fill"></s></span>
+               <span class="prompt-text">请填写通讯地址</span>
+           </div>
+       </div>
+       <div class="form-group">
+           <label class="form-label">
+               <span class="form-text">电子邮箱：</span><input type="text" class="email form-input"  placeholder="请填写电子邮箱">
+           </label>
+           <div class="prompt">
+               <span class="edge"><s class="fill"></s></span>
+               <span class="prompt-text">请填写电子邮箱</span>
+           </div>
+       </div>
+       <div class="form-group">
+           <label class="form-label">
+               <span class="form-text">上传文件：</span>
+               <a class="form-file" href="">上传附件
+                   <input class="file" onChange="uploadFile()" id="file" type="file">
+               </a>
+               <span class="file-name">未选择任何文件</span>
+           </label>
+           <div class="prompt file-prompt">
+               <span class="edge"><s class="fill"></s></span>
+               <span class="prompt-text">请上传附件</span>
+           </div>
+       </div>
+       <div class="btn-group">
+           <button type="button" class="btn color-white bgc-blue">提交</button>
+       </div>
+   </form>
+</div>
+<script type="text/javascript">
+	var __FILE__ = null;
+	function uploadFile(){
+		if(!$('#file')[0].files[0]) return false;
+		var file = new FormData();
+		file.append('upload',$('#file')[0].files[0]);
+		$.ajax({
+			url:'/uploads',
+			method:'POST',
+			data:file,
+			processData:false,
+	    	contentType:false,
+	    	success:function(result){
+	    		if(result.status == 1){
+	    			console.log(result.message);
+	    			__FILE__ = result.datas.id
+	    			$('.file-name').text(result.datas.name);
+	    		}
+	    	}
+		})
+	}
+	var email=false;
+    $(".form input[type='text']").focus(function(){
+        $(this).removeClass("prompt-color");
+        $(this).parent().next().hide();
+    }).blur(function(){
+        if($(this).hasClass("email")){
+            if($(".email").val()!=""){
+                if($(".email").val().search(/\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/)==-1){
+                    $(".email").parent().next().find(".prompt-text").html("邮箱格式不正确")
+                    showWarning($(this));
+                    return false;
+                }else{
+                    email=true;
+                }
+            }else{
+                $(".email").parent().next().find(".prompt-text").html("请填写电子邮箱");
+                showWarning($(this));
+                return false;
+            }
+        }
+        if($(this).val() == ""){
+            showWarning($(this));
+        }
+    });
+
+	$('.form .btn-group .btn').click(function(){
+        if($(".theme").val()!="" && $(".name").val()!="" && $(".contact").val() !="" && email && $(".file").val()!=""){
+            subPaper()
+        }else{
+            $("input").trigger("blur");
+            if($(".form input[type='file']").val() == ""){
+                $(".form .form-file").addClass("prompt-color").parent().next().show();
+            }
+            return false;
+        }
+    });
+
+
+	function subPaper(){
+		if(!__FILE__) return false;
+		$.post('/paper',{
+			title:$('.theme').val(),
+			user:$('.name').val(),
+			address:$('.address').val(),
+			contact:$('.contact').val(),
+			email:$('.email').val(),
+			file:__FILE__,
+		},function(result){
+			console.log(result);
+		})
+	}
+</script>

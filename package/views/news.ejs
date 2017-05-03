@@ -1,0 +1,40 @@
+<% include ./common/header %>
+<% include ./common/nav %>
+<div class="main subPage">
+    <div class="main-box">
+        <div class="main-lf lf">
+            <h3 class="main-lf-title"><%= type.name%></h3>
+            <div class="main-lf-list">
+            <% typeList.forEach(function(item){ %>
+                <a class="main-lf-item <% if(active._id.toString()===item._id.toString()){ %>active<% } %>" <%if(!item.children || !item.children.length){%> href="/news/<%=item._id%><%if(item.type=='article'){%>?type=article<%}%> <%}%>"><%= item.name%></a>
+                <%if(item.children && !!item.children.length){%>
+                    <div class="main-lf-sub-List">
+                        <% item.children.forEach(function(item){%>
+                            <a class="main-lf-sub-item" href="/news/<%= item._doc._id%><% if(item._doc._id =='58e45595ae3484063bc2b6b5'){ %>?type=nav<%}%><%if(item.type=='article'){%>?type=article<%}%>"><%= item.name%></a>
+                        <%})%>
+                    </div>
+                <%}%>
+            <% }) %>
+            </div>
+        </div>
+        <!--end:main-lf 内容左边-->
+        <div class="main-rt lf">
+            <div class="path">您现在的位置：首页》<%= type.name%>》<%= active.name%></div>
+            <h3 class="main-rt-title">
+                <p class="title-text"><%= active.name%></p>
+            </h3>
+            <% if(typeof(childrenType)== 'undefined'){ %>
+                <% include ./common/list %>
+                <% include ./common/pagnation %>
+            
+            <% }else if(childrenType == 'post'){ %>
+                <% include ./common/post %>
+            <%}else{%>
+                <% include ./common/nav_list %>
+            <% }%>
+            
+        </div>
+    </div>
+</div>
+<!--end:main 主要内容-->
+<% include ./common/footer %>

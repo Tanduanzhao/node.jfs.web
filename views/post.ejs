@@ -1,0 +1,16 @@
+<% include ./common/header %>
+<% include ./common/nav %>
+<div class="main subPage">
+    <div class="main-box article">
+        <div class="main-content lf">
+            <div class="article-time">发布时间：<%= post.publishDate%></div>
+            <div>
+                <h3 class="article-title"><%= post.title%></h3>
+                <p><%- post.content%>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<!--end:main 主要内容-->
+<% include ./common/footer%>

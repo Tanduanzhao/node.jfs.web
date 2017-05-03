@@ -1,0 +1,94 @@
+<script src="http://api.map.baidu.com/api?v=2.0&ak=NuSFia9rrD0GhF0zG8ABN7B7GC6dGYzr"></script>
+<div class="main-rt-content">
+   <ul class="contact-info">
+       <li> <i class="icon-iphone"></i>电话：020-38906222</li>
+       <li> <i class="icon-fax"></i>传真：020-38905745</li>
+       <li> <i class="icon-email"></i>电子邮箱：gdtb@vip.163.com</li>
+       <li> <i class="icon-encoding"></i>邮编：510630</li>
+       <li> <i class="icon-location"></i>地址：广东省广州市天河区黄埔大道西485号</li>
+   </ul>
+   <div class="map">
+       <!-- 2. 定义用于显示百度地图的容器元素 -->
+       <div id="allmap"></div>
+   </div>
+   <div class="guide-content">
+       <div class="content-title">【交通指南】</div>
+       <div class="item">
+           一.  公交线路 <br>
+           1. 公交车线路
+           <p>
+               乘坐43路;53路;137路;138路;140路;194路;218路;243路;245路;261路;278路;284路;299路;302路;504路;
+               517路;518路;540路;541路;542路;545路;547路;548路;550路;562路;583路;882路;901a路;b15路;b22路;b8路;大学城专线4路;高峰快线38路;高峰快线42路等国防大厦站或石牌村站下车，步行约5分钟路程
+           </p>
+       </div>
+       <div class="item">
+           二.	地铁线路
+           <p><span class="icon">●</span>	地铁3号线</p>
+           <p>乘坐地铁3号线至岗顶站（C出口），往石牌东路方向步行1400米</p>
+           <p><span class="icon">●</span>	地铁5号线</p>
+           <p> 乘坐地铁5号线至潭村站（A出口），往马场路方向步行1200米</p>
+       </div>
+       <div class="item">
+           三.	交通枢纽线路
+           <p><span class="icon">●</span>	机场：</p>
+           <p>乘坐地铁3号线至体育西站下车，步行590米到天河站乘坐b15路；b8路；278路；53路；542路 541路；243路；284路；882路；548路至石牌村站下车步行500米</p>
+           <p><span class="icon">●</span>	广州南站</p>
+           <p> 乘坐地铁7号线至汉溪长隆站，换乘地铁3号线至体育西路站下车，步行590米到天河站乘坐b15路；b8路；278路；53路；542路 541路；243路；284路；882路；548路至石牌村站下车步行500米</p>
+           <p><span class="icon">●</span>	广州东站</p>
+           <p>乘坐地铁3号线至体育西站下车，步行590米到天河站乘坐b15路；b8路；278路；53路；542路 541路；243路；284路；882路；548路至石牌村站下车步行500米</p>
+           <p> <span class="icon">●</span>	广州火车站，省汽车站</p>
+           <p>乘坐地铁5号线至潭村站（A出口），往马场路方向步行1200米</p>
+       </div>
+       <div class="content-title">
+           【就医须知】
+       </div>
+      <div class="item">
+          一.	门诊时间 <br>
+          <p><span class="icon">●</span>开诊时间：星期一至星期五 </p>
+          <p>上午8:00—12:00  下午14:00— 17:00 </p>
+          <p><span class="icon">●</span>	挂号时间：上午8:00—11:30  下午14:00— 16:30</p>
+      </div>
+       <p>
+           <span class="mgl38">★</span>
+           节假日开诊时间另定
+       </p>
+       二.	就诊所应携带的物品
+       <p><span class="icon">●</span>	身份证或护照（外国公民）</p>
+       <p><span class="icon">●</span>	公费医疗诊疗证及记账单</p>
+       <p><span class="icon">●</span>	门诊病历</p>
+       <p><span class="icon">●</span>	以往化验、检查结果</p>
+       三.	就诊流程
+       <p><span class="icon">●</span>	挂号程序</p>
+       <p>请您到挂号处，出示身份证挂号并领取挂号单。如果您是没有携带病历，还需要购买一本门诊病历。</p>
+       <p><span class="icon">●</span>	候诊程序</p>
+       <p>挂号完毕，请到您需要诊疗的专科坐下候诊。轮到您就诊时，护士会通知您。本院医生会尽快为您诊病。有少数看专家门诊的患者可能需要等较长时间，这是因为轮候的病人太多，请您能谅解。</p>
+       <p><span class="icon">●</span>	诊后程序</p>
+       <p>就诊后，请前往计价收费处，您可选用现金、信用卡或公费医疗证帐单，结算您的医疗费用。交费后，需要取药的病人，可根据门诊收据提示到指定的药房窗口前持处方领取药物。</p>
+   </div>
+</div>
+<script type="text/javascript">
+    var map = new BMap.Map("allmap");
+    var geocoder = new BMap.Geocoder();
+    geocoder.getPoint("广东省广州市天河区黄埔大道西485号",function(point){
+        // 使用坐标点作为中心点,重新设置中心
+        map.centerAndZoom(point,30);
+        var marker = new BMap.Marker(point);
+        map.addOverlay(marker);
+    },"广州市");
+    /*
+     向地图添加比例尺
+     */
+    var scale = new BMap.ScaleControl({
+        anchor : BMAP_ANCHOR_BOTTOM_RIGHT
+    });
+    map.addControl(scale);
+    /*
+     向地图添加缩放平移控件
+     */
+    var nav = new BMap.NavigationControl({
+        anchor : BMAP_ANCHOR_TOP_LEFT,
+        type : BMAP_NAVIGATION_CONTROL_SMALL
+    });
+    map.addControl(nav);
+    map.enableScrollWheelZoom(true);//开启鼠标滚轮缩放
+</script>
