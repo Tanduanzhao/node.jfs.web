@@ -1,21 +1,15 @@
+<%if(postList.length){%>
 <div class="pagination">
-    显示第<%= (page.page-1) * page.size+1 %>-<%= page.total < page.size ? page.total : (page.size*page.page+1)%>条记录 共<%= page.total%>条记录
-    <% if(page.page > 1){ %>
-    <a href="?page=<%= page.page-1%>">
-        上一页 [第一页]
+    <a <%if(page.page>=1){%> href="?page=1"  <%}else{%> class="itemReadOnly" <%}%>>
+        首页
     </a>
+    <a <%if(page.page>1){%> href="?page=<%= page.page-1%>" <%}else{%> class="itemReadOnly"<%}%>>
+        &lt;上一页
+    </a>
+
+    <% for(let i=1;i< page.total/page.size;i++){ %>
+            <a class="item<% %>" href="?page=<%= i %>"><%= i %></a>
     <% } %>
-    <% if(page.total > page.page * page.size){ %>
-    <a class="btn color-jf" href="?page=<%= Number(page.page)+1%>">下一页</a>
-    
-    <a class="btn" href="#">尾页</a>
-    
-    第
-    <select>
-        <% for(let i=1;i< page.total/page.size;i++){ %>
-            <option value="<%= i %>"><%= i %></option>
-        <% } %>
-    </select>
-    页
-    <% } %>
+    <a <%if(page.page < page.total){%> href="?page=<%= page.total%>" <%}else{%> class="itemReadOnly" <%}%>>下一页&gt;</a>
 </div>
+<%}%>
