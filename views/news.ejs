@@ -5,8 +5,22 @@
         <div class="main-lf lf">
             <h3 class="main-lf-title"><%= type.name%></h3>
             <div class="main-lf-list">
+            <% function isInItem(item){
+                     if(item._id.toString()===active._id.toString()){
+                        return true;
+                     }else{
+                        for(var i = 0;i<item.children.length;i++){
+                            if(active._id.toString()===item.children[i]._id.toString()){
+                                return true;
+                                break;
+                            }
+                        }
+                     }
+                     return false;
+               }
+            %>
             <% typeList.forEach(function(item){ %>
-                <a class="main-lf-item <% if(active._id.toString()===item._id.toString()){ %>active<% } %>" <%if(!item.children || !item.children.length){%> href="/news/<%=item._id%><%if(item.type=='article'){%>?type=article<%}%> <%}%>"><%= item.name%></a>
+                <a class="main-lf-item <% if(isInItem(item)){ %>active<% } %>" <%if(!item.children || !item.children.length){%> href="/news/<%=item._id%><%if(item.type=='article'){%>?type=article<%}%> <%}%>"><%= item.name%></a>
                 <%if(item.children && !!item.children.length){%>
                     <div class="main-lf-sub-List">
                         <% item.children.forEach(function(item){%>

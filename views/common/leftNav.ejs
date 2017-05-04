@@ -1,0 +1,14 @@
+<% function isInItem(item){
+         if(item._id.toString()===active._id.toString()){
+            return true;
+         }else{
+            for(var i = 0;i<item.children.length;i++){
+                if(active._id.toString()===item.children[i]._id.toString()){
+                    return true;
+                    break;
+                }
+            }
+         }
+         return false;
+   }
+%>
