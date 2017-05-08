@@ -2,7 +2,9 @@
 <div class="healthWorks main-rt-content list img-list">
     <%postList.forEach(function(item){%>
         <div class="item">
-            <img class="img" src="<%= item.imgUrl%>" alt="">
+            <div class="img-box">
+                <img class="img" src="<%= item.imgUrl%>" alt="">
+            </div>
             <p><%= item.title%></p>
         </div>
     <%})%>
