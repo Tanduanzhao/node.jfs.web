@@ -2,42 +2,85 @@
     <form class="form">
         <div class="form-group">
             <label class="form-label">
-                <span class="form-text">投稿主题：</span><input class="title form-input">
+                <span class="form-text">投稿主题：</span><input class="theme form-input" placeholder="请填投稿主题">
             </label>
+            <div class="prompt">
+                <span class="edge"><s class="fill"></s></span>
+                <span class="prompt-text">请填写投稿主题</span>
+            </div>
         </div>
         <div class="form-group">
             <label class="form-label">
-                <span class="form-text">作者名字：</span><input class="user form-input">
+                <span class="form-text">作者名字：</span><input class="user form-input"  placeholder="请填写作者名字">
             </label>
+            <div class="prompt">
+                <span class="edge"><s class="fill"></s></span>
+                <span class="prompt-text">请填写作者名字</span>
+            </div>
         </div>
         <div class="form-group">
             <label class="form-label">
-                <span class="form-text">联系方式：</span><input class="contact form-input">
+                <span class="form-text">联系方式：</span><input class="contact form-input"  placeholder="请填写联系方式">
             </label>
+            <div class="prompt">
+                <span class="edge"><s class="fill"></s></span>
+                <span class="prompt-text">请填写联系方式</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-label site">
+                <span class="form-text">通讯地址：</span>
+                <input class="site form-input" type="text"  placeholder="请填写详细地址">
+            </label>
+            <div class="prompt">
+                <span class="edge"><s class="fill"></s></span>
+                <span class="prompt-text">请填写详细地址</span>
+            </div>
+            <dl class="m-select" id="AreaSelector">
+                <dt></dt>
+                <dd class="region" style="height:210px;z-index: 999;top: 40px;">
+                    <input type="hidden" name="" value="">
+                    <ul class="tab">
+                    </ul>
+                    <div class="tab-con clearfix"> </div>
+                </dd>
+            </dl>
         </div>
         <div class="form-group">
             <label class="form-label">
-                <span class="form-text">通讯地址：</span><input class="address form-input">
+                <span class="form-text">电子邮箱：</span><input class="email form-input" placeholder="请填写电子邮箱">
             </label>
-        </div>
-        <div class="form-group">
-            <label class="form-label">
-                <span class="form-text">电子邮箱：</span><input class="email form-input">
-            </label>
+            <div class="prompt">
+                <span class="edge"><s class="fill"></s></span>
+                <span class="prompt-text">请填写电子邮箱</span>
+            </div>
         </div>
         <div class="form-group">
             <label class="form-label">
                 <span class="form-text">上传文件：</span>
                 <a class="form-file" href="">上传附件
-                    <input type="file" onChange="uploadFile()" id="uploads">
+                    <input class="form-input" type="file" onChange="uploadFile()" id="uploads">
                 </a>
                 <span class="file-name">未选择任何文件</span>
             </label>
+            <div class="prompt file-prompt">
+                <span class="edge"><s class="fill"></s></span>
+                <span class="prompt-text">请上传附件</span>
+            </div>
         </div>
         <div class="btn-group">
-            <button type="button" onClick="subDoc()" class="btn color-white bgc-blue">提交</button>
+            <button type="button" class="btn color-white bgc-blue">提交</button>
         </div>
     </form>
+    <div class="popup-succeed">
+        <img class="succeed-img" src="/images/successful.png" alt="">
+        <div class="succeed-content">提交成功</div>
+        <div class="succeed-btns">
+            <a class="btn bgc-gray" href="javascript:void(0)">返回上一页</a>
+            <a class="btn"  href="/">返回首页</a>
+        </div>
+    </div>
+    <script src="/javascripts/Selector.js"></script>
     <script type="text/javascript">
     	var __FILE__ = null;
 	    function uploadFile(){
@@ -62,7 +105,7 @@
 	    		url:'/docs',
 	    		method:'POST',
 	    		data:{
-	    			title:$('.title').val(),
+	    			title:$('.theme').val(),
 	    			user:$('.user').val(),
 	    			contact:$('.contact').val(),
 	    			address:$('.address').val(),
@@ -74,5 +117,8 @@
 	    		}
 	    	})
 	    }
+
+        //地区联动 三级
+        new SelectorJS.area.init('#AreaSelector','101010100', true);
     </script>
 </div>

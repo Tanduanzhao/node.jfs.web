@@ -1,0 +1,82 @@
+<script src="https://cdn.bootcss.com/echarts/3.5.0/echarts.min.js"></script>
+<div class="statistics-title">广东省投稿信息统计</div>
+<div id="main" style="width:100%;height:400px"></div>
+<script>
+    var myChart = echarts.init(document.getElementById('main'));
+    option = {
+        tooltip : {
+            trigger: 'axis'
+        },
+        grid: {
+            left: '8%',
+            right: '8%',
+            bottom: '0',
+            containLabel: true
+        },
+        toolbox: {
+            show : true,
+            feature : {
+                mark : {show: true},
+                dataView : {
+                    show : true,
+                    title : '数据视图',
+                    readOnly: true
+                },
+                magicType: {show: true, type: ['line', 'bar']},
+                restore : {show: true},
+                saveAsImage : {show: true}
+            }
+        },
+        xAxis : [
+            {
+                type : 'category',
+                axisLabel: {
+                    interval: 0,//横轴信息全部显示
+                    rotate: 360,//60度角倾斜显示,
+                    formatter: function (val) {
+                        return val.split("").join("\n"); //横轴信息文字竖直显示}
+                    },
+                    textStyle:{
+                        color:"#666", //刻度颜色
+                        fontSize:14  //刻度大小,
+                    }
+                },
+                data : ['韶关市','广州市','深圳市','东莞市','汕头市','江门市','中山市','湛江市','阳江市','潮州市','汕尾市','梅州市','云浮市','河源市','惠州市','珠海市','佛山市','清远市','茂名市','肇庆市','揭阳市']
+            }
+
+        ],
+        yAxis : [
+            {
+                type : 'value'
+            }
+        ],
+        series : [
+            {
+                name:'数量',
+                type:'bar',
+                data:[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21],
+                barWidth: 15,
+                itemStyle: {
+                    normal: {　　　
+                        color: "#6BBFF7",
+                        barBorderRadius: 10
+                    },
+                    emphasis: {
+                        color: "#3098dd"
+                    }
+                },
+                markPoint : {
+                    data : [
+                        {name : '韶关市', value : 1, xAxis: 0, yAxis: 1},
+                        {name : '广州市', value : 2, xAxis: 1, yAxis: 2},
+                        {name : '深圳市', value : 3, xAxis: 2, yAxis: 3},
+                        {name : '东莞市', value : 4, xAxis: 3, yAxis: 4},
+                        {name : '汕头市', value : 5, xAxis: 4, yAxis: 5}
+                    ]
+                }
+            }
+        ]
+    };
+    myChart.setOption(option);
+
+</script>
