@@ -6,9 +6,10 @@ import Pagination from './pagination.jsx';
 export default class PostList extends PureComponent{
 	constructor(props) {
 	  super(props);
-	
+
 	  this.state = {
 	  	dataSources:[],
+	  	navs:[],
 	  	page:1
 	  };
 	}
@@ -25,6 +26,7 @@ export default class PostList extends PureComponent{
 			}
 		})
 	}
+
 	_pageChange(num){
 		this.setState({
 			page:num
@@ -33,8 +35,12 @@ export default class PostList extends PureComponent{
 		});
 	}
 	_loadPostList(){
+		let url= 'admin/post?page=' + this.state.page;
+		if(this.state.categoryId!=undefined){
+			url += '&cid='+this.state.categoryId
+		}
 		Ajax({
-			url:'admin/post?page=' + this.state.page,
+			url:url,
 			method:'GET'
 		}).then((res)=>{
 			this.setState({
@@ -44,17 +50,36 @@ export default class PostList extends PureComponent{
 			});
 		})
 	}
+	_toggleType(id){
+		this.setState({
+			categoryId:id,
+			page:1
+		},this._loadPostList)
+	}
+	_loadNavs(){
+		Ajax({
+			url:'/admin/category',
+			method:'GET'
+		}).then((res)=>{
+			if(res.status == 1){
+				this.setState({
+					navs : res.nav
+				})
+			}
+		})
+	}
 	componentDidMount() {
 		this._loadPostList();
+		this._loadNavs();
 	}
 
 	render(){
 		return(
 			<div>
 				<Link className="uk-button uk-button-primary" to="/index/post/add">添加文章</Link>
-				<PostTable delAction={this._delAction.bind(this)} dataSources={this.state.dataSources}/>
+				<PostTable toggleType={this._toggleType.bind(this)} navs={this.state.navs} delAction={this._delAction.bind(this)} dataSources={this.state.dataSources}/>
 				{
-					this.state.totalPage && <Pagination pageChange={this._pageChange.bind(this)} totalPage={this.state.totalPage} page={this.state.page}/>
+					!!this.state.totalPage && <Pagination pageChange={this._pageChange.bind(this)} totalPage={this.state.totalPage} page={this.state.page}/>
 				}
 			</div>
 		)

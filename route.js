@@ -28,6 +28,7 @@ const feedback = require('./routes/feedback.js');
 const service = require('./routes/service.js');
 const scientific = require('./routes/scientific.js');
 const paper = require('./routes/paper.js');
+const total = require('./routes/total.js');
 
 const Post = require('./model/post.js');
 
@@ -80,20 +81,21 @@ module.exports = function(app) {
 
 
         })
-        
 
-        //投稿
-        .get('/docs',doc.list)
-        .post('/docs',doc.add)
-        
+
+
+
         //生成密码
         .get('/getMd5', md5)
-        
+
     	.get('/admin', admin)
         .all('*', function(req, res, next) {
             res.locals.status = 0;
             next();
         })
+        //投稿
+        .get('/docs',doc.list)
+        .post('/docs',doc.add)
         //志愿者列表
         .get('/proposer',proposer.list)
         //志愿者申请
@@ -119,7 +121,11 @@ module.exports = function(app) {
         .get('/paper',paper.list)
         //获取单篇论文
         .get('/paper/:id',paper.single)
-
+        //统计
+          //--文章
+        .get('/total/post',total.post)
+          //--投稿
+        .get('/total/doc',total.doc)
 
         //微门户
         .get('/ww',function(req,res,next){
@@ -156,6 +162,8 @@ module.exports = function(app) {
         .put('/admin/category', category.add)
         //更新分类
         .post('/admin/category/:id', category.update)
+        //获取某分类下面的所有文章
+        .get('/admin/category/list/:id', category.postList)
         //删除分类
         .delete('/admin/category/:id', category.delete)
         //获取用户列表

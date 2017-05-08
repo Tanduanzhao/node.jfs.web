@@ -7,6 +7,7 @@ var Schema = new mongoose.Schema({
 	},
 	user:String,
 	contact:String,
+	city:String,
 	address:String,
 	email:String,
 	file:{
@@ -16,7 +17,8 @@ var Schema = new mongoose.Schema({
 	isOpen:{
 		type:Number,
 		default:0
-	}
+	},
+	company:String
 })
 
 module.exports = mongoose.model('doc',Schema);

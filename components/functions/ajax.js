@@ -23,7 +23,7 @@ export function Ajax(obj){
 		if(!res.status){
 			status = 'danger';
 		}
-		if(res.message){
+		if(!res.status){
 			UIkit.notify(res.message,{pos:'bottom-right',status:status});
 		}
 		return new Promise((resolve,reject)=>{

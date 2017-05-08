@@ -67,12 +67,44 @@ module.exports = {
 	getPost:function(typeName,limit=4){
 		return new Promise(function(resolve,reject){
 			type.findOne({name:typeName},['_id']).exec(function(err,result){
-				post.find({typeId:result._id},['_id','title','publishDate','imgUrl','type']).limit(limit).exec(function(err,result){
+				post.find({typeId:result._id},['_id','title','publishDate','imgUrl','type']).sort({publishDate:-1}).limit(limit).exec(function(err,result){
 					if(!err){
 						resolve(result,'查询的文章')
 					}
 				})
 			})
+		})
+	},
+	getImagePosts:function(){
+		return new Promise((resolve,reject)=>{
+			type
+				.find()
+				.where({name:{$in:['各地动态','结控动态']}})
+				.select('_id')
+				.exec(function(err,result){
+					if(err){
+						throw new Error('查询图片新闻出错',err);
+					}else{
+						let typeIds = result.map(function(item){
+							return item._id;
+						});
+						console.log(typeIds);
+						post
+							.find()
+							.where({typeId:{$in:typeIds},imgUrl:{$ne:null}})
+							.select('_id publishDate title imgUrl')
+							.limit(4)
+							.sort({publishDate:-1})
+							.exec(function(_err,_result){
+								if(err){
+									throw new Error('查询图片新闻文章出错');
+								}else{
+									console.log(_result);
+									resolve(_result);
+								}
+							})
+					}
+				})
 		})
 	},
 	singlePost:function(id){
@@ -145,6 +177,7 @@ module.exports = {
 						.find()
 						.where({typeId:id})
 						.select('_id title publishDate')
+						.sort({publishDate:-1})
 						.limit(size)
 						.skip((page-1)*size)
 						.exec(function(err,res){
@@ -165,6 +198,7 @@ module.exports = {
 						.find()
 						.where({typeId:{"$in":ids}})
 						.select('_id title publishDate type files imgUrl discription')
+						.sort({publishDate:-1})
 						.populate('files')
 						.limit(size)
 						.skip((page-1)*size)
