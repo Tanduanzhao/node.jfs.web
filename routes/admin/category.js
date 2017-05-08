@@ -2,6 +2,7 @@ var Type = require('../../model/type.js');
 var Post = require('../../model/post.js');
 var Classify = require('../../model/classify.js');
 var request = require('request');
+const pageSize = 20;
 module.exports = {
 	list:function(req, res, next) {
         Type.find().populate('parentId', "_id name").exec(function(err, result) {
@@ -13,7 +14,7 @@ module.exports = {
                 res.locals.status = 1;
             }
 
-            
+
         }).then(()=>{
             return new Promise((resolve,reject)=>{
                 request('http://127.0.0.1:3000/nav',(t,r)=>{
@@ -129,5 +130,41 @@ module.exports = {
                 next();
             })
         })
-    }
+    },
+		postList:function(req,res,next){
+				const page = req.query.page || 1;
+				Post
+					.count()
+					.where({typeId:req.params.id})
+					.exec((err,count)=>{
+						return new Promise((resolve,reject)=>{
+							if(err){
+								throw new Error('统计文章错误');
+							}else{
+								res.locals.totalPage = count;
+								resolve(count)
+							}
+						})
+					})
+					.then(()=>{
+						Post
+							.find()
+							.where({typeId:req.params.id})
+							.skip((page -1) * pageSize)
+							.limit(pageSize)
+							.populate("typeId")
+							.select('_id title publishDate publishUser typeId')
+							.exec((err,result)=>{
+									if(err){
+											throw new Error("获取"+req.params.id+"分类下的文章失败");
+									}else{
+										res.locals.datas = result;
+										res.locals.page = Number(page);
+										res.locals.status = 1;
+									}
+									next();
+							})
+					})
+
+		}
 }

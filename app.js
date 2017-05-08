@@ -53,9 +53,6 @@ app.use("/ueditor/ue", ueditor(path.join(__dirname, 'public/'), function (req, r
         res.redirect('/ueditor/nodejs/config.json');
     }
 }));
-app.use('/jzyy',function(req,res,next){
-  res.redirect('/');
-});
 router(app);
 
 

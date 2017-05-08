@@ -3,9 +3,17 @@ const Classify = require('../../model/classify.js');
 module.exports = {
 	list:function(req, res, next) {
         let page = new Number(req.query.page) || 1;
-        const pageSize = 10;
+        const pageSize = 20;
+				let search = Post;
+				if(req.query.cid){
+					if(req.query.cid == 0){
+						search = Post.where({typeId:{$eq:null}})
+					}else{
+						search = Post.where({typeId:req.query.cid})
+					}
+				}
         const totalPost = function() {
-            return Post.count().exec(function(err, result) {
+            return search.count().exec(function(err, result) {
                 return new Promise(function(resolve, reject) {
                     if (!err) {
                         resolve(result)
@@ -17,7 +25,7 @@ module.exports = {
         }
 
         totalPost().then(function(count) {
-            Post.find().limit(pageSize).skip((page - 1) * pageSize).populate('typeId', "_id name").sort({_id:-1}).exec(function(err, result) {
+            search.find().limit(pageSize).skip((page - 1) * pageSize).populate('typeId', "_id name").sort({_id:-1}).exec(function(err, result) {
                 if (err) {
                     console.log(err);
                     res.locals.message = '查询文章失败!';

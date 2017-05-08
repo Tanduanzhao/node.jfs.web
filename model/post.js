@@ -16,7 +16,8 @@ const Post = new mongoose.Schema({
 	}],
 	discription:String,
 	typeId:{type:mongoose.Schema.Types.ObjectId,ref:"type"},//文章所属分类Id，关联type表
-	keywords:String//文章关键字
+	keywords:String,//文章关键字
+	form:String
 })
 
 module.exports = mongoose.model('post',Post);

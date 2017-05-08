@@ -4,7 +4,7 @@ import {hashHistory,Router,Route,IndexRoute,IndexRedirect,Link} from 'react-rout
 
 import Login from './components/login.jsx';
 
-import Index from './components/index.jsx'; 
+import Index from './components/index.jsx';
 
 import PostList from './components/postList.jsx';
 import PostAdd from './components/postAdd.jsx';
@@ -19,6 +19,8 @@ import Proposer from './components/proposer.jsx';
 import Feedback from './components/feedback.jsx';
 import FeedbackPage from './components/feedback_page.jsx';
 import Paper from './components/paper.jsx';
+import Total from './components/total.jsx';
+import TotalPost from './components/totalPost.jsx';
 
 class App extends PureComponent{
 	render(){
@@ -67,6 +69,10 @@ class App extends PureComponent{
 							<IndexRedirect to="/index/paper/list"/>
 							<Route path="list" component={Paper}/>
 						</Route>
+						<Route path="total" component={Total}>
+							<IndexRedirect to="/index/total/post"/>
+							<Route path="post" component={TotalPost}/>
+						</Route>
 						<Route path="setting" component={Setting}/>
 					</Route>
 					<Route path="login" component={Login}/>
@@ -78,4 +84,3 @@ class App extends PureComponent{
 
 const app = document.getElementById('app');
 dom.render(<App/>,app);
-

@@ -5,7 +5,7 @@ var common = require('../modules/common.js');
 
 
 module.exports = function(req,res,next){
-	var imgNewList = common.getPost('图片新闻');
+	var imgNewList = common.getImagePosts();
 	var localNewList = common.getPost('各地动态',5);
 	var centerList = common.getPost('结控动态',5);
 	var noticeList = common.getPost('活动公告',5);

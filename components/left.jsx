@@ -4,7 +4,7 @@ export default class Left extends PureComponent{
 
 	constructor(props) {
 	  super(props);
-	
+
 	  this.state = {
 	  	index:0,
 	  	menus:[{
@@ -47,7 +47,11 @@ export default class Left extends PureComponent{
 	  		name:"研究论文",
 	  		iconName:'commenting',
 	  		path:'/index/paper'
-	  	}]
+	  	},{
+				name:"数据统计",
+				iconName:'commenting',
+				path:'/index/total'
+			}]
 	  }
 	}
 
