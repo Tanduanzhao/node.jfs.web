@@ -1,7 +1,7 @@
 <% include sideBar %>
 <div class="footer bgc-jf color-white">
     <div class="copyright tac">
-        copyright © 2017 结防所
+        广东省结核病控制中心
     </div>
 </div>
 <!--end:footer-->
@@ -10,7 +10,7 @@
 <script src="/javascripts/index.js" type="text/javascript"></script>
 <script>
     $(function() {
-        $(".banner").unslider();
+        $(".banner").unslider({fluid: true});
         var unslider = $(".banner").unslider();
         $('.unslider-arrow').click(function() {
             var fn = this.className.split(' ')[1];

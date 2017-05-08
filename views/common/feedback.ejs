@@ -48,15 +48,27 @@
         <div class="form-group">
             <label class="form-label">
                 <span class="form-text">投诉内容：</span>
-                <textarea class="textarea" id="" cols="30" rows="10"  placeholder="请填写投诉内容"></textarea>
+                <textarea class="textarea form-input" cols="30" rows="10"  placeholder="请填写投诉内容"></textarea>
             </label>
+            <div class="prompt">
+                <span class="edge"><s class="fill"></s></span>
+                <span class="prompt-text">请填写投诉内容</span>
+            </div>
         </div>
         <div class="btn-group">
-            <button class="btn color-white bgc-blue" type="button" onclick="subForm()">提交</button>
+            <button class="btn color-white bgc-blue" type="button">提交</button>
         </div>
     </form>
+    <div class="popup-succeed">
+        <img class="succeed-img" src="/images/successful.png" alt="">
+        <div class="succeed-content">提交成功</div>
+        <div class="succeed-btns">
+            <a class="btn bgc-gray" href="javascript:void(0)">返回上一页</a>
+            <a class="btn"  href="/">返回首页</a>
+        </div>
+    </div>
     <script type="text/javascript">
-        function subForm(){
+        function subDoc(){
             $.ajax({
                 url:'/feedback',
                 method:'POST',
@@ -70,7 +82,7 @@
                 },
                 success:function(res){
                     if(res.status == 1){
-                        alert(res.message);
+//                        alert(res.message);
                     }
                 }
             })
