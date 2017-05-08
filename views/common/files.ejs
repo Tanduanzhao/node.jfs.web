@@ -30,7 +30,7 @@
         <div class="form-group">
             <label class="form-label site">
                 <span class="form-text">通讯地址：</span>
-                <input class="site form-input" type="text"  placeholder="请填写详细地址">
+                <input class="site form-input address" type="text"  placeholder="请填写详细地址">
             </label>
             <div class="prompt">
                 <span class="edge"><s class="fill"></s></span>
@@ -101,12 +101,14 @@
 	    }
 	    function subDoc(){
 	    	if(!__FILE__) return false;
+            console.log(1);
 	    	$.ajax({
 	    		url:'/docs',
 	    		method:'POST',
 	    		data:{
 	    			title:$('.theme').val(),
 	    			user:$('.user').val(),
+                    city:$('#AreaSelector dt').text(),
 	    			contact:$('.contact').val(),
 	    			address:$('.address').val(),
 	    			email:$('.email').val(),

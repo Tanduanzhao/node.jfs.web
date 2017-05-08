@@ -7,6 +7,7 @@ module.exports = {
 			user:req.body.user,
 			contact:req.body.contact,
 			address:req.body.address,
+			city:req.body.city,
 			email:req.body.email,
 			file:req.body.file
 		};
@@ -21,8 +22,8 @@ module.exports = {
 		}).then(function(){
 			next();
 		})
-			
-		
+
+
 	},
 	list:(req,res,next)=>{
 		doc

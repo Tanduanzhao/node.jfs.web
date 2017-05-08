@@ -83,9 +83,7 @@ module.exports = function(app) {
         })
 
 
-        //投稿
-        .get('/docs',doc.list)
-        .post('/docs',doc.add)
+
 
         //生成密码
         .get('/getMd5', md5)
@@ -95,6 +93,9 @@ module.exports = function(app) {
             res.locals.status = 0;
             next();
         })
+        //投稿
+        .get('/docs',doc.list)
+        .post('/docs',doc.add)
         //志愿者列表
         .get('/proposer',proposer.list)
         //志愿者申请
@@ -123,6 +124,8 @@ module.exports = function(app) {
         //统计
           //--文章
         .get('/total/post',total.post)
+          //--投稿
+        .get('/total/doc',total.doc)
 
         //微门户
         .get('/ww',function(req,res,next){

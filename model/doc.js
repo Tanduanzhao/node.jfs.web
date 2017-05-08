@@ -7,6 +7,7 @@ var Schema = new mongoose.Schema({
 	},
 	user:String,
 	contact:String,
+	city:String,
 	address:String,
 	email:String,
 	file:{

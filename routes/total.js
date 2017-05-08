@@ -1,5 +1,6 @@
 const Post = require('../model/post.js');
 const User = require('../model/user.js');
+const Doc = require('../model/doc.js');
 
 //获取用户列表
 function getUserList() {
@@ -16,9 +17,70 @@ function getPostByUserName(name) {
   return Post.count().where({publishUser: name}).exec()
 }
 
+//获取所有城市列表
+function getCitys(){
+    return new Promise((resolve,reject)=>{
+        Doc
+            .find()
+            .select('city')
+            .exec((err,result)=>{
+                if(err){
+                    throw new Error('查询投稿地区失败!')
+                }else{
+                    console.log(result);
+                    let arr = obj2Array(result);
+                    arr = removeSameValueFromArr(arr);
+                    arr = getArrFromCitys(arr);
+                    resolve(arr);
+                }
+            })
+    })
+}
+//对象值数组转string数组
+function obj2Array(obj){
+    let _arr = [];
+    obj.forEach((item)=>{
+        if(!!item.city){
+            _arr.push(item.city)
+        }
+    })
+    return _arr;
+}
+//数组去重
+function removeSameValueFromArr(arr){
+    let newArr = [];
+    arr.forEach((item)=>{
+        if(item in newArr){
+
+        }else{
+            newArr.push(item)
+        }
+    })
+    return newArr;
+}
+//获取所有的投稿总量
+function getDocTotal(){
+    return Doc
+            .count()
+}
+//字符串取城市名
+function getArrFromCitys(arr){
+    let newArray = arr.map((item)=>{
+        console.log(item);
+        item = item.split('-');
+        return item[1];
+    })
+    return newArray;
+}
+//按照城市名获取每个地市投稿数量
+function getNumByCityName(name){
+    return Doc
+            .count()
+            .where({city:new RegExp(name)})
+}
+
 module.exports = {
   post: (req, res, next) => {
-       console.log('enter');
         let userList = [],
           total,
           postNum = [],
@@ -45,7 +107,6 @@ module.exports = {
             postNum.forEach((num) => {
                 other += num;
             })
-            console.log(total,other);
             postNum.push(total-other);
             res.locals.datas.postNum = postNum;
             res.locals.status = 1;
@@ -53,6 +114,40 @@ module.exports = {
         .then(()=>{
             next();
         })
+    },
+    doc:(req,res,next)=>{
+        let city=[],values=[],total,other = 0;
 
+        getDocTotal()
+        .then((result)=>{
+            total = result;
+            res.locals.status = 1;
+            res.locals.datas = {};
+            res.locals.datas.total = total;
+            return getCitys();
+        })
+        .then((result)=>{
+            city = result;
+            return result;
+        })
+        .then((result)=>{
+            result.forEach((item)=>{
+                values.push(getNumByCityName(item))
+            })
+            return Promise.all(values);
+        })
+        .then((result)=>{
+            values = result;
+            values.forEach((num)=>{
+                other += num;
+            })
+            values.push(total-other);
+            city.push('其他');
+            res.locals.datas.city = city;
+            res.locals.datas.values = values;
+        })
+        .then(()=>{
+            next()
+        })
     }
 }
