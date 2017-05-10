@@ -4,7 +4,7 @@ import {Link} from 'react-router';
 export default class FeedBack extends PureComponent{
 	constructor(props) {
 	  super(props);
-	
+
 	  this.state = {
 	  	dataSource:[]
 	  };
@@ -51,7 +51,17 @@ class Table extends PureComponent{
 								<td><Link to={`/index/feedback/${item._id}`}>{item._id}</Link></td>
 								<td>{item.title}</td>
 								<td>{item.publishDate}</td>
-								<td>{!!item.replay ? '已处理' : '未处理'}</td>
+								<td>{
+									(function(){
+										if(item.status === 2){
+											return "已处理"
+										}else if(item.status === 1){
+											return "处理中"
+										}else{
+											return "未处理"
+										}
+									})()
+								}</td>
 							</tr>
 						)
 					})

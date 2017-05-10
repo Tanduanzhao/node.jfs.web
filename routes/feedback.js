@@ -25,7 +25,6 @@ module.exports = {
 		if(req.body.content){
 			_obj.content = req.body.content
 		}
-		console.log(_obj);
 		let newFB = new feedback(_obj);
 		newFB.save((err,result)=>{
 			console.log(err);
@@ -84,7 +83,7 @@ module.exports = {
 					if(result.replay){
 						result.replayDate = moment(result.replayDate).format('YYYY-MM-DD');
 					}
-					
+
 					res.locals.datas = result;
 				}
 				next()
@@ -93,14 +92,14 @@ module.exports = {
 	rePlay:(req,res,next)=>{
 		console.log(req.body.replay);
 		feedback
-		.update({_id:req.params.id},{$set:{replay:req.body.replay,replayDate:new Date()}},(err,result)=>{
-			
+		.update({_id:req.params.id},{$set:{replay:req.body.replay,status:req.body.status,replayDate:new Date()}},(err,result)=>{
+
 			if(err){
-				throw new Error('回复id为'+req.params.id+'的评论错误!');
+				throw new Error('修改id为'+req.params.id+'的状态错误!');
 			}else{
 				console.log(result);
 				res.locals.status =1;
-				res.locals.message = "回复成功!"
+				res.locals.message = "修改成功!"
 			}
 			next();
 		})

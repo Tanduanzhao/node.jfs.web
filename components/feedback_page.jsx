@@ -3,7 +3,7 @@ import {Ajax} from './functions/ajax.js';
 export default class FeedBackPage extends React.Component{
 	constructor(props) {
 	  super(props);
-	
+
 	  this.state = {
 	  	data:{}
 	  };
@@ -23,7 +23,8 @@ export default class FeedBackPage extends React.Component{
 		Ajax({
 			url:'/feedback/'+this.props.params.id,
 			datas:{
-				replay:this.state.data.replay
+				replay:this.state.data.replay,
+				status:+this.state.data.status
 			}
 		}).then((res)=>{
 			if(res.status==1){
@@ -39,6 +40,13 @@ export default class FeedBackPage extends React.Component{
 			data:_o
 		})
 	}
+	_statusOnChange(){
+		let _d = this.state.data;
+		_d.status = this.refs.status.value;
+		this.setState({
+			data:_d
+		})
+	}
 	componentDidMount() {
 		this._loadData();
 	}
@@ -51,7 +59,14 @@ export default class FeedBackPage extends React.Component{
 				<p>
 					<textArea cols={80} rows={5} ref="replay" onChange={this._replayChange.bind(this)} value={this.state.data.replay} placeholder="还没有回复哦!"></textArea>
 				</p>
-				<p><button className="uk-button uk-button-primary" onClick={this._subReplay.bind(this)}>回复</button></p>
+				<p>
+					<select ref="status" value={this.state.data.status} onChange={this._statusOnChange.bind(this)}>
+						<option value="0">未处理</option>
+						<option value="1">处理中</option>
+						<option value="2">已处理</option>
+					</select>
+				</p>
+				<p><button className="uk-button uk-button-primary" onClick={this._subReplay.bind(this)}>确定</button></p>
 			</article>
 		)
 	}

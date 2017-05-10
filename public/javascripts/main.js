@@ -28599,7 +28599,15 @@ var Table = function (_PureComponent2) {
 							_react2.default.createElement(
 								'td',
 								null,
-								!!item.replay ? '已处理' : '未处理'
+								function () {
+									if (item.status === 2) {
+										return "已处理";
+									} else if (item.status === 1) {
+										return "处理中";
+									} else {
+										return "未处理";
+									}
+								}()
 							)
 						);
 					})
@@ -28677,7 +28685,8 @@ var FeedBackPage = function (_React$Component) {
 			(0, _ajax.Ajax)({
 				url: '/feedback/' + this.props.params.id,
 				datas: {
-					replay: this.state.data.replay
+					replay: this.state.data.replay,
+					status: +this.state.data.status
 				}
 			}).then(function (res) {
 				if (res.status == 1) {
@@ -28693,6 +28702,15 @@ var FeedBackPage = function (_React$Component) {
 			_o.replay = this.refs.replay.value;
 			this.setState({
 				data: _o
+			});
+		}
+	}, {
+		key: '_statusOnChange',
+		value: function _statusOnChange() {
+			var _d = this.state.data;
+			_d.status = this.refs.status.value;
+			this.setState({
+				data: _d
 			});
 		}
 	}, {
@@ -28738,9 +28756,32 @@ var FeedBackPage = function (_React$Component) {
 					'p',
 					null,
 					_react2.default.createElement(
+						'select',
+						{ ref: 'status', value: this.state.data.status, onChange: this._statusOnChange.bind(this) },
+						_react2.default.createElement(
+							'option',
+							{ value: '0' },
+							'\u672A\u5904\u7406'
+						),
+						_react2.default.createElement(
+							'option',
+							{ value: '1' },
+							'\u5904\u7406\u4E2D'
+						),
+						_react2.default.createElement(
+							'option',
+							{ value: '2' },
+							'\u5DF2\u5904\u7406'
+						)
+					)
+				),
+				_react2.default.createElement(
+					'p',
+					null,
+					_react2.default.createElement(
 						'button',
 						{ className: 'uk-button uk-button-primary', onClick: this._subReplay.bind(this) },
-						'\u56DE\u590D'
+						'\u786E\u5B9A'
 					)
 				)
 			);
@@ -30229,6 +30270,11 @@ var Total = function (_React$Component) {
   }
 
   _createClass(Total, [{
+    key: "_downExcel",
+    value: function _downExcel() {
+      window.open("/download/" + +new Date());
+    }
+  }, {
     key: "render",
     value: function render() {
       return _react2.default.createElement(
@@ -30239,8 +30285,9 @@ var Total = function (_React$Component) {
           { className: "uk-button-group uk-margin-bottom" },
           _react2.default.createElement(
             "button",
-            { className: "uk-button uk-button-primary" },
-            "\u6587\u7AE0\u7EDF\u8BA1"
+            { onClick: this._downExcel.bind(), className: "uk-button uk-button-primary" },
+            _react2.default.createElement("i", { className: "uk-icon-download" }),
+            "\u4E0B\u8F7Dexcel\u8868\u683C"
           )
         ),
         this.props.children
@@ -45873,11 +45920,11 @@ var Left = function (_PureComponent) {
 				path: '/index/feedback'
 			}, {
 				name: "研究论文",
-				iconName: 'commenting',
+				iconName: 'file',
 				path: '/index/paper'
 			}, {
 				name: "数据统计",
-				iconName: 'commenting',
+				iconName: 'line-chart',
 				path: '/index/total'
 			}]
 		};
