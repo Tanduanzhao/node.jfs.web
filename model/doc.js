@@ -9,6 +9,7 @@ var Schema = new mongoose.Schema({
 	contact:String,
 	city:String,
 	address:String,
+	unit:String,
 	email:String,
 	file:{
 		type:mongoose.Schema.Types.ObjectId,

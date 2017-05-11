@@ -41,6 +41,8 @@ module.exports = {
 		page = req.query.page || page;
 		feedback
 			.find()
+			.where({title:new RegExp(req.query.searchValue)})
+			.where(typeof req.query.time == 'undefined' || req.query.time == ''? '' :{publishDate:{$gte:req.query.time,$lt:+new Date(common.addDate(req.query.time,1))}})
 			.limit(pageSize)
 			.skip((page-1)*pageSize)
 			.exec((err,result)=>{

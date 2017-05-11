@@ -29,11 +29,11 @@
                 success:function(res){
                     if(res.status == 1){
                         res.datas.forEach(function(item){
-                            html+='<tr><td><a href="/supervise/58f5ce6ad6799e0d45b1d1a0?type=page&path=complainPage#'+item._id+'" class="color-blue">'+item._id+'</a></td><td><a href="/supervise/58f5ce6ad6799e0d45b1d1a0?type=page&path=complainPage#'+item._id+'" class="color-blue">'+item.title+'</a></td>';
+                            html+='<tr><td><a href="/supervise/58f5ce6ad6799e0d45b1d1a0?type=page&path=complainPage#'+item._id+'" class="hover-line">'+item._id+'</a></td><td><a href="/supervise/58f5ce6ad6799e0d45b1d1a0?type=page&path=complainPage#'+item._id+'" class="hover-line">'+item.title+'</a></td>';
                             if(!!item.replay){
                                  html += '<td>已处理</td>'
                              }else{
-                                 html += '<td>未处理</td>'
+                                 html += '<td class="color-blue">未处理</td>'
                              }
                              html+='</tr>';
                            

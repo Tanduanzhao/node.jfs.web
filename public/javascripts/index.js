@@ -27,7 +27,7 @@ $(function() {
     var email=false,submit=false;
     $(".form .form-input").focus(function(){
         $(this).removeClass("prompt-color");
-        $(this).parent().next().hide();
+        $(this).parent().next(".prompt").hide();
     }).blur(function(){
         if($(this).hasClass("email")){
             if($(".email").val()!=""){
@@ -53,7 +53,7 @@ $(function() {
         }
     });
     $(".form input[type='file']").change(function(){
-        $(".form .form-file").removeClass('prompt-color').parent().next().hide();
+        $(".form .form-file").removeClass('prompt-color').parent().next(".prompt").hide();
     });
     $('.form .btn-group .btn').click(function(){
         submit=true;
