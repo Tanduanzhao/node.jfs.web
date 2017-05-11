@@ -4,7 +4,7 @@ import {Ajax} from './functions/ajax.js';
 export default class PostAdd extends Component{
 	constructor(props) {
 	  super(props);
-	
+
 	  this.state = {
 	  	id:'edit',
 	  	imgUrl:null,
@@ -14,10 +14,13 @@ export default class PostAdd extends Component{
 	  	typeId:0,
 	  	keywords:'',
 	  	discription:'',
-	  	classify:[]
+	  	classify:[],
+		showDropdown:false,
+		defaultCategoryName:'未分类'
 	  };
 	  this._getSinglePost = this._getSinglePost.bind(this);
 	  this._titleOnchange = this._titleOnchange.bind(this);
+	  this._documentClick = this._documentClick.bind(this);
 	}
 	getAllCategory(){
 		Ajax({
@@ -28,7 +31,7 @@ export default class PostAdd extends Component{
 				alert(res.message);
 			}else{
 				this.setState({
-					categorys:res.datas
+					categorys:res.nav
 				});
 			}
 		})
@@ -37,6 +40,10 @@ export default class PostAdd extends Component{
 		this.props.router.goBack();
 	}
 	addAction(){
+		if(this.refs.type.value === "document" && !this.state.fileId){
+			alert('文稿类型必须选择附件');
+			return false;
+		}
 		const post = Ajax({
 			url:'/admin/post',
 			method:'PUT',
@@ -87,10 +94,23 @@ export default class PostAdd extends Component{
 			title:event.target.value
 		})
 	}
-	_typeIdOnchange(){
+	_typeIdOnchange(id){
 		this.setState({
-			typeId:this.refs.parent.value
+			typeId:id
 		})
+	}
+	_typeOnChange(){
+		this.setState({
+			type:this.refs.type.value
+		},this._checkUeditorStatus);
+	}
+
+	_checkUeditorStatus(){
+		if(this.state.type == 'article'){
+			this.ue.setShow();
+		}else{
+			this.ue.setHide();
+		}
 	}
 
 	_setContent(content){
@@ -124,7 +144,8 @@ export default class PostAdd extends Component{
 				}
 				if(!!res.datas.typeId){
 					this.setState({
-						typeId:res.datas.typeId._id
+						typeId:res.datas.typeId._id,
+						defaultCategoryName:res.datas.typeId.name
 					})
 				}
 				if(!!res.datas.discription){
@@ -133,11 +154,6 @@ export default class PostAdd extends Component{
 					})
 				}
 				this.ue.ready(this._setContent(res.datas.content))
-				// var value = prompt(res.datas.content, '');
-				// this.ue.body.innerHTML=res.datas.content;
-				// console.log(this.ue.getContent());
-				// ue.setContent(res.datas.content);
-				// console.dir(this.ue)
 			}else{
 				alert(res.message);
 			}
@@ -200,6 +216,64 @@ export default class PostAdd extends Component{
 			discription:this.refs.discription.value
 		})
 	}
+	_showDropdown(){
+		if(this.state.showDropdown) return false;
+		this.setState({
+			showDropdown:true
+		});
+
+		document.addEventListener('click',this._documentClick);
+
+	}
+
+	_toggleCategoryName(name){
+		this.setState({
+			defaultCategoryName:name
+		})
+	}
+	_hideDropdown(){
+		this.setState({
+			showDropdown:false
+		});
+		document.removeEventListener('click',this._documentClick)
+	}
+
+	_toggleDropdown(){
+		this.state.showDropdown ? this._hideDropdown() : this._showDropdown()
+
+	}
+	_stopPropagation(event){
+		event.stopPropagation();
+		event.nativeEvent.stopImmediatePropagation();
+	}
+	_documentClick(){
+		this._hideDropdown();
+	}
+
+	_toggleType(id,name){
+		this._hideDropdown();
+		this._toggleCategoryName(name);
+		this._typeIdOnchange(id);
+	}
+
+	_renderNavs(lists){
+		if(lists.length==0) return [];
+		let nodeLists = [];
+		lists.forEach((item)=>{
+			nodeLists.push(
+				<li key={item._id} data-id={item._id}>
+					{
+						!!item.childern ? <div className="uk-nav-header">{item.name}</div> : <div onClick={this._toggleType.bind(this,item._id,item.name)}>{item.name}</div>
+					}
+					{
+						item.children.length !=0 ? <ul>{this._renderNavs(item.children)}</ul> : null
+					}
+				</li>
+			)
+
+		})
+		return nodeLists;
+	}
 	componentWillUnmount() {
 		this.ue.destroy();
 		this.setState({
@@ -207,6 +281,10 @@ export default class PostAdd extends Component{
 		})
 	}
 	render(){
+		let navs = this._renderNavs(this.state.categorys);
+		navs.push(<li key={'uncategory'}>
+			<div onClick={this._toggleType.bind(this,0,'未分类')}>未分类</div>
+		</li>)
 		return(
 			<div>
 				<form className="uk-form uk-form-stacked">
@@ -238,18 +316,18 @@ export default class PostAdd extends Component{
 					</div>
 					<div className="uk-form-row">
 						<label className="uk-form-label">所属分类</label>
-						<select ref="parent" value={this.state.typeId} onChange = {this._typeIdOnchange.bind(this)}>
-							<option value="0">未分类</option>
-							{
-								this.state.categorys.map((ele)=>{
-									return <option value={ele._id} key={ele._id}>{ele.name}</option>
-								})
-							}
-						</select>
+						<div className={`uk-dropdown-nav uk-button-dropdown${this.state.showDropdown ? ' uk-open' : ''}`} onClick={this._toggleDropdown.bind(this)}>
+							<button type="button" className="uk-button">{this.state.defaultCategoryName} <i className="uk-icon-caret-down"></i></button>
+							<div onClick={this._stopPropagation.bind(this)} className="uk-dropdown" style={{width:'250px',height:'400px',overflow:'auto'}}>
+								<ul className="uk-nav">
+									{navs.map((item)=>item)}
+								</ul>
+							</div>
+						</div>
 					</div>
 					<div className="uk-form-row">
 						<label className="uk-form-label">类型</label>
-						<select ref="type" value={this.state.type || 'article'} onChange={()=>{this.setState({type:this.refs.type.value})}}>
+						<select ref="type" value={this.state.type || 'article'} onChange={this._typeOnChange.bind(this)}>
 							{
 								this.state.classify.map((ele)=>{
 									return <option key={ele._id} value={ele.value}>{ele.name}</option>
@@ -260,7 +338,7 @@ export default class PostAdd extends Component{
 					<div className="uk-form-row">
 						<label className="uk-form-label">附件</label>
 						<div className="uk-form-file">
-							<button className="uk-button uk-button-link"><i className="uk-icon-paperclip"></i> 上传文件</button>
+							<button type="button" className="uk-button uk-button-link"><i className="uk-icon-paperclip"></i> 上传文件</button>
 						    <input type="file" accept="*" onChange={this._uploadfile.bind(this)} ref="file"/>
 						</div>
 						<input value={this.state.file ? this.state.file.path : ''} disabled className="uk-form-input uk-form-width-large uk-form-blank uk-margin-left" type="text"/>

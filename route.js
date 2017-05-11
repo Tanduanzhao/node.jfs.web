@@ -126,6 +126,8 @@ module.exports = function(app) {
         .get('/total/post',total.post)
           //--投稿
         .get('/total/doc',total.doc)
+          //--获取文章统计excel
+        .get('/download/:date',total.docExcel)
 
         //微门户
         .get('/ww',function(req,res,next){

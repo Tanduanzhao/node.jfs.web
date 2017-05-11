@@ -45,11 +45,11 @@ export default class Left extends PureComponent{
 	  		path:'/index/feedback'
 	  	},{
 	  		name:"研究论文",
-	  		iconName:'commenting',
+	  		iconName:'file',
 	  		path:'/index/paper'
 	  	},{
 				name:"数据统计",
-				iconName:'commenting',
+				iconName:'line-chart',
 				path:'/index/total'
 			}]
 	  }

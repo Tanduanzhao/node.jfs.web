@@ -1,6 +1,9 @@
 const Post = require('../model/post.js');
 const User = require('../model/user.js');
 const Doc = require('../model/doc.js');
+const fs = require('fs');
+const path = require('path');
+const xlsx = require('node-xlsx');
 
 //获取用户列表
 function getUserList() {
@@ -29,8 +32,8 @@ function getCitys(){
                 }else{
                     console.log(result);
                     let arr = obj2Array(result);
-                    arr = removeSameValueFromArr(arr);
                     arr = getArrFromCitys(arr);
+                    arr = removeSameValueFromArr(arr);
                     resolve(arr);
                 }
             })
@@ -50,9 +53,8 @@ function obj2Array(obj){
 function removeSameValueFromArr(arr){
     let newArr = [];
     arr.forEach((item)=>{
-        if(item in newArr){
-
-        }else{
+        console.log(item,newArr);
+        if(newArr.indexOf(item) === -1){
             newArr.push(item)
         }
     })
@@ -148,6 +150,47 @@ module.exports = {
         })
         .then(()=>{
             next()
+        })
+    },
+    docExcel:(req,res,next)=>{
+        let city=[],values=[],total,other = 0;
+
+        getDocTotal()
+        .then((result)=>{
+            total = result;
+            res.locals.status = 1;
+            return getCitys();
+        })
+        .then((result)=>{
+            city = result;
+            return result;
+        })
+        .then((result)=>{
+            result.forEach((item)=>{
+                values.push(getNumByCityName(item))
+            })
+            return Promise.all(values);
+        })
+        .then((result)=>{
+            values = result;
+            values.forEach((num)=>{
+                other += num;
+            })
+            values.push(total-other);
+            city.push('其他');
+        })
+        .then(()=>{
+            let data = [[...city,'总计'],[...values,total]];
+            let buffer = xlsx.build([{name:"用户文章统计分析",data:data}]);
+            let filePath = '/excels/',fileName = 'total.'+(+new Date())+'.xlsx';
+            fs.writeFile('./public'+filePath+fileName,buffer,'binary',(err,_result)=>{
+                if(err){
+                    throw new Error('创建excel失败!');
+                }
+                res.sendFile(path.join(__dirname,'../public/'+filePath)+fileName);
+            })
+
+            // next()
         })
     }
 }
