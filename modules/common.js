@@ -64,6 +64,12 @@ module.exports = {
 		});
 		return _a;
 	},
+	addDate:function(date,days){
+		var d=new Date(date);
+		d.setDate(d.getDate()+days);
+		var m=d.getMonth()+1;
+		return d.getFullYear()+'-'+m+'-'+d.getDate();
+	},
 	getPost:function(typeName,limit=4){
 		return new Promise(function(resolve,reject){
 			type.findOne({name:typeName},['_id']).exec(function(err,result){

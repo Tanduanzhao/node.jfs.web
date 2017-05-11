@@ -9,6 +9,7 @@ module.exports = {
 			address:req.body.address,
 			city:req.body.city,
 			email:req.body.email,
+			unit:req.body.unit,
 			file:req.body.file
 		};
 		newDoc = new doc(newDoc);

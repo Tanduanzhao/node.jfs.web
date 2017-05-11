@@ -2,8 +2,9 @@ var upload = require('../modules/upload.js');
 var File = require('../model/file.js');
 module.exports = function(req,res,next){
 	upload(req).then(function(result){
+		console.log(result)
 		var fileInfo = new File({
-			path:result.upload.path.substr(result.upload.path.match(/\//).index),
+			path:result.upload.path.substr(result.upload.path.match(/\/|\\/).index),
 			name:result.upload.name
 		})
     	fileInfo.save(function(err,fileInfo){
