@@ -17,7 +17,7 @@ export default class CategoryTable extends PureComponent{
 		}else{
 			event.target.parentNode.nextSibling.style.display = 'none';
 		}
-		
+
 	}
 	renderNav(props){
 		let nodeList = [];
@@ -47,7 +47,6 @@ export default class CategoryTable extends PureComponent{
 	}
 	render(){
 		let node = this.renderNav(this.props.dataSources);
-		console.log(node);
 		return(
 			<ul className="uk-list">
 				{
@@ -62,7 +61,7 @@ export default class CategoryTable extends PureComponent{
 }
 
 class Main extends PureComponent{
-	
+
 	render(){
 		return(
 			<tbody>

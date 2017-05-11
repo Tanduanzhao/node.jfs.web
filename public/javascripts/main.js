@@ -29224,10 +29224,13 @@ var PostAdd = function (_Component) {
 			typeId: 0,
 			keywords: '',
 			discription: '',
-			classify: []
+			classify: [],
+			showDropdown: false,
+			defaultCategoryName: '未分类'
 		};
 		_this._getSinglePost = _this._getSinglePost.bind(_this);
 		_this._titleOnchange = _this._titleOnchange.bind(_this);
+		_this._documentClick = _this._documentClick.bind(_this);
 		return _this;
 	}
 
@@ -29244,7 +29247,7 @@ var PostAdd = function (_Component) {
 					alert(res.message);
 				} else {
 					_this2.setState({
-						categorys: res.datas
+						categorys: res.nav
 					});
 				}
 			});
@@ -29259,6 +29262,10 @@ var PostAdd = function (_Component) {
 		value: function addAction() {
 			var _this3 = this;
 
+			if (this.refs.type.value === "document" && !this.state.fileId) {
+				alert('文稿类型必须选择附件');
+				return false;
+			}
 			var post = (0, _ajax.Ajax)({
 				url: '/admin/post',
 				method: 'PUT',
@@ -29317,10 +29324,26 @@ var PostAdd = function (_Component) {
 		}
 	}, {
 		key: '_typeIdOnchange',
-		value: function _typeIdOnchange() {
+		value: function _typeIdOnchange(id) {
 			this.setState({
-				typeId: this.refs.parent.value
+				typeId: id
 			});
+		}
+	}, {
+		key: '_typeOnChange',
+		value: function _typeOnChange() {
+			this.setState({
+				type: this.refs.type.value
+			}, this._checkUeditorStatus);
+		}
+	}, {
+		key: '_checkUeditorStatus',
+		value: function _checkUeditorStatus() {
+			if (this.state.type == 'article') {
+				this.ue.setShow();
+			} else {
+				this.ue.setHide();
+			}
 		}
 	}, {
 		key: '_setContent',
@@ -29364,7 +29387,8 @@ var PostAdd = function (_Component) {
 					}
 					if (!!res.datas.typeId) {
 						_this6.setState({
-							typeId: res.datas.typeId._id
+							typeId: res.datas.typeId._id,
+							defaultCategoryName: res.datas.typeId.name
 						});
 					}
 					if (!!res.datas.discription) {
@@ -29373,11 +29397,6 @@ var PostAdd = function (_Component) {
 						});
 					}
 					_this6.ue.ready(_this6._setContent(res.datas.content));
-					// var value = prompt(res.datas.content, '');
-					// this.ue.body.innerHTML=res.datas.content;
-					// console.log(this.ue.getContent());
-					// ue.setContent(res.datas.content);
-					// console.dir(this.ue)
 				} else {
 					alert(res.message);
 				}
@@ -29455,6 +29474,83 @@ var PostAdd = function (_Component) {
 			});
 		}
 	}, {
+		key: '_showDropdown',
+		value: function _showDropdown() {
+			if (this.state.showDropdown) return false;
+			this.setState({
+				showDropdown: true
+			});
+
+			document.addEventListener('click', this._documentClick);
+		}
+	}, {
+		key: '_toggleCategoryName',
+		value: function _toggleCategoryName(name) {
+			this.setState({
+				defaultCategoryName: name
+			});
+		}
+	}, {
+		key: '_hideDropdown',
+		value: function _hideDropdown() {
+			this.setState({
+				showDropdown: false
+			});
+			document.removeEventListener('click', this._documentClick);
+		}
+	}, {
+		key: '_toggleDropdown',
+		value: function _toggleDropdown() {
+			this.state.showDropdown ? this._hideDropdown() : this._showDropdown();
+		}
+	}, {
+		key: '_stopPropagation',
+		value: function _stopPropagation(event) {
+			event.stopPropagation();
+			event.nativeEvent.stopImmediatePropagation();
+		}
+	}, {
+		key: '_documentClick',
+		value: function _documentClick() {
+			this._hideDropdown();
+		}
+	}, {
+		key: '_toggleType',
+		value: function _toggleType(id, name) {
+			this._hideDropdown();
+			this._toggleCategoryName(name);
+			this._typeIdOnchange(id);
+		}
+	}, {
+		key: '_renderNavs',
+		value: function _renderNavs(lists) {
+			var _this10 = this;
+
+			if (lists.length == 0) return [];
+			var nodeLists = [];
+			lists.forEach(function (item) {
+				nodeLists.push(_react2.default.createElement(
+					'li',
+					{ key: item._id, 'data-id': item._id },
+					!!item.childern ? _react2.default.createElement(
+						'div',
+						{ className: 'uk-nav-header' },
+						item.name
+					) : _react2.default.createElement(
+						'div',
+						{ onClick: _this10._toggleType.bind(_this10, item._id, item.name) },
+						item.name
+					),
+					item.children.length != 0 ? _react2.default.createElement(
+						'ul',
+						null,
+						_this10._renderNavs(item.children)
+					) : null
+				));
+			});
+			return nodeLists;
+		}
+	}, {
 		key: 'componentWillUnmount',
 		value: function componentWillUnmount() {
 			this.ue.destroy();
@@ -29465,8 +29561,16 @@ var PostAdd = function (_Component) {
 	}, {
 		key: 'render',
 		value: function render() {
-			var _this10 = this;
-
+			var navs = this._renderNavs(this.state.categorys);
+			navs.push(_react2.default.createElement(
+				'li',
+				{ key: 'uncategory' },
+				_react2.default.createElement(
+					'div',
+					{ onClick: this._toggleType.bind(this, 0, '未分类') },
+					'\u672A\u5206\u7C7B'
+				)
+			));
 			return _react2.default.createElement(
 				'div',
 				null,
@@ -29548,20 +29652,26 @@ var PostAdd = function (_Component) {
 							'\u6240\u5C5E\u5206\u7C7B'
 						),
 						_react2.default.createElement(
-							'select',
-							{ ref: 'parent', value: this.state.typeId, onChange: this._typeIdOnchange.bind(this) },
+							'div',
+							{ className: 'uk-dropdown-nav uk-button-dropdown' + (this.state.showDropdown ? ' uk-open' : ''), onClick: this._toggleDropdown.bind(this) },
 							_react2.default.createElement(
-								'option',
-								{ value: '0' },
-								'\u672A\u5206\u7C7B'
+								'button',
+								{ type: 'button', className: 'uk-button' },
+								this.state.defaultCategoryName,
+								' ',
+								_react2.default.createElement('i', { className: 'uk-icon-caret-down' })
 							),
-							this.state.categorys.map(function (ele) {
-								return _react2.default.createElement(
-									'option',
-									{ value: ele._id, key: ele._id },
-									ele.name
-								);
-							})
+							_react2.default.createElement(
+								'div',
+								{ onClick: this._stopPropagation.bind(this), className: 'uk-dropdown', style: { width: '250px', height: '400px', overflow: 'auto' } },
+								_react2.default.createElement(
+									'ul',
+									{ className: 'uk-nav' },
+									navs.map(function (item) {
+										return item;
+									})
+								)
+							)
 						)
 					),
 					_react2.default.createElement(
@@ -29574,9 +29684,7 @@ var PostAdd = function (_Component) {
 						),
 						_react2.default.createElement(
 							'select',
-							{ ref: 'type', value: this.state.type || 'article', onChange: function onChange() {
-									_this10.setState({ type: _this10.refs.type.value });
-								} },
+							{ ref: 'type', value: this.state.type || 'article', onChange: this._typeOnChange.bind(this) },
 							this.state.classify.map(function (ele) {
 								return _react2.default.createElement(
 									'option',
@@ -29599,7 +29707,7 @@ var PostAdd = function (_Component) {
 							{ className: 'uk-form-file' },
 							_react2.default.createElement(
 								'button',
-								{ className: 'uk-button uk-button-link' },
+								{ type: 'button', className: 'uk-button uk-button-link' },
 								_react2.default.createElement('i', { className: 'uk-icon-paperclip' }),
 								' \u4E0A\u4F20\u6587\u4EF6'
 							),
@@ -45770,7 +45878,6 @@ var CategoryTable = function (_PureComponent) {
 		key: 'render',
 		value: function render() {
 			var node = this.renderNav(this.props.dataSources);
-			console.log(node);
 			return _react2.default.createElement(
 				'ul',
 				{ className: 'uk-list' },
@@ -46091,7 +46198,6 @@ var PostTable = function (_PureComponent) {
 				));
 			});
 			return nodeLists;
-			// return [];
 		}
 	}, {
 		key: 'render',
@@ -46137,11 +46243,12 @@ var PostTable = function (_PureComponent) {
 							{ width: '20%' },
 							_react2.default.createElement(
 								'div',
-								{ className: 'uk-button-dropdown' + (this.state.showDropdown ? ' uk-open' : ''), onClick: this._toggleDropdown.bind(this) },
+								{ className: 'uk-dropdown-nav uk-button-dropdown' + (this.state.showDropdown ? ' uk-open' : ''), onClick: this._toggleDropdown.bind(this) },
 								_react2.default.createElement(
 									'button',
 									{ className: 'uk-button uk-button-link' },
 									this.state.defaultCategoryName,
+									' ',
 									_react2.default.createElement('i', { className: 'uk-icon-caret-down' })
 								),
 								_react2.default.createElement(

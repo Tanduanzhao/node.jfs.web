@@ -8,7 +8,7 @@ export default class PostTable extends PureComponent{
 
 	  this.state = {
 	  	showDropdown:false,
-			defaultCategoryName:'全部分类'
+		defaultCategoryName:'全部分类'
 	  };
 	  this._documentClick = this._documentClick.bind(this);
 	}
@@ -71,7 +71,6 @@ export default class PostTable extends PureComponent{
 
 		})
 		return nodeLists;
-		// return [];
 	}
 
 
@@ -90,8 +89,8 @@ export default class PostTable extends PureComponent{
 			            <th width="10%">发布用户</th>
 			            <th width="20%">发布时间</th>
 			            <th width="20%">
-			            	<div className={`uk-button-dropdown${this.state.showDropdown ? ' uk-open' : ''}`} onClick={this._toggleDropdown.bind(this)}>
-			            		<button className="uk-button uk-button-link">{this.state.defaultCategoryName}<i className="uk-icon-caret-down"></i></button>
+			            	<div className={`uk-dropdown-nav uk-button-dropdown${this.state.showDropdown ? ' uk-open' : ''}`} onClick={this._toggleDropdown.bind(this)}>
+			            		<button className="uk-button uk-button-link">{this.state.defaultCategoryName} <i className="uk-icon-caret-down"></i></button>
 			            		<div onClick={this._stopPropagation.bind(this)} className="uk-dropdown" style={{width:'250px',height:'400px',overflow:'auto'}}>
 			            			<ul className="uk-nav">
 			            				{navs.map((item)=>item)}
