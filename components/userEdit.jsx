@@ -96,7 +96,7 @@ export default class UserEdit extends PureComponent{
 				<div className="uk-form-row">
 					<label className="uk-form-label">邮箱</label>
 					<div className="uk-form-controls">
-						<input type="text" ref="email" onChange={this._emailChange.bind(this)} value={this.state.email} className="uk-form-width-medium"/>
+						<input type="text" ref="email" onChange={this._emailChange.bind(this)} value={this.state.email || ''} className="uk-form-width-medium"/>
 					</div>
 				</div>
 				<div className="uk-form-row">

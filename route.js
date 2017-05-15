@@ -10,7 +10,7 @@ const slider = require('./routes/admin/slider.js');
 const md5 = require('./modules/md5.js');
 const uploads = require('./routes/uploads.js');
 
-const index = require('./routes/index.js')
+const index = require('./routes/index.js');
 const search = require('./routes/search.js');
 const article = require('./routes/post.js');
 const news = require('./routes/news.js');

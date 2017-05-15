@@ -219,7 +219,7 @@ export default class CategoryAdd extends Component{
 					</div>
 					<div className="uk-form-row">
 						<label className="uk-form-label">所属分类</label>
-						<select ref="parent" value={this.state.parent} onChange={this._parentChange.bind(this)}>
+						<select ref="parent" value={this.state.parent || ''} onChange={this._parentChange.bind(this)}>
 							<option value="0">首页</option>
 							{
 								this.state.categorys.map((ele)=>{
@@ -237,12 +237,20 @@ export default class CategoryAdd extends Component{
 								})
 							}
 						</select>
-						<span className={`uk-margin-left${this.state.type === 'page' ? '' : ' uk-hidden'}`}>
-							<input ref="page" type="text" placeholder="请输入页面文件名" value={this.state.page} onChange={this._pageChange.bind(this)}/>
-						</span>
-						<span className={`uk-margin-left${this.state.type === 'link' ? '' : ' uk-hidden'}`}>
-							<input ref="link" type="text" placeholder="请输入需要链接的地址" value={this.state.link} onChange={this._linkChange.bind(this)}/>
-						</span>
+						{
+							this.state.type === 'page'?
+							<span className={`uk-margin-left${this.state.type === 'page' ? '' : ' uk-hidden'}`}>
+								<input ref="page" type="text" placeholder="请输入页面文件名" value={this.state.page} onChange={this._pageChange.bind(this)}/>
+							</span>:
+							null
+						}
+						{
+							this.state.type === 'link'?
+								<span className={`uk-margin-left${this.state.type === 'link' ? '' : ' uk-hidden'}`}>
+									<input ref="link" type="text" placeholder="请输入需要链接的地址" value={this.state.link} onChange={this._linkChange.bind(this)}/>
+								</span>	:
+								null
+						}
 						{
 							<script id={this.state.ueditorId} style={{width:'100%',height:'400px'}}></script>
 						}
