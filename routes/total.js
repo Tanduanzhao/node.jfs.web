@@ -1,6 +1,7 @@
 const Post = require('../model/post.js');
 const User = require('../model/user.js');
 const Doc = require('../model/doc.js');
+const feedback = require('../model/feedback.js');
 const fs = require('fs');
 const path = require('path');
 const xlsx = require('node-xlsx');
@@ -19,6 +20,28 @@ function getPostTotal() {
 function getPostByUserName(name) {
   return Post.count().where({publishUser: name}).exec()
 }
+//获取所有投诉时间列表
+function getFeedbackTimes(){
+    return new Promise((resolve,reject)=>{
+        feedback
+          .find()
+          .select('publishDate')
+          .exec((err,result)=>{
+              if(err){
+                  throw new Error('查询用户投诉时间失败!')
+              }else{
+                  let arrMonth=[],arr=[];
+                  result.forEach((item)=>{
+                      if(!!item.publishDate){
+                          arrMonth.push(item.publishDate.getFullYear()+"年"+(item.publishDate.getMonth()+1)+"月");
+                      }
+                  })
+                  arrMonth=getFeedbackNum(arrMonth);
+                  resolve(arrMonth);
+              }
+          })
+    })
+}
 
 //获取所有城市列表
 function getCitys(){
@@ -30,7 +53,6 @@ function getCitys(){
                 if(err){
                     throw new Error('查询投稿地区失败!')
                 }else{
-                    console.log(result);
                     let arr = obj2Array(result);
                     arr = getArrFromCitys(arr);
                     arr = removeSameValueFromArr(arr);
@@ -53,9 +75,20 @@ function obj2Array(obj){
 function removeSameValueFromArr(arr){
     let newArr = [];
     arr.forEach((item)=>{
-        console.log(item,newArr);
         if(newArr.indexOf(item) === -1){
             newArr.push(item)
+        }
+    })
+    return newArr;
+}
+//统计每月用户投诉数量
+function getFeedbackNum(arr){
+    let newArr = [];
+    arr.forEach((item,index)=>{
+        if(newArr[item]!==undefined){
+            newArr[item]++;
+        }else{
+            newArr[item]=1;
         }
     })
     return newArr;
@@ -68,7 +101,6 @@ function getDocTotal(){
 //字符串取城市名
 function getArrFromCitys(arr){
     let newArray = arr.map((item)=>{
-        console.log(item);
         item = item.split('-');
         return item[1];
     })
@@ -116,6 +148,50 @@ module.exports = {
         .then(()=>{
             next();
         })
+    },
+    feedback: (req, res, next) => {
+        let month = [],
+          monthNum = [];
+
+        getFeedbackTimes()
+          .then((result)=>{
+              for(var key in result){
+                  monthNum.push(result[key]);
+                  month.push(key)
+              }
+              res.locals.datas = {};
+              res.locals.datas.monthNum = monthNum;
+              res.locals.datas.month = month;
+              res.locals.status = 1;
+          })
+          .then(()=>{
+              next()
+          })
+    },
+    feedbackExcel:(req,res,next)=>{
+        let month = [], monthNum = [],totalFeedback= 0;
+
+        getFeedbackTimes()
+          .then((result)=>{
+              for(var key in result){
+                  monthNum.push(result[key]);
+                  month.push(key);
+                  totalFeedback+=result[key];
+              }
+              return result;
+          })
+          .then(()=>{
+              let data = [[...month,'总计'],[...monthNum,totalFeedback]];
+              let buffer = xlsx.build([{name:"用户投诉统计分析",data:data}]);
+              let filePath = '/excels/',fileName = 'total.'+(+new Date())+'.xlsx';
+              fs.writeFile('./public'+filePath+fileName,buffer,'binary',(err,_result)=>{
+                  if(err){
+                      throw new Error('创建excel失败!');
+                  }
+                  res.sendFile(path.join(__dirname,'../public/'+filePath)+fileName);
+              })
+               //next()
+          })
     },
     doc:(req,res,next)=>{
         let city=[],values=[],total,other = 0;

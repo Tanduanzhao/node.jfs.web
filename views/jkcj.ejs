@@ -7,6 +7,9 @@
             <div class="main-lf-list">
             <% function isInItem(item){
                      if(item._id.toString()===active._id.toString()){
+                         if(item.children && !!item.children.length){
+                             item.children[0].style=true;
+                         }
                         return true;
                      }else{
                         for(var i = 0;i<item.children.length;i++){
@@ -28,8 +31,16 @@
                 </a>
                 <%if(item.children && !!item.children.length){%>
                     <div class="main-lf-sub-List">
+                        <% function isSubItem(item){
+                            if(item._id.toString()===active._id.toString()){
+                                return true;
+                            }else if(item.style){
+                                return true;
+                            }
+                        }
+                        %>
                         <% item.children.forEach(function(item){%>
-                            <a class="main-lf-sub-item" href="<%if(item.type=='link'){%><%= item.link%><%}else{%>/jkcj/<%= item._doc._id%><% if(item._doc._id =='58e45595ae3484063bc2b6b5'){ %>?type=nav<%}else if(item.type=='article'){%>?type=article<%}else if(item.type=='page'){%>?type=page&path=<%= item.page%><%}}%>">
+                            <a class="main-lf-sub-item <% if(isSubItem(item)){ %>sub-active<% } %>" href="<%if(item.type=='link'){%><%= item.link%><%}else{%>/jkcj/<%= item._doc._id%><% if(item._doc._id =='58e45595ae3484063bc2b6b5'){ %>?type=nav<%}else if(item.type=='article'){%>?type=article<%}else if(item.type=='page'){%>?type=page&path=<%= item.page%><%}}%>">
                                 <%= item.name%>
                             </a>
                         <%})%>

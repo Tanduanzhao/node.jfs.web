@@ -5,17 +5,15 @@ $(function() {
           $(".header-search label").removeClass("focus")}
     );
     $(".main-lf-list .main-lf-item").click(function(){
-        if($(this).hasClass("show-sub")){
-            $(this).next(".main-lf-sub-List").hide();
-            $(".main-lf-sub-item").removeClass("sub-active");
-            $(this).removeClass("show-sub");
+        if($(this).hasClass("active")){
             return false;
         }
         $(".main-lf-sub-List").css({display:"none"});
         $(".main-lf-list .main-lf-item").removeClass("active");
         $(this).addClass("active");
         if($(this).next(".main-lf-sub-List").length>0){
-            $(this).addClass("show-sub");
+            $(".main-lf-sub-item").removeClass("sub-active");
+            $(this).next(".main-lf-sub-List").children().first().addClass("sub-active");
             $(this).next(".main-lf-sub-List").show();
         }
     });

@@ -39,11 +39,21 @@ module.exports = {
 	},
 	list:(req,res,next)=>{
 		page = req.query.page || page;
+		let obj={};
+		if( typeof req.query.time == 'undefined' || req.query.time == ''){
+			obj={
+				title: new RegExp(req.query.searchValue)
+			};
+		}else{
+			obj={
+				title: new RegExp(req.query.searchValue),
+				publishDate: {$gte:+new Date(req.query.time),$lt:+new Date(common.addDate(req.query.time,1))}
+			};
+		}
 		feedback
 			.find()
-			.where({title:new RegExp(req.query.searchValue)})
-			.where(typeof req.query.time == 'undefined' || req.query.time == ''? '' :{publishDate:{$gte:req.query.time,$lt:+new Date(common.addDate(req.query.time,1))}})
-			// .limit(pageSize)
+		    .where(obj)
+			//.limit(pageSize)
 			.skip((page-1)*pageSize)
 			.exec((err,result)=>{
 				if(err){

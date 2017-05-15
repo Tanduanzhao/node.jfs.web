@@ -39,7 +39,62 @@ export default class TotalPost extends React.Component {
                         }]
                     })
                 })
+
+      var myCharts = echarts.init(document.getElementById('feedbackPost'));
+      option = {
+          title: {
+              text: '用户投诉统计报表'
+          },
+          tooltip: {},
+          legend: {
+              data:['投诉数']
+          },
+          xAxis:  {
+              axisLabel: {
+                  interval: 0,//横轴信息全部显示
+                  rotate: 360,//60度角倾斜显示,
+                  formatter: function (val) {
+                      return val.split("年").join("年\n"); //横轴信息文字竖直显示}
+                  }
+              },
+              data:[]
+          },
+          yAxis: {},
+          series: [
+              {
+                  name:'投诉数',
+                  type:'line',
+                  data:[]
+              }
+          ]
+      };
+      myCharts.setOption(option);
+      myCharts.showLoading();
+      Ajax({
+          url:'/total/feedback',
+          method:'GET'
+      })
+        .then((res)=>{
+            if(res.status == 1){
+                myCharts.hideLoading();
+                myCharts.setOption({
+                    xAxis: {
+                        data:  res.datas.month
+                    },
+                    series: [{
+                        name: '投诉数',
+                        data: res.datas.monthNum
+                    }]
+                });
+            }
+        })
   }
+    _downExcel(){
+        window.open("/download/"+(+new Date()));
+    }
+    _feedbackExcel(){
+        window.open("/feedbackDownload/"+(+new Date()));
+    }
   _loadData(){
       return new Promise((resolve,reject)=>{
           Ajax({
@@ -54,12 +109,20 @@ export default class TotalPost extends React.Component {
       })
   }
   componentWillUnmount(){
-    console.log(this);
     return false;
   }
   render(){
     return(
-        <div ref="totalPost" style={{width:'100%',height:'300px'}} id="totalPost"></div>
+      <div>
+          <div className="uk-button-group uk-margin-bottom">
+              <button onClick={this._downExcel.bind()} className="uk-button uk-button-primary"><i className="uk-icon-download"></i>下载excel表格</button>
+          </div>
+          <div ref="totalPost" style={{width:'100%',height:'300px'}} id="totalPost"></div>
+          <div className="uk-button-group uk-margin-bottom">
+              <button onClick={this._feedbackExcel.bind()} className="uk-button uk-button-primary"><i className="uk-icon-download"></i>下载excel表格</button>
+          </div>
+          <div ref="feedbackPost" style={{width:'100%',height:'300px'}} id="feedbackPost"></div>
+      </div>
     )
   }
 }
