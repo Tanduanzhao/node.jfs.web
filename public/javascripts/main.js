@@ -28511,6 +28511,20 @@ var FeedBack = function (_PureComponent) {
 			});
 		}
 	}, {
+		key: 'submit',
+		value: function submit() {
+			var _this3 = this;
+
+			(0, _ajax.Ajax)({
+				url: '/feedback?searchValue=' + this.refs.searchValue.value + '&time=' + this.refs.time.value,
+				method: 'GET'
+			}).then(function (res) {
+				_this3.setState({
+					dataSource: res.datas
+				});
+			});
+		}
+	}, {
 		key: 'componentDidMount',
 		value: function componentDidMount() {
 			this._loadData();
@@ -28518,7 +28532,32 @@ var FeedBack = function (_PureComponent) {
 	}, {
 		key: 'render',
 		value: function render() {
-			return _react2.default.createElement(Table, this.state);
+			return _react2.default.createElement(
+				'div',
+				null,
+				_react2.default.createElement(
+					'form',
+					{ className: 'uk-form' },
+					_react2.default.createElement(
+						'div',
+						{ className: 'uk-form-icon' },
+						_react2.default.createElement('i', { className: 'uk-icon-search' }),
+						_react2.default.createElement('input', { ref: 'searchValue', type: 'text', placeholder: '' })
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: 'uk-form-icon uk-margin-left' },
+						_react2.default.createElement('i', { className: 'uk-icon-calendar' }),
+						_react2.default.createElement('input', { ref: 'time', type: 'text', 'data-uk-datepicker': '{format:\'YYYY-MM-DD\'}' })
+					),
+					_react2.default.createElement(
+						'a',
+						{ className: 'uk-button uk-margin-left', type: 'button', onClick: this.submit.bind(this) },
+						'\u63D0\u4EA4'
+					)
+				),
+				_react2.default.createElement(Table, this.state)
+			);
 		}
 	}]);
 
@@ -29272,7 +29311,7 @@ var PostAdd = function (_Component) {
 				datas: {
 					title: this.state.title,
 					content: this.ue.getContent(),
-					typeId: this.refs.parent.value,
+					typeId: this.state.typeId,
 					imgUrl: this.state.imgUrl,
 					fileId: this.state.fileId ? [this.state.fileId] : null,
 					keywords: this.state.keywords,
@@ -29299,7 +29338,7 @@ var PostAdd = function (_Component) {
 				datas: {
 					title: this.state.title,
 					content: this.ue.getContent(),
-					typeId: this.refs.parent.value,
+					typeId: this.state.typeId,
 					imgUrl: this.state.imgUrl,
 					fileId: this.state.fileId ? [this.state.fileId] : null,
 					keywords: this.state.keywords,

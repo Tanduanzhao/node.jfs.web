@@ -50,7 +50,7 @@ export default class PostAdd extends Component{
 			datas:{
 				title:this.state.title,
 				content:this.ue.getContent(),
-				typeId:this.refs.parent.value,
+				typeId:this.state.typeId,
 				imgUrl:this.state.imgUrl,
 				fileId:(this.state.fileId ? [this.state.fileId] : null),
 				keywords:this.state.keywords,
@@ -73,7 +73,7 @@ export default class PostAdd extends Component{
 			datas:{
 				title:this.state.title,
 				content:this.ue.getContent(),
-				typeId:this.refs.parent.value,
+				typeId:this.state.typeId,
 				imgUrl:this.state.imgUrl,
 				fileId:(this.state.fileId ? [this.state.fileId] : null),
 				keywords:this.state.keywords,
