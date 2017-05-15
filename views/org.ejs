@@ -7,6 +7,9 @@
             <div class="main-lf-list">
             <% function isInItem(item){
                      if(item._id.toString()===active._id.toString()){
+                         if(item.children && !!item.children.length){
+                             item.children[0].style=true;
+                         }
                         return true;
                      }else{
                         for(var i = 0;i<item.children.length;i++){
@@ -23,8 +26,16 @@
                 <a class="main-lf-item <% if(isInItem(item)){ %>active<% } %>" <%if(!item.children || !item.children.length){%> href="/org/<%=item._id%><%if(item.type=='article'){%>?type=article<%}%> <%}%>"><%= item.name%></a>
                 <%if(item.children && !!item.children.length){%>
                     <div class="main-lf-sub-List">
+                        <% function isSubItem(item){
+                            if(item._id.toString()===active._id.toString()){
+                                return true;
+                            }else if(item.style){
+                                return true;
+                            }
+                        }
+                        %>
                         <% item.children.forEach(function(item){%>
-                            <a class="main-lf-sub-item" href="/org/<%= item._doc._id%><% if(item._doc._id =='58e45595ae3484063bc2b6b5'){ %>?type=nav<%}%><%if(item.type=='article'){%>?type=article<%}%>"><%= item.name%></a>
+                            <a class="main-lf-sub-item <% if(isSubItem(item)){ %>sub-active<% } %>" href="/org/<%= item._doc._id%><% if(item._doc._id =='58e45595ae3484063bc2b6b5'){ %>?type=nav<%}%><%if(item.type=='article'){%>?type=article<%}%>"><%= item.name%></a>
                         <%})%>
                     </div>
                 <%}%>

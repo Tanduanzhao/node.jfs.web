@@ -35,7 +35,7 @@ export default class PostList extends PureComponent{
 		});
 	}
 	_loadPostList(){
-		let url= 'admin/post?page=' + this.state.page;
+		let url= 'admin/post?page=' + this.state.page+'&searchValue='+this.refs.searchArticle.value;
 		if(this.state.categoryId!=undefined){
 			url += '&cid='+this.state.categoryId
 		}
@@ -68,6 +68,13 @@ export default class PostList extends PureComponent{
 			}
 		})
 	}
+	search(){
+		this.setState({
+			page:1
+		},()=>{
+			this._loadPostList();
+		});
+	}
 	componentDidMount() {
 		this._loadPostList();
 		this._loadNavs();
@@ -76,7 +83,14 @@ export default class PostList extends PureComponent{
 	render(){
 		return(
 			<div>
-				<Link className="uk-button uk-button-primary" to="/index/post/add">添加文章</Link>
+				<form className="uk-form">
+					<Link className="uk-button uk-button-primary" to="/index/post/add">添加文章</Link>
+					<div className="uk-form-icon  uk-margin-left">
+						<i className="uk-icon-search"></i>
+						<input ref="searchArticle" type="text" placeholder=""/>
+					</div>
+					<a className="uk-button uk-margin-left" type="button" onClick={this.search.bind(this)}>搜索</a>
+				</form>
 				<PostTable toggleType={this._toggleType.bind(this)} navs={this.state.navs} delAction={this._delAction.bind(this)} dataSources={this.state.dataSources}/>
 				{
 					!!this.state.totalPage && <Pagination pageChange={this._pageChange.bind(this)} totalPage={this.state.totalPage} page={this.state.page}/>

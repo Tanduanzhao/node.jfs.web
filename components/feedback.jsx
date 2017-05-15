@@ -11,16 +11,6 @@ export default class FeedBack extends PureComponent{
 	}
 	_loadData(){
 		Ajax({
-			url:'/feedback',
-			method:'GET'
-		}).then((res)=>{
-			this.setState({
-				dataSource:res.datas
-			})
-		})
-	}
-	submit(){
-		Ajax({
 			url:'/feedback?searchValue='+this.refs.searchValue.value+'&time='+this.refs.time.value,
 			method:'GET'
 		}).then((res)=>{
@@ -28,6 +18,9 @@ export default class FeedBack extends PureComponent{
 				dataSource:res.datas
 			})
 		})
+	}
+	search(){
+		this._loadData();
 	}
 	componentDidMount() {
 		this._loadData();
@@ -44,7 +37,7 @@ export default class FeedBack extends PureComponent{
 						<i className="uk-icon-calendar"></i>
 						<input ref="time" type="text" data-uk-datepicker="{format:'YYYY-MM-DD'}"/>
 					</div>
-					<a className="uk-button uk-margin-left" type="button" onClick={this.submit.bind(this)}>提交</a>
+					<a className="uk-button uk-margin-left" type="button" onClick={this.search.bind(this)}>搜索</a>
 				</form>
 				<Table {...this.state}/>
 			</div>

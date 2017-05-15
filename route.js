@@ -124,6 +124,10 @@ module.exports = function(app) {
         //统计
           //--文章
         .get('/total/post',total.post)
+          //--投诉
+        .get('/total/feedback',total.feedback)
+        //--获取投诉统计excel
+        .get('/feedbackDownload/:date',total.feedbackExcel)
           //--投稿
         .get('/total/doc',total.doc)
           //--获取文章统计excel

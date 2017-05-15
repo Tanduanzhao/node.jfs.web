@@ -1,8 +1,9 @@
 const Post = require('../../model/post.js');
+const Type = require('../../model/type.js');
 const Classify = require('../../model/classify.js');
 module.exports = {
 	list:function(req, res, next) {
-        let page = new Number(req.query.page) || 1;
+        let page = new Number(req.query.page) || 1,obj={},newArr=[],searchTotal=0,total=0,searchId;
         const pageSize = 20;
 				let search = Post;
 				if(req.query.cid){
@@ -22,19 +23,55 @@ module.exports = {
                     }
                 })
             })
+        };
+        const totalSearch = function(obj) {
+            return  search.find().where(obj).count().exec()
+        };
+        function getIdByType(obj){
+            return Type.find().where(obj).exec().then(
+              (result)=>{
+                  return new Promise(function (resolve, reject) {
+                      result.forEach((item)=> {
+                          if (!!item._id) {
+                              newArr.push(item._id);
+                          }
+                      });
+                      resolve(newArr)
+                  })
+              }
+            )
         }
-
-        totalPost().then(function(count) {
-            search.find().limit(pageSize).skip((page - 1) * pageSize).populate('typeId', "_id name").sort({_id:-1}).exec(function(err, result) {
+        if( typeof req.query.searchValue == 'undefined' || req.query.searchValue == ''){
+            searchId=null;
+        }else{
+            searchId= {name: {$regex:req.query.searchValue}}
+        }
+       getIdByType(searchId).then((result)=>{
+            if( typeof req.query.searchValue == 'undefined' || req.query.searchValue == ''){
+                obj = null;
+            }else{
+                obj = {$or:[{title:{$regex:req.query.searchValue}},{typeId:{$in:result}}]}
+            }
+            return totalSearch(obj);
+        }).then((count)=>{
+             searchTotal = count;
+           return totalPost()
+       }).then((count)=>{
+            search.find().where(obj).limit(pageSize).skip((page - 1) * pageSize).populate('typeId', "_id name").sort({_id:-1}).exec(function(err, result) {
                 if (err) {
                     console.log(err);
                     res.locals.message = '查询文章失败!';
                 } else {
+                    if( typeof req.query.searchValue == 'undefined' || req.query.searchValue == ''){
+                        total = count;
+                    }else{
+                        total = searchTotal;
+                    }
                     res.locals.status = 1;
                     res.locals.datas = result;
                     res.locals.message = '查询文章成功';
-                    res.locals.count = count;
-                    res.locals.totalPage = (count / pageSize) > 1 ? Math.ceil(count / pageSize) : 1;
+                    res.locals.count = total;
+                    res.locals.totalPage = (total / pageSize) > 1 ? Math.ceil(total / pageSize) : 1;
                     res.locals.page = page;
                 }
                 next();
