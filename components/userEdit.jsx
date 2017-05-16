@@ -30,6 +30,10 @@ export default class UserEdit extends PureComponent{
 				password:this.state.password,
 				email:this.state.email
 			}
+		}).then((res)=>{
+			if(res.status === 1){
+				this.props.router.goBack();
+			}
 		})
 	}
 	_updateUser(){
