@@ -8,16 +8,16 @@ $(function() {
         if($(this).hasClass("active")){
             return false;
         }
+        if($(this).next(".main-lf-sub-List").length>0){
+            $(this).next(".main-lf-sub-List").show();
+            return false;
+        }
         $(".main-lf-sub-List").css({display:"none"});
         $(".main-lf-list .main-lf-item").removeClass("active");
         $(this).addClass("active");
-        if($(this).next(".main-lf-sub-List").length>0){
-            $(".main-lf-sub-item").removeClass("sub-active");
-            $(this).next(".main-lf-sub-List").children().first().addClass("sub-active");
-            $(this).next(".main-lf-sub-List").show();
-        }
     });
     $(".main-lf-sub-item").click(function(){
+        $(this).parent().prev(".main-lf-item").addClass("active");
         $(".main-lf-sub-item").removeClass("sub-active");
         $(this).addClass("sub-active");
     })
