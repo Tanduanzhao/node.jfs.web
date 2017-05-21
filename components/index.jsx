@@ -13,7 +13,7 @@ export default class Index extends PureComponent{
 	componentWillMount() {
 		Ajax({
 			url:'admin/userInfo',
-			method:'GET',
+			method:'GET'
 		}).then((res)=>{
 			if(res.status == 0){
 				this.props.router.push('/login');

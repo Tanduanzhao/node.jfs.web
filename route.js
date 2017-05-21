@@ -26,6 +26,7 @@ const proposer = require('./routes/proposer.js');
 const supervise = require('./routes/supervise.js');
 const feedback = require('./routes/feedback.js');
 const service = require('./routes/service.js');
+const results = require('./routes/results.js');
 const scientific = require('./routes/scientific.js');
 const paper = require('./routes/paper.js');
 const total = require('./routes/total.js');
@@ -62,6 +63,8 @@ module.exports = function(app) {
         .get(['/supervise','/supervise/:type'],supervise)
         //诊疗服务
         .get(['/service','/service/:type'],service)
+        //智慧结控
+        .get(['/results','/results/:type'],results)
         //获取所有导航
         .get('/nav',nav)
         //根据地名结控网络查找对应文章

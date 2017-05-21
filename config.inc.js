@@ -12,5 +12,5 @@ module.exports = {
   			url:'mongodb://localhost:27017/webJfs'
   		})
 	},
-	hisAddress:'http://192.168.1.234:80/'
+	hisAddress:'http://192.168.1.243:80/'
 }
