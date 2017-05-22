@@ -20,4 +20,4 @@ const Post = new mongoose.Schema({
 	form:String
 })
 
-module.exports = mongoose.model('post',Post);
+module.exports = mongoose.model('archives',Post);

@@ -27865,7 +27865,7 @@ var CategoryAdd = function (_Component) {
 			var _this3 = this;
 
 			(0, _ajax.Ajax)({
-				url: 'admin/category/' + this.props.params.id,
+				url: '/admin/category/' + this.props.params.id,
 				method: 'GET'
 			}).then(function (res) {
 				if (!!res.status) {
@@ -27899,7 +27899,7 @@ var CategoryAdd = function (_Component) {
 			var _this4 = this;
 
 			(0, _ajax.Ajax)({
-				url: 'classify',
+				url: '/classify',
 				method: 'GET'
 			}).then(function (res) {
 				if (!!res.status) {
@@ -27944,7 +27944,7 @@ var CategoryAdd = function (_Component) {
 			var _this6 = this;
 
 			(0, _ajax.Ajax)({
-				url: 'admin/category/' + this.props.params.id,
+				url: '/admin/category/' + this.props.params.id,
 				method: 'post',
 				datas: {
 					title: this.state.name,
@@ -28118,7 +28118,7 @@ var CategoryAdd = function (_Component) {
 						),
 						_react2.default.createElement(
 							'select',
-							{ ref: 'parent', value: this.state.parent, onChange: this._parentChange.bind(this) },
+							{ ref: 'parent', value: this.state.parent || '', onChange: this._parentChange.bind(this) },
 							_react2.default.createElement(
 								'option',
 								{ value: '0' },
@@ -28152,16 +28152,16 @@ var CategoryAdd = function (_Component) {
 								);
 							})
 						),
-						_react2.default.createElement(
+						this.state.type === 'page' ? _react2.default.createElement(
 							'span',
 							{ className: 'uk-margin-left' + (this.state.type === 'page' ? '' : ' uk-hidden') },
 							_react2.default.createElement('input', { ref: 'page', type: 'text', placeholder: '\u8BF7\u8F93\u5165\u9875\u9762\u6587\u4EF6\u540D', value: this.state.page, onChange: this._pageChange.bind(this) })
-						),
-						_react2.default.createElement(
+						) : null,
+						this.state.type === 'link' ? _react2.default.createElement(
 							'span',
 							{ className: 'uk-margin-left' + (this.state.type === 'link' ? '' : ' uk-hidden') },
 							_react2.default.createElement('input', { ref: 'link', type: 'text', placeholder: '\u8BF7\u8F93\u5165\u9700\u8981\u94FE\u63A5\u7684\u5730\u5740', value: this.state.link, onChange: this._linkChange.bind(this) })
-						),
+						) : null,
 						_react2.default.createElement('script', { id: this.state.ueditorId, style: { width: '100%', height: '400px' } })
 					),
 					_react2.default.createElement(
@@ -28245,7 +28245,7 @@ var CategoryList = function (_PureComponent) {
 			var _this2 = this;
 
 			(0, _ajax.Ajax)({
-				url: 'admin/category/' + id,
+				url: '/admin/category/' + id,
 				method: 'DELETE'
 			}).then(function (res) {
 				if (!res.status) {
@@ -28502,7 +28502,7 @@ var FeedBack = function (_PureComponent) {
 			var _this2 = this;
 
 			(0, _ajax.Ajax)({
-				url: '/feedback',
+				url: '/feedback?searchValue=' + this.refs.searchValue.value + '&time=' + this.refs.time.value,
 				method: 'GET'
 			}).then(function (res) {
 				_this2.setState({
@@ -28511,18 +28511,9 @@ var FeedBack = function (_PureComponent) {
 			});
 		}
 	}, {
-		key: 'submit',
-		value: function submit() {
-			var _this3 = this;
-
-			(0, _ajax.Ajax)({
-				url: '/feedback?searchValue=' + this.refs.searchValue.value + '&time=' + this.refs.time.value,
-				method: 'GET'
-			}).then(function (res) {
-				_this3.setState({
-					dataSource: res.datas
-				});
-			});
+		key: 'search',
+		value: function search() {
+			this._loadData();
 		}
 	}, {
 		key: 'componentDidMount',
@@ -28552,8 +28543,8 @@ var FeedBack = function (_PureComponent) {
 					),
 					_react2.default.createElement(
 						'a',
-						{ className: 'uk-button uk-margin-left', type: 'button', onClick: this.submit.bind(this) },
-						'\u63D0\u4EA4'
+						{ className: 'uk-button uk-margin-left', type: 'button', onClick: this.search.bind(this) },
+						'\u641C\u7D22'
 					)
 				),
 				_react2.default.createElement(Table, this.state)
@@ -28887,7 +28878,7 @@ var Index = function (_PureComponent) {
 			var _this2 = this;
 
 			(0, _ajax.Ajax)({
-				url: 'admin/userInfo',
+				url: '/admin/userInfo',
 				method: 'GET'
 			}).then(function (res) {
 				if (res.status == 0) {
@@ -29333,7 +29324,7 @@ var PostAdd = function (_Component) {
 			var _this4 = this;
 
 			(0, _ajax.Ajax)({
-				url: 'admin/post/' + this.props.params.id,
+				url: '/admin/post/' + this.props.params.id,
 				method: 'POST',
 				datas: {
 					title: this.state.title,
@@ -29447,7 +29438,7 @@ var PostAdd = function (_Component) {
 			var _this7 = this;
 
 			(0, _ajax.Ajax)({
-				url: 'classify',
+				url: '/classify',
 				method: 'GET'
 			}).then(function (res) {
 				if (!!res.status) {
@@ -29841,7 +29832,7 @@ var PostList = function (_PureComponent) {
 			var _this2 = this;
 
 			(0, _ajax.Ajax)({
-				url: 'admin/post/' + id,
+				url: '/admin/post/' + id,
 				method: 'DELETE'
 			}).then(function (res) {
 				if (!res.status) {
@@ -29868,7 +29859,7 @@ var PostList = function (_PureComponent) {
 		value: function _loadPostList() {
 			var _this4 = this;
 
-			var url = 'admin/post?page=' + this.state.page;
+			var url = '/admin/post?page=' + this.state.page + '&searchValue=' + this.refs.searchArticle.value;
 			if (this.state.categoryId != undefined) {
 				url += '&cid=' + this.state.categoryId;
 			}
@@ -29908,6 +29899,17 @@ var PostList = function (_PureComponent) {
 			});
 		}
 	}, {
+		key: 'search',
+		value: function search() {
+			var _this6 = this;
+
+			this.setState({
+				page: 1
+			}, function () {
+				_this6._loadPostList();
+			});
+		}
+	}, {
 		key: 'componentDidMount',
 		value: function componentDidMount() {
 			this._loadPostList();
@@ -29920,9 +29922,24 @@ var PostList = function (_PureComponent) {
 				'div',
 				null,
 				_react2.default.createElement(
-					_reactRouter.Link,
-					{ className: 'uk-button uk-button-primary', to: '/index/post/add' },
-					'\u6DFB\u52A0\u6587\u7AE0'
+					'form',
+					{ className: 'uk-form' },
+					_react2.default.createElement(
+						_reactRouter.Link,
+						{ className: 'uk-button uk-button-primary', to: '/index/post/add' },
+						'\u6DFB\u52A0\u6587\u7AE0'
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: 'uk-form-icon  uk-margin-left' },
+						_react2.default.createElement('i', { className: 'uk-icon-search' }),
+						_react2.default.createElement('input', { ref: 'searchArticle', type: 'text', placeholder: '' })
+					),
+					_react2.default.createElement(
+						'a',
+						{ className: 'uk-button uk-margin-left', type: 'button', onClick: this.search.bind(this) },
+						'\u641C\u7D22'
+					)
 				),
 				_react2.default.createElement(_postTable2.default, { toggleType: this._toggleType.bind(this), navs: this.state.navs, delAction: this._delAction.bind(this), dataSources: this.state.dataSources }),
 				!!this.state.totalPage && _react2.default.createElement(_pagination2.default, { pageChange: this._pageChange.bind(this), totalPage: this.state.totalPage, page: this.state.page })
@@ -30133,7 +30150,7 @@ var Setting = function (_PureComponent) {
 			var _this2 = this;
 
 			(0, _ajax.Ajax)({
-				url: 'admin/setting',
+				url: '/admin/setting',
 				method: 'GET'
 			}).then(function (res) {
 				if (!!res.datas) {
@@ -30170,7 +30187,7 @@ var Setting = function (_PureComponent) {
 		key: '_updateDate',
 		value: function _updateDate() {
 			(0, _ajax.Ajax)({
-				url: 'admin/setting',
+				url: '/admin/setting',
 				method: 'PUT',
 				datas: {
 					webSite: this.state.webSite,
@@ -30417,26 +30434,11 @@ var Total = function (_React$Component) {
   }
 
   _createClass(Total, [{
-    key: "_downExcel",
-    value: function _downExcel() {
-      window.open("/download/" + +new Date());
-    }
-  }, {
-    key: "render",
+    key: 'render',
     value: function render() {
       return _react2.default.createElement(
-        "div",
+        'div',
         null,
-        _react2.default.createElement(
-          "div",
-          { className: "uk-button-group uk-margin-bottom" },
-          _react2.default.createElement(
-            "button",
-            { onClick: this._downExcel.bind(), className: "uk-button uk-button-primary" },
-            _react2.default.createElement("i", { className: "uk-icon-download" }),
-            "\u4E0B\u8F7Dexcel\u8868\u683C"
-          )
-        ),
         this.props.children
       );
     }
@@ -30522,6 +30524,62 @@ var TotalPost = function (_React$Component) {
                     }]
                 });
             });
+
+            var myCharts = echarts.init(document.getElementById('feedbackPost'));
+            option = {
+                title: {
+                    text: '用户投诉统计报表'
+                },
+                tooltip: {},
+                legend: {
+                    data: ['投诉数']
+                },
+                xAxis: {
+                    axisLabel: {
+                        interval: 0, //横轴信息全部显示
+                        rotate: 360, //60度角倾斜显示,
+                        formatter: function formatter(val) {
+                            return val.split("年").join("年\n"); //横轴信息文字竖直显示}
+                        }
+                    },
+                    data: []
+                },
+                yAxis: {},
+                series: [{
+                    name: '投诉数',
+                    type: 'line',
+                    data: []
+                }]
+            };
+            myCharts.setOption(option);
+            myCharts.showLoading();
+            (0, _ajax.Ajax)({
+                url: '/total/feedback',
+                method: 'GET'
+            }).then(function (res) {
+                if (res.status == 1) {
+                    myCharts.hideLoading();
+                    myCharts.setOption({
+                        xAxis: {
+                            data: res.datas.month
+                        },
+                        series: [{
+                            name: '投诉数',
+                            data: res.datas.monthNum
+                        }]
+                    });
+                }
+            });
+        }
+    }, {
+        key: '_downExcel',
+        value: function _downExcel() {
+            window.open("/download/" + +new Date());
+        }
+    }, {
+        key: '_feedbackExcel',
+        value: function _feedbackExcel() {
+            window.open("/feedbackDownload/" + +new Date());
         }
     }, {
         key: '_loadData',
@@ -30540,13 +30598,37 @@ var TotalPost = function (_React$Component) {
     }, {
         key: 'componentWillUnmount',
         value: function componentWillUnmount() {
-            console.log(this);
             return false;
         }
     }, {
         key: 'render',
         value: function render() {
-            return _react2.default.createElement('div', { ref: 'totalPost', style: { width: '100%', height: '300px' }, id: 'totalPost' });
+            return _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement(
+                    'div',
+                    { className: 'uk-button-group uk-margin-bottom' },
+                    _react2.default.createElement(
+                        'button',
+                        { onClick: this._downExcel.bind(), className: 'uk-button uk-button-primary' },
+                        _react2.default.createElement('i', { className: 'uk-icon-download' }),
+                        '\u4E0B\u8F7Dexcel\u8868\u683C'
+                    )
+                ),
+                _react2.default.createElement('div', { ref: 'totalPost', style: { width: '100%', height: '300px' }, id: 'totalPost' }),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'uk-button-group uk-margin-bottom' },
+                    _react2.default.createElement(
+                        'button',
+                        { onClick: this._feedbackExcel.bind(), className: 'uk-button uk-button-primary' },
+                        _react2.default.createElement('i', { className: 'uk-icon-download' }),
+                        '\u4E0B\u8F7Dexcel\u8868\u683C'
+                    )
+                ),
+                _react2.default.createElement('div', { ref: 'feedbackPost', style: { width: '100%', height: '300px' }, id: 'feedbackPost' })
+            );
         }
     }]);
 
@@ -30604,7 +30686,7 @@ var UserEdit = function (_PureComponent) {
 			var _this2 = this;
 
 			(0, _ajax.Ajax)({
-				url: 'admin/user/' + this.props.params.id,
+				url: '/admin/user/' + this.props.params.id,
 				method: 'GET'
 			}).then(function (res) {
 				console.log(res);
@@ -30617,22 +30699,28 @@ var UserEdit = function (_PureComponent) {
 	}, {
 		key: '_addUser',
 		value: function _addUser() {
+			var _this3 = this;
+
 			(0, _ajax.Ajax)({
-				url: 'admin/user',
+				url: '/admin/user',
 				datas: {
 					username: this.state.username,
 					password: this.state.password,
 					email: this.state.email
+				}
+			}).then(function (res) {
+				if (res.status === 1) {
+					_this3.props.router.goBack();
 				}
 			});
 		}
 	}, {
 		key: '_updateUser',
 		value: function _updateUser() {
-			var _this3 = this;
+			var _this4 = this;
 
 			(0, _ajax.Ajax)({
-				url: 'admin/user/' + this.props.params.id,
+				url: '/admin/user/' + this.props.params.id,
 				method: 'POST',
 				datas: {
 					username: this.state.username,
@@ -30640,19 +30728,19 @@ var UserEdit = function (_PureComponent) {
 					email: this.state.email
 				}
 			}).then(function (res) {
-				_this3.props.router.goBack();
+				_this4.props.router.goBack();
 			});
 		}
 	}, {
 		key: '_loadMd5',
 		value: function _loadMd5() {
-			var _this4 = this;
+			var _this5 = this;
 
 			(0, _ajax.Ajax)({
 				url: '/getMd5',
 				method: 'GET'
 			}).then(function (res) {
-				_this4.setState({
+				_this5.setState({
 					password: res.string
 				});
 			});
@@ -30735,7 +30823,7 @@ var UserEdit = function (_PureComponent) {
 					_react2.default.createElement(
 						'div',
 						{ className: 'uk-form-controls' },
-						_react2.default.createElement('input', { type: 'text', ref: 'email', onChange: this._emailChange.bind(this), value: this.state.email, className: 'uk-form-width-medium' })
+						_react2.default.createElement('input', { type: 'text', ref: 'email', onChange: this._emailChange.bind(this), value: this.state.email || '', className: 'uk-form-width-medium' })
 					)
 				),
 				_react2.default.createElement(
@@ -30817,7 +30905,7 @@ var Users = function (_PureComponent) {
 			var _this2 = this;
 
 			(0, _ajax.Ajax)({
-				url: 'admin/users?page=' + this.state.page,
+				url: '/admin/users?page=' + this.state.page,
 				method: 'GET'
 			}).then(function (res) {
 				_this2.setState({
@@ -46436,7 +46524,7 @@ var Top = function (_PureComponent) {
 			var _this2 = this;
 
 			(0, _ajax.Ajax)({
-				url: 'admin/loginOut'
+				url: '/admin/loginOut'
 			}).then(function (res) {
 				_this2.props.router.replace('/login');
 			});

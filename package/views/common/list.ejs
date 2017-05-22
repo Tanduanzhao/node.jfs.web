@@ -1,5 +1,0 @@
-<div class="list">
-    <% postList.forEach(function(item){%>
-    <a class="item" <%if(item.type=='download'){%>download="<%= item.files[0].name%>"<%}%> href="<%if(item.type=='download'){%><%= item.files[0].path%><%}else{%>?pid=<%= item._id%><%}%>"><%= item.title%> <% if(item.type=='download'){%><span class="download rt">[下载]</span><%}%><span class="time rt"><%= item.publishDate%></span></a>    
-    <% }) %>
-</div>

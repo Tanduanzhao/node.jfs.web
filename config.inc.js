@@ -9,7 +9,7 @@ module.exports = {
   		cookie: {expires: 60*1000*60},
   		expires:60*1000*60,
   		store:new MongoStore({
-  			url:'mongodb://localhost:27017/webJfs'
+  			url:'mongodb://localhost:3010/webJfs'
   		})
 	},
 	hisAddress:'http://192.168.1.234:80/'

@@ -68,7 +68,7 @@ export default class PostAdd extends Component{
 	}
 	updateAction(){
 		Ajax({
-			url:`admin/post/${this.props.params.id}`,
+			url:`/admin/post/${this.props.params.id}`,
 			method:'POST',
 			datas:{
 				title:this.state.title,
@@ -161,7 +161,7 @@ export default class PostAdd extends Component{
 	}
 	_getClassify(){
 		Ajax({
-			url:'classify',
+			url:'/classify',
 			method:'GET'
 		}).then((res)=>{
 			if(!!res.status){

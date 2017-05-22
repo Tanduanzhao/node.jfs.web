@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 mongoose.Promise = Promise;
-const mongoUrl = 'mongodb://localhost:27017/webJfs';
+const mongoUrl = 'mongodb://localhost:3010/webJfs';
 
 try{
 	mongoose.connect(mongoUrl);

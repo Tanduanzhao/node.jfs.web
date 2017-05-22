@@ -5,14 +5,14 @@ import CategoryTable from './categoryTable.jsx';
 export default class CategoryList extends PureComponent{
 	constructor(props) {
 	  super(props);
-	
+
 	  this.state = {
 	  	dataSources:[]
 	  };
 	}
 	_delAction(id){
 		Ajax({
-			url:`admin/category/${id}`,
+			url:`/admin/category/${id}`,
 			method:'DELETE'
 		}).then((res)=>{
 			if(!res.status){
