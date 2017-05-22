@@ -7,9 +7,9 @@
         &lt;上一页
     </a>
 
-    <% for(let i=1;i< page.total/page.size;i++){ %>
-            <a class="item<% %>" href="?page=<%= i %>"><%= i %></a>
+    <% for(let i=1;i<= Math.ceil(page.total/page.size);i++){ %>
+            <a class="item<%%>" href="?page=<%= i %>"><%= i %></a>
     <% } %>
-    <a <%if(page.page < page.total){%> href="?page=<%= page.total%>" <%}else{%> class="itemReadOnly" <%}%>>下一页&gt;</a>
+    <a <%if(page.total-(page.page*page.size) > 0 ){%> href="?page=<%= page.page*1+1%>" <%}else{%> class="itemReadOnly" <%}%>>下一页&gt;</a>
 </div>
 <%}%>
