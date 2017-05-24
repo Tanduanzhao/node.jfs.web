@@ -11,9 +11,51 @@
                 mapType: '广东',
                 selectedMode : 'single',
                 itemStyle:{
-                    normal:{label:{show:true}},
-                    emphasis:{label:{show:true}}
-                }
+                    normal:{
+                        label:{show:true},
+                        areaColor:"#9fd2f5",
+                        borderColor:"#49b1fa",
+                        borderWidth:"1"
+                    },
+                    emphasis:{
+                        label:{
+                            show:true,
+                            textStyle: {
+                                color: '#fff',
+                                fontSize: 15
+                            }
+                        },
+                        areaColor:"#6BBFF7",
+                        borderColor:"#3098dd",
+                        borderWidth:"1",
+                        color: "#fff",
+                        shadowBlur: 20,
+                        shadowColor: 'rgba(0, 0, 0, 1)'
+                    }
+                },
+                data:[
+                    {name: '广州市', itemStyle: {normal: {color: '#BCE8F9'}}},
+                    {name: '潮州市', itemStyle: {normal: {color: '#6EB5EE'}}},
+                    {name: '汕头市', itemStyle: {normal: {color: '#5DAAEB'}}},
+                    {name: '梅州市', itemStyle: {normal: {color: '#9ED4F5'}}},
+                    {name: '揭阳市', itemStyle: {normal: {color: '#C3ECFB'}}},
+                    {name: '汕尾市', itemStyle: {normal: {color: '#BCE8F9'}}},
+                    {name: '河源市', itemStyle: {normal: {color: '#74B9EF'}}},
+                    {name: '惠州市', itemStyle: {normal: {color: '#4FA1E9'}}},
+                    {name: '东莞市', itemStyle: {normal: {color: '#8BC8F0'}}},
+                    {name: '深圳市', itemStyle: {normal: {color: '#8BC8F0'}}},
+                    {name: '中山市', itemStyle: {normal: {color: '#BAE6F9'}}},
+                    {name: '珠海市', itemStyle: {normal: {color: '#C6EEFB'}}},
+                    {name: '佛山市', itemStyle: {normal: {color: '#8CC9F2'}}},
+                    {name: '江门市', itemStyle: {normal: {color: '#BCE8F9'}}},
+                    {name: '云浮市', itemStyle: {normal: {color: '#A6D9F6'}}},
+                    {name: '阳江市', itemStyle: {normal: {color: '#81C2F1'}}},
+                    {name: '茂名市', itemStyle: {normal: {color: '#C3ECFB'}}},
+                    {name: '湛江市', itemStyle: {normal: {color: '#BEE9FA'}}},
+                    {name: '肇庆市', itemStyle: {normal: {color: '#8BC8F0'}}},
+                    {name: '清远市', itemStyle: {normal: {color: '#BAE6F9'}}},
+                    {name: '韶关市', itemStyle: {normal: {color: '#C2EBFA'}}}
+                ]
             }
         ]
     };

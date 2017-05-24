@@ -91,6 +91,26 @@ $(function() {
         $(this).addClass("active").siblings().removeClass("active");
         $(".visits .wrap .tab-content").hide().eq($(this).index()).show();
     });
+
+    function stop(){
+        return false;
+    }
+    document.oncontextmenu=stop;
+    var omitformtags=["input", "textarea", "select"];
+    omitformtags=omitformtags.join("|");
+    function disableselect(e){
+        if (omitformtags.indexOf(e.target.tagName.toLowerCase())==-1)
+            return false
+    }
+    function reEnable(){
+        return true
+    }
+    if (typeof document.onselectstart!="undefined")
+        document.onselectstart=new Function ("return false");
+    else{
+        document.onmousedown=disableselect;
+        document.onmouseup=reEnable
+    }
 })
 function showWarning(target){
     target.addClass("prompt-color").parent().next().show();

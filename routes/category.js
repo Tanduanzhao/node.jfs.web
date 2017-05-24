@@ -5,7 +5,6 @@ var request = require('request');
 module.exports = function(req,res,typeId,tempPath,listType){
 	var pageSize = 10;
 	var page = 1;
-
 	if(req.query.page && req.query.page>0){
 		page = req.query.page;
 	}

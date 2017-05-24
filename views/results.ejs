@@ -1,0 +1,70 @@
+<% include ./common/header %>
+<% include ./common/nav %>
+<link href="https://cdn.bootcss.com/video.js/5.4.3/video-js.css" rel="stylesheet" type="text/css">
+<script src="https://cdn.bootcss.com/video.js/5.4.3/ie8/videojs-ie8.js"></script>
+<div class="main subPage">
+    <div class="main-box">
+        <div class="path"> 您现在的位置：首页》<%= active.name%></div>
+        <h3 class="main-rt-title">
+            <p class="title-text"><%= active.name%></p>
+        </h3>
+        <div class="main-time">发布时间：2011-03-18</div>
+        <div class="results">
+            <div class="results-lf lf">
+                <h3 class="results-lf-title">项目建议</h3>
+                <div class="jump-list">
+                    <a href="#first">“广东智慧结控”是落实“互 联网+”战略的必然选择。 </a>
+                    <a  href="#second">“广东智慧结控”是推进供给 侧结构性改革的关键之举。 </a>
+                    <a  href="#third">“广东智慧结控”是加速“健 康广东”建设的必由之路。 </a>
+                    <a  href="#fourth">“广东智慧结控”可以作为国 家分级诊疗与结核病防治示范 区的重要载体。 </a>
+                </div>
+            </div>
+            <div class="results-rt lf">
+                <video id="video" class="video-js" controls preload="auto" width="640" height="264"
+                       poster="/images/results.png" data-setup="{}">
+                    <source src="/video/20170407.mp4" type="video/mp4">
+                    <p class="vjs-no-js">
+                        不好意思,你的浏览器不支持视频!
+                    </p>
+                </video>
+                <script src="https://cdn.bootcss.com/video.js/5.4.3/video.js"></script>
+                <div class="article">
+                    <div class="article-title">“广东智慧结控”项目建议</div>
+                    <div>
+                        <p id="first">
+                            按照《 “十三五”全国结核病防治规划》结核病患者全流程信息化管理的战略目标，以及广东省建设卫生高地的部署，广东省应率先全国打造“智慧结控”，建设结控领域信息高地，实现结核病防治“人工智能”管理。<span class="color-blue">“广东智慧结控”是落实“互联网+”战略的必然选择。</span>
+                        </p>
+                        <p id="second">
+                            目前广东结控在国内已经做到“最多发现”（每年7万例新发患者，全国患者人数第一）“最早监控”“最规范治疗”（全国唯一一个省具有省、市、区县130多家独立、完整架构的结核病防治机构网络）“两率最先下降”，在信息化、“互联网+”、人工智能大潮下，广东结控领域应该做到“最智慧”。建设广东智慧结控，本质是以信息化为突破口，借助新技术革命的力量，在线上整合和重组广东结控服务体系，提高结核病患者的全流程信息化管理水平，提升基层结核病诊断与治疗能力，提升结控系统监测、预警和防控水平，向消灭结核病的全球目标迈进。<span class="color-blue">“广东智慧结控”是推进供给侧结构性改革的关键之举。</span>
+
+                        </p>
+                        <p id="third">
+                            应对全球流动人口结核病患者管理、耐多药结核病防控、TB/HIV双重感染三大挑战，病人全流程管理是重中之重。粤东西北地区基层结防机构专业技术人员匮乏，诊疗及管理水平参差不齐。信息化目前已经从电子化、数据化发展到了人工智能阶段，广东通过建立“AI TB Doctor” 人工辅助诊疗和智能化管理系统，可精准发现和诊断结核病患者，提高治疗的依从性，提升管理的效能。<span class="color-blue">“广东智慧结控”是加速“健康广东”建设的必由之路。</span>（“健康广东”是广东省省委省政府未来10年的发展重点，已写入相关文件）
+                        </p>
+                        <p id="fourth">
+                            “AI TB Doctor”如何实现人工辅助诊疗和智能化管理的呢？首先，在患者发现阶段，根据患者主述的关键词，结合现病史、既往史的核心信息及实验室的相关指标，以及影像学的智能阅片分析，提示该患者结核病的高度疑似性。其次，在患者治疗阶段，根据临床路径，结合治疗过程中的动态综合检查结果，智能提醒治疗方案的调整以及提供耐多药患者的个性化治疗方案。第三，在结核病患者的督导管理阶段，对结核病人进行智能化管理，以PC数据端、APP和电子药盒为载体自动提醒病人服药并实时收集病人服药信息，智能化评价患者的治疗依从性，提高医务工作者对患者的诊疗管理效率。第四，在疫情处置方面，患者的登记治疗过程中，根据关键字段算法，例如学生、学校、工矿企业，智能提醒针对密集人群的结核病筛查，启动公共卫生应急处置方案。因此，<span class="color-blue">“广东智慧结控”可以作为国家分级诊疗与结核病防治示范区的重要载体。</span>（广东省是国家级分级诊疗与结核病防治示范区的试点地区，是全国重大传染病管理示范区信息化建设的战略高地）
+                        </p>
+                        <p>
+                            经过反复调研，我们发现基层结核病防治机构对于信息化建设具有非常大的需求，迫切希望省级层面牵头建立平台，整合结控卫生服务体系，提高基层服务能力和水平。目前，省结防系统已经形成了相对独立的四级结核病防控体系，拥有5000多名工作人员，年筛查100万人口，诊疗20万多疑似病人，确诊近7万结核病人，具有全面、完整的结核病防治能力。实现国家、省的战略目标，应对结防工作新挑战，我们以信息化为突破口，积极探索，努力创新，已经在基层取得了一些成效。如在惠州全市和深圳南山区已经建立智能化病人督导管理系统，提高了病人的服药依从性和医务工作者的诊疗管理效率。在省卫计委的领导和支持下，我们将继续加强顶层设计和基层试点，“横向到边，纵向到底”，把“智慧结控”工作推向新领域和新高度。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function() {
+        var myPlayer = videojs('video');
+        myPlayer.on("fullscreenchange", function(){
+           if( $("video").height()>330){
+                $("#MEIQIA-BTN").hide();
+           }else{
+               $("#MEIQIA-BTN").show();
+           }
+        });
+    })
+</script>
+<script src="https://cdn.bootcss.com/video.js/5.4.3/video.js"></script>
+<!--end:main 主要内容-->
+<% include ./common/footer%>
