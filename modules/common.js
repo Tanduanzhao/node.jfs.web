@@ -85,7 +85,7 @@ module.exports = {
 		return new Promise((resolve,reject)=>{
 			type
 				.find()
-				.where({name:{$in:['各地动态','结控动态']}})
+				.where({name:{$in:['中心动态','结控动态']}})
 				.select('_id')
 				.exec(function(err,result){
 					if(err){
@@ -94,11 +94,10 @@ module.exports = {
 						let typeIds = result.map(function(item){
 							return item._id;
 						});
-						console.log(typeIds);
 						post
 							.find()
 							.where({typeId:{$in:typeIds},imgUrl:{$ne:null}})
-							.select('_id publishDate title imgUrl')
+							.select('_id publishDate title imgUrl typeId')
 							.limit(4)
 							.sort({publishDate:-1})
 							.exec(function(_err,_result){
