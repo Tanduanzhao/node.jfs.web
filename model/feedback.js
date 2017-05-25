@@ -9,6 +9,7 @@ const Schema = mongoose.Schema({
 	address:String,
 	title:String,
 	content:String,
+	cardID:String,
 	publishDate:{
 		type:Date,
 		default:new Date()

@@ -1,4 +1,4 @@
-<%if(postList.length){%>
+<%if(page.total>16){%>
 <div class="pagination">
     <a <%if(page.page>=1){%> href="?page=1"  <%}else{%> class="itemReadOnly" <%}%>>
         首页

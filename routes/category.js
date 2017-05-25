@@ -3,7 +3,7 @@ var post = require('../model/post.js');
 var common = require('../modules/common.js');
 var request = require('request');
 module.exports = function(req,res,typeId,tempPath,listType){
-	var pageSize = 10;
+	var pageSize = 16;
 	var page = 1;
 	if(req.query.page && req.query.page>0){
 		page = req.query.page;
