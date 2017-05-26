@@ -1,26 +1,41 @@
 import React,{PureComponent} from 'react';
 import {Ajax} from './functions/ajax.js';
 import {Link} from 'react-router';
+import Pagination from './pagination.jsx';
 export default class FeedBack extends PureComponent{
 	constructor(props) {
 	  super(props);
 
 	  this.state = {
-	  	dataSource:[]
+	  	dataSource:[],
+		  page:1
 	  };
+	}
+	_pageChange(num){
+		this.setState({
+			page:num
+		},()=>{
+			this._loadData();
+		});
 	}
 	_loadData(){
 		Ajax({
-			url:'/feedback?searchValue='+this.refs.searchValue.value+'&time='+this.refs.time.value,
+			url:'/feedback?page=' + this.state.page+'&searchValue='+this.refs.searchValue.value+'&time='+this.refs.time.value,
 			method:'GET'
 		}).then((res)=>{
 			this.setState({
-				dataSource:res.datas
+				dataSource:res.datas,
+				totalPage:res.totalPage,
+				page:res.page.page
 			})
 		})
 	}
 	search(){
-		this._loadData();
+		this.setState({
+			page:1
+		},()=>{
+			this._loadData();
+		});
 	}
 	componentDidMount() {
 		this._loadData();
@@ -40,6 +55,9 @@ export default class FeedBack extends PureComponent{
 					<a className="uk-button uk-margin-left" type="button" onClick={this.search.bind(this)}>搜索</a>
 				</form>
 				<Table {...this.state}/>
+				{
+					!!this.state.totalPage && <Pagination pageChange={this._pageChange.bind(this)} totalPage={this.state.totalPage} page={this.state.page}/>
+				}
 			</div>
 		)
 	}
@@ -53,7 +71,7 @@ class Table extends PureComponent{
 			<table className="uk-table">
 				<thead>
 				<tr>
-					<th>编号</th>
+					<th>身份证号</th>
 					<th>投诉标题</th>
 					<th>时间</th>
 					<th>处理状态</th>
@@ -64,7 +82,7 @@ class Table extends PureComponent{
 					this.props.dataSource.map((item)=>{
 						return(
 						<tr key={item._id}>
-							<td><Link to={`/index/feedback/${item._id}`}>{item._id}</Link></td>
+							<td><Link to={`/index/feedback/${item._id}`}>{item.cardID}</Link></td>
 							<td>{item.title}</td>
 							<td>{item.publishDate}</td>
 							<td>{
