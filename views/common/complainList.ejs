@@ -39,7 +39,7 @@
                            
                         })
                         $('.table tbody').empty().append(html);
-                        if(res.page.total>=res.page.pageSize){
+                        if(res.page.total>res.page.pageSize){
                             console.log(pagnation);
                             var i=0;
                             pagnation = '<a href="javascript:void(0)" onClick="loadData(1)">首页</a><a href="javascript:void(0)"';
@@ -49,7 +49,7 @@
                                 pagnation += ' class="itemReadOnly"';
                             }
                             pagnation += '>&lt;上一页</a>';
-                            while(res.page.total/res.page.pageSize>=i){
+                            while(res.page.total/res.page.pageSize>i){
                                 console.log(i);
                                 i++
                                 pagnation+='<a class="item';
@@ -59,7 +59,7 @@
                                     pagnation+='"';
                                 }
                                 pagnation+=' href="javascript:void(0)" onClick="loadData('+i+')">'+i+'</a>';
-                                
+
                             }
                             pagnation += '<a href="javascript:void(0)"';
                             if(page<res.page.total/res.page.pageSize){

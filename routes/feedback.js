@@ -2,7 +2,7 @@ const feedback = require('../model/feedback.js');
 const common = require('../modules/common.js');
 const moment = require('moment');
 let page = 1;
-let pageSize = 10;
+let pageSize = 16;
 module.exports = {
 	add:(req,res,next)=>{
 		let _obj = {};
@@ -40,7 +40,7 @@ module.exports = {
 		})
 	},
 	list:(req,res,next)=>{
-		page = req.query.page || page;
+		page =  new Number(req.query.page) || page;
 		let obj={};
 		if( typeof req.query.time == 'undefined' || req.query.time == ''){
 			obj={
@@ -55,8 +55,9 @@ module.exports = {
 		feedback
 			.find()
 		    .where(obj)
-			//.limit(pageSize)
+			.limit(pageSize)
 			.skip((page-1)*pageSize)
+		 	.sort({publishDate:-1})
 			.exec((err,result)=>{
 				if(err){
 					throw new Error('查询投诉建议错误!');
@@ -77,6 +78,7 @@ module.exports = {
 							throw new Error('统计投诉建议错误!');
 						}else{
 							res.locals.page.total = count;
+							res.locals.totalPage = (count / pageSize) > 1 ? Math.ceil(count / pageSize) : 1;
 						}
 					})
 					.then(()=>{

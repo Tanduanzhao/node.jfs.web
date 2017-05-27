@@ -122,7 +122,7 @@
                 <li>
                     <a class="item" href="/news/<%= item.typeId%>?pid=<%= item._id%>" title="<%= item.title%>">
                         <img src="<%= item.imgUrl%>" alt="">
-                        <p><%= item.title.length>12 ? item.title.substr(0,11)+'...' : item.title%></p>
+                        <p><%= item.title.length>16 ? item.title.substr(0,15)+'...' : item.title%></p>
                     </a>
                 </li>
                 <% }) %>
@@ -140,7 +140,7 @@
                 <ul class="situation-content list">
                     <% localNewList.forEach(function(item){%>
                     <li>
-                        <a class="item" href="/news/58ddecf916f4200bc52294d3?pid=<%= item._id %>"><%= item.title.length>15? item.title.substr(0,14)+'...' : item.title%><span class="time rt"><%= item.publishDate%></span>
+                        <a class="item" href="/news/58ddecf916f4200bc52294d3?pid=<%= item._id %>"><%= item.title.length>30? item.title.substr(0,30)+'...' : item.title%><span class="time rt"><%= item.publishDate%></span>
                         </a>
                     </li>
                     <% }) %>
@@ -157,7 +157,7 @@
                 <ul class="list">
                     <% centerList.forEach(function(item){%>
                     <li>
-                        <a class="item" href="/news/58df12e859d47b094dcab9ed?pid=<%= item._id %>"><%= item.title.length>15? item.title.substr(0,14)+'...' : item.title%><span class="time rt"><%= item.publishDate%></span>
+                        <a class="item" href="/news/58df12e859d47b094dcab9ed?pid=<%= item._id %>"><%= item.title.length>30? item.title.substr(0,30)+'...' : item.title%><span class="time rt"><%= item.publishDate%></span>
                         </a>
                     </li>
                     <% }) %>
@@ -175,7 +175,7 @@
                 <ul class="list">
                     <% noticeList.forEach(function(item){%>
                     <li>
-                        <a class="item" href="/news/58df143959d47b094dcab9f3?pid=<%= item._id %>"><%= item.title.length>15? item.title.substr(0,14)+'...' : item.title%><span class="time rt"><%= item.publishDate%></span>
+                        <a class="item" href="/news/58df143959d47b094dcab9f3?pid=<%= item._id %>"><%= item.title.length>30? item.title.substr(0,30)+'...' : item.title%><span class="time rt"><%= item.publishDate%></span>
                         </a>
                     </li>
                     <% }) %>
@@ -191,7 +191,7 @@
                 <ul class="list">
                     <% zbList.forEach(function(item){%>
                     <li>
-                        <a class="item" href="/info/58df152959d47b094dcab9f9?pid=<%= item._id %>"><%= item.title.length>15? item.title.substr(0,14)+'...' : item.title%><span class="time rt"><%= item.publishDate%></span>
+                        <a class="item" href="/info/58df152959d47b094dcab9f9?pid=<%= item._id %>"><%= item.title.length>30? item.title.substr(0,30)+'...' : item.title%><span class="time rt"><%= item.publishDate%></span>
                         </a>
                     </li>
                     <% }) %>
