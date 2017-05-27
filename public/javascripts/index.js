@@ -22,7 +22,7 @@ $(function() {
         $(this).addClass("sub-active");
     })
 
-    var isSubmit=false,submit=false;
+    var email=false,submit=false,cardID=false,hasCardID=false;
     $(".form .form-input").focus(function(){
         $(this).removeClass("prompt-color");
         $(this).parent().next(".prompt").hide();
@@ -31,11 +31,11 @@ $(function() {
             if($(".email").val()!=""){
                 if($(".email").val().search(/\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/)==-1){
                     $(".email").parent().next().find(".prompt-text").html("邮箱格式不正确");
-                    isSubmit=false;
+                    email=false;
                     showPrompt($(this));
                     return false;
                 }else{
-                    isSubmit=true;
+                    email=true;
                 }
             }else{
                 $(".email").parent().next().find(".prompt-text").html("请填写电子邮箱");
@@ -44,12 +44,13 @@ $(function() {
             }
         }
         if($(this).hasClass("cardID")){
+             hasCardID=true;
             if($(".cardID").val()!=""){
                 if(isCardID($(".cardID").val())){
-                    isSubmit=true;
+                    cardID=true;
                 }else{
                     $(".cardID").parent().next().find(".prompt-text").html("身份证格式不正确");
-                    isSubmit=false;
+                    cardID=false;
                     showPrompt($(this));
                     return false;
                 }
@@ -80,6 +81,7 @@ $(function() {
         if(iSum%11!=1) return false;//"你输入的身份证号非法"
         return true;
     }
+
     $(".form input[type='file']").change(function(){
         $(".form .form-file").removeClass('prompt-color').parent().next(".prompt").hide();
     });
@@ -91,7 +93,7 @@ $(function() {
                 return false;
             }
         });
-        if(submit && isSubmit){
+        if(submit && email && (hasCardID ? cardID :true)){
             subDoc();
             $("form").find(".form-input").val("");
             $('.form').hide();
@@ -106,6 +108,9 @@ $(function() {
         }
     });
     $('.succeed-btns .bgc-gray').click(function(){
+        if($(".file-name").length != 0){
+            $('.file-name').text("未选择任何文件");
+        }
         $('.form').show();
         $('.popup-succeed').hide();
     });

@@ -32,6 +32,7 @@ export default class DocList extends PureComponent{
 							<th>投稿人</th>
 							<th>投稿日期</th>
 							<th>投稿附件</th>
+							<th>单位名称</th>
 							<th>联系方式</th>
 							<th>地址</th>
 						</tr>
@@ -44,6 +45,7 @@ export default class DocList extends PureComponent{
 										<td>{item.user}</td>
 										<td>{item.publishDate}</td>
 										<td><a download={item.file.name} href={`${item.file.path}`}><i className="uk-icon-download"></i> {item.file.name}</a></td>
+										<td>{item.unit}</td>
 										<td>{item.contact}</td>
 										<td>{item.address}</td>
 									</tr>

@@ -30,6 +30,7 @@ module.exports = {
 		doc
 			.find()
 			.populate('file')
+			.sort({publishDate:-1})
 			.exec((err,result)=>{
 				if(err){
 					throw new Error('查询投稿数据失败!');
