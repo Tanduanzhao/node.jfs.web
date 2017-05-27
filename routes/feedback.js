@@ -5,7 +5,6 @@ let page = 1;
 let pageSize = 10;
 module.exports = {
 	add:(req,res,next)=>{
-		console.log('enter');
 		let _obj = {};
 		if(req.body.title){
 			_obj.title = req.body.title
@@ -24,6 +23,9 @@ module.exports = {
 		}
 		if(req.body.content){
 			_obj.content = req.body.content
+		}
+		if(req.body.cardID){
+			_obj.cardID = req.body.cardID
 		}
 		let newFB = new feedback(_obj);
 		newFB.save((err,result)=>{

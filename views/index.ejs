@@ -120,7 +120,7 @@
             <ul class="news-content">
                 <% imgNewList.forEach(function(item){ %>
                 <li>
-                    <a class="item" href="/news/58ddc4b34a354c08cee7cf8d?pid=<%= item._id%>" title="<%= item.title%>">
+                    <a class="item" href="/news/<%= item.typeId%>?pid=<%= item._id%>" title="<%= item.title%>">
                         <img src="<%= item.imgUrl%>" alt="">
                         <p><%= item.title.length>12 ? item.title.substr(0,11)+'...' : item.title%></p>
                     </a>

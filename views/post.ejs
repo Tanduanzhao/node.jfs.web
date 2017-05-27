@@ -12,5 +12,13 @@
         </div>
     </div>
 </div>
+<script>
+    $(function() {
+        if ($(".top").height() + $(".header").height() + $(".nav").height() + $(".main").height() + $(".footer").height() < $(document).height()) {
+            $(".footer").css({position: "absolute", bottom: 0, width: "100%"})
+            $(".main").css({position: "absolute", top: "172px", bottom: "37px", width: "100%", overflow: "hidden"})
+        }
+    })
+</script>
 <!--end:main 主要内容-->
 <% include ./common/footer%>
