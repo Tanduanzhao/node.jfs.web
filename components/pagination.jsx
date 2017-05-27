@@ -6,7 +6,6 @@ export default class Pagination extends PureComponent{
 	render(){
 		let pageRow = [];
 		for(let i = 1;i<=this.props.totalPage;i++){
-			console.log(this.props.page == i,this.props.page)
     		pageRow.push(<li key={Math.random()} onClick={()=>{this.props.pageChange(i)}} className={this.props.page == i && "uk-active"}><span>{i}</span></li>)
     	}
 		return (

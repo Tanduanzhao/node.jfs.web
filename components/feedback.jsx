@@ -25,7 +25,7 @@ export default class FeedBack extends PureComponent{
 		}).then((res)=>{
 			this.setState({
 				dataSource:res.datas,
-				totalPage:res.totalPage,
+				totalPage:res.page.totalPage,
 				page:res.page.page
 			})
 		})
