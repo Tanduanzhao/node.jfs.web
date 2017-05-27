@@ -78,7 +78,7 @@ module.exports = {
 							throw new Error('统计投诉建议错误!');
 						}else{
 							res.locals.page.total = count;
-							res.locals.totalPage = (count / pageSize) > 1 ? Math.ceil(count / pageSize) : 1;
+							res.locals.page.totalPage = (count / pageSize) > 1 ? Math.ceil(count / pageSize) : 1;
 						}
 					})
 					.then(()=>{
@@ -106,7 +106,6 @@ module.exports = {
 			})
 	},
 	rePlay:(req,res,next)=>{
-		console.log(req.body.replay);
 		feedback
 		.update({_id:req.params.id},{$set:{replay:req.body.replay,status:req.body.status,replayDate:new Date()}},(err,result)=>{
 
