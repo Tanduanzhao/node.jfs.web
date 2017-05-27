@@ -14,7 +14,7 @@ module.exports = {
     },
     list:function(req, res, next) {
         let page = new Number(req.query.page) || 1;
-        const pageSize = 2;
+        const pageSize = 10;
         const userCount = function() {
             return User.count().exec(function(err, result) {
                 return new Promise(function(resolve, reject) {

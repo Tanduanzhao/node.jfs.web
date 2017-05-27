@@ -1,20 +1,31 @@
 import React,{PureComponent} from 'react';
 import {Ajax} from './functions/ajax.js';
+import Pagination from './pagination.jsx';
 export default class Proposer extends PureComponent{
 	constructor(props) {
 	  super(props);
 	
 	  this.state = {
-	  	dataSource:[]
+		  dataSource:[],
+		  page:1
 	  };
+	}
+	_pageChange(num){
+		this.setState({
+			page:num
+		},()=>{
+			this._loadData();
+		});
 	}
 	_loadData(){
 		Ajax({
-			url:'/proposer',
+			url:'/proposer?page=' + this.state.page,
 			method:'GET'
 		}).then((res)=>{
 			this.setState({
-				dataSource:res.datas
+				dataSource:res.datas,
+				totalPage:res.page.totalPage,
+				page:res.page.page
 			})
 		})
 	}
@@ -24,7 +35,12 @@ export default class Proposer extends PureComponent{
 	render(){
 		console.log(this.state.dataSource,'state');
 		return(
-			<Table {...this.state}/>
+			<div>
+				<Table {...this.state}/>
+				{
+					!!this.state.totalPage && <Pagination pageChange={this._pageChange.bind(this)} totalPage={this.state.totalPage} page={this.state.page}/>
+				}
+			</div>
 		)
 	}
 }

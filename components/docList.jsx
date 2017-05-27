@@ -1,21 +1,32 @@
 import React,{PureComponent} from 'react';
 import {Ajax} from './functions/ajax.js';
+import Pagination from './pagination.jsx';
 export default class DocList extends PureComponent{
 	constructor(props) {
 	  super(props);
 	
 	  this.state = {
-	  	list:[]
+		  list:[],
+		  page:1
 	  };
+	}
+	_pageChange(num){
+		this.setState({
+			page:num
+		},()=>{
+			this._loadData();
+		});
 	}
 
 	_loadData(){
 		Ajax({
-			url:'/docs',
+			url:'/docs?page=' + this.state.page,
 			method:'GET'
 		}).then((res)=>{
 			this.setState({
-				list:res.datas
+				list:res.datas,
+				totalPage:res.page.totalPage,
+				page:res.page.page
 			})
 		})
 	}
@@ -54,6 +65,9 @@ export default class DocList extends PureComponent{
 						}
 					</tbody>
 				</table>
+				{
+					!!this.state.totalPage && <Pagination pageChange={this._pageChange.bind(this)} totalPage={this.state.totalPage} page={this.state.page}/>
+				}
 			</div>
 		)
 	}
