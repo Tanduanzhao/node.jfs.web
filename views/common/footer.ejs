@@ -6,15 +6,16 @@
 </div>
 <!--end:footer-->
 <!-- <script type="text/javascript" src="https://cdn.bootcss.com/jquery/1.9.1/jquery.js"></script> -->
-<script src="//unslider.com/unslider.js"></script>
+<script src="/javascripts/unslider-min.js" type="text/javascript"></script>
 <script src="/javascripts/index.js" type="text/javascript"></script>
 <script>
     $(function() {
-        $(".banner").unslider({fluid: true});
-        var unslider = $(".banner").unslider();
-        $('.unslider-arrow').click(function() {
-            var fn = this.className.split(' ')[1];
-            unslider.data('unslider')[fn]();
+        var slider=$(".banner").unslider({autoplay: true,arrows: false});
+        $('.prev').click(function() {
+            slider.unslider('prev');
+        });
+        $('.next').click(function() {
+            slider.unslider('next');
         });
         $(window).resize(function () {
             if($(".banner").width()>=1920){
