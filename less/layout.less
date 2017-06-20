@@ -1238,6 +1238,8 @@
 /*******************query 结果查询**************************/
 .query{
   .idCard{
+    position: relative;
+    display: inline-block;
     font-size: 14px;
     color: #666;
     input{
@@ -1251,16 +1253,31 @@
       border-radius: 4px;
       background: #f9f9f9;
     }
-    .btn{
-      display: inline-block;
-      width: 82px;
-      height: 37px;
-      margin-left: 8px;
-      line-height: 37px;
-      color: #fff;
-      text-align: center;
-      border-radius: 4px;
+    .idCard-prompt{
+      display: none;
+      position: absolute;
+      bottom: -20px;
+      left: 130px;
+      color: #a54f5a;
     }
+  }
+  .btn{
+    display: inline-block;
+    font-size: 14px;
+    width: 82px;
+    height: 37px;
+    margin-left: 8px;
+    line-height: 37px;
+    color: #fff;
+    text-align: center;
+    border-radius: 4px;
+  }
+}
+.query-content{
+  display: none;
+  margin-top: 20px;
+  img{
+    max-width: 100%;
   }
 }
 /*******************health 健康促进**************************/
