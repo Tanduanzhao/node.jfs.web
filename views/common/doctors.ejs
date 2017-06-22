@@ -1,0 +1,45 @@
+<div class="main-rt-content list img-list">
+    <!--<a class="item" href="javascript:void(0)">-->
+        <!--<div class="item-lf-img lf">-->
+            <!--<img class="item-img" src="/images/doctor_img.jpg" alt="">-->
+        <!--</div>-->
+        <!--<div class="item-rt lf">-->
+            <!--<h3 class="item-rt-title">张三</h3>-->
+            <!--<p class="item-rt-p">-->
+                <!--<span class="item-rt-type">简介：</span>-->
+                <!--主任医师，广东省结核病控制中心资深结核病学专家、中华医学会（广东）结核病学分会主任员、从 事结核病的临床诊疗工作30多年-->
+                <!--事结核病的临床诊疗工作30多年，在重症结核病、耐多药结核病、呼吸科疾病、肺部肿瘤等领域具有丰富的-->
+                <!--临床经验。擅长于难治性肺结核病、重症结核病、非结核分枝杆菌肺病、气管支气管结核病及常见呼吸道疾-->
+                <!--病的诊治。是广东省结核病诊疗领域的权威专家。-->
+            <!--</p>-->
+        <!--</div>-->
+    <!--</a>-->
+</div>
+<script>
+    function getData() {
+        $.ajax({
+            url: '/doctors',
+            method: 'GET',
+            success: function (res) {
+                if (res.status == 1) {
+                    var datas =toJson(parseXML(res.datas.string._))
+                    var list = '';
+                    $.each(datas.res.doctorInfo, function (i, item) {
+                        list += '<a class="item" href="javascript:void(0)">';
+                        if(typeof item.img == 'undefined' || item.img == ""){
+                            list +='<div class="item-lf-img defImg lf">';
+                        }else{
+                            list += '<img class="item-img" src='+item.img+'>';
+                        }
+                        list += '</div><div class="item-rt lf">';
+                        list += '<h3 class="item-rt-title">'+item.doctorName+'</h3><p class="item-rt-p">';
+                        list += ' <span class="item-rt-type">简介：</span>'+item.desc;
+                        list += ' </p> </div> </a>';
+                    })
+                    $('.list').append(list);
+                }
+            }
+        })
+    }
+    getData();
+</script>

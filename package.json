@@ -37,6 +37,7 @@
     "gulp": "^3.9.1",
     "gulp-less": "^3.3.0",
     "gulp-minify-css": "^1.2.4",
+    "iconv-lite": "^0.4.18",
     "jsx": "^0.9.89",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
