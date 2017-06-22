@@ -2,8 +2,8 @@
     <div class="main-rt-content">
        <div class="outpatient">
            门诊科室：
-           <select>
-               <option value="">全部</option>
+           <select class="deptInfo">
+               <!--<option value="">全部</option>-->
            </select>
        </div>
        <div class="main-rt-content-tab">
@@ -17,93 +17,85 @@
                 <a class="tab-last" href="javascript:void(0)">星期日</a>
             </div>
            <div class="wrap">
-               <table class="table">
-                   <thead>
-                   <tr>
-                       <th class="th-width">科室</th>
-                       <th class="th-width">医师</th>
-                       <th>职称</th>
-                   </tr>
-                   </thead>
-                   <tbody>
-                   <tr>
-                       <td>呼吸科</td>
-                       <td>马志明</td>
-                       <td>广东省结核病控制中心门诊部医师</td>
-                   </tr>
-                   <tr>
-                       <td>呼吸科</td>
-                       <td>马志明</td>
-                       <td>广东省结核病控制中心门诊部医师</td>
-                   </tr>
-                   <tr>
-                       <td>呼吸科</td>
-                       <td>马志明</td>
-                       <td>广东省结核病控制中心门诊部医师</td>
-                   </tr>
-                   <tr>
-                       <td>呼吸科</td>
-                       <td>马志明</td>
-                       <td>广东省结核病控制中心门诊部医师</td>
-                   </tr>
-                   <tr>
-                       <td>呼吸科</td>
-                       <td>马志明</td>
-                       <td>广东省结核病控制中心门诊部医师</td>
-                   </tr>
-                   <tr>
-                       <td>呼吸科</td>
-                       <td>马志明</td>
-                       <td>广东省结核病控制中心门诊部医师</td>
-                   </tr>
-                   <tr>
-                       <td>呼吸科</td>
-                       <td>马志明</td>
-                       <td>广东省结核病控制中心门诊部医师</td>
-                   </tr>
-                   <tr>
-                       <td>呼吸科</td>
-                       <td>马志明</td>
-                       <td>广东省结核病控制中心门诊部医师</td>
-                   </tr>
-                   <tr>
-                       <td>呼吸科</td>
-                       <td>马志明</td>
-                       <td>广东省结核病控制中心门诊部医师</td>
-                   </tr>
-                   <tr>
-                       <td>呼吸科</td>
-                       <td>马志明</td>
-                       <td>广东省结核病控制中心门诊部医师</td>
-                   </tr>
-                   <tr>
-                       <td>呼吸科</td>
-                       <td>马志明</td>
-                       <td>广东省结核病控制中心门诊部医师</td>
-                   </tr>
-                   <tr>
-                       <td>呼吸科</td>
-                       <td>马志明</td>
-                       <td>广东省结核病控制中心门诊部医师</td>
-                   </tr>
-                   <tr>
-                       <td>呼吸科</td>
-                       <td>马志明</td>
-                       <td>广东省结核病控制中心门诊部医师</td>
-                   </tr>
-                   <tr>
-                       <td>呼吸科</td>
-                       <td>马志明</td>
-                       <td>广东省结核病控制中心门诊部医师</td>
-                   </tr>
-                   <tr>
-                       <td>呼吸科</td>
-                       <td>马志明</td>
-                       <td>广东省结核病控制中心门诊部医师</td>
-                   </tr>
-                   </tbody>
-               </table>
            </div>
        </div>
     </div>
 </div>
+<script>
+  function timestamp(time) {
+        var timestamp = new Date(time);
+        return timestamp.toLocaleDateString().replace(/\//g, "-");
+    }
+    function getDay(){
+        $(".visits .tabs a").siblings().removeClass("active");
+        if(new Date().getDay()-1 < 0){
+            $(".visits .tabs a").last().addClass("active");
+            return false;
+        }
+        $(".visits .tabs a").eq(new Date().getDay()-1).addClass("active")
+        getDeptInfo();
+    }
+    $(".visits .tabs a").click(function () {
+        if ($(this).hasClass("active")) return false;
+        $(this).addClass("active").siblings().removeClass("active");
+        var now=new Date(),time=new Date();
+        time.setDate(now.getDate()-now.getDay()+1+$(this).index());
+        time=time.getFullYear() + "-" + (time.getMonth()+1) + "-" + time.getDate();
+        $(".visits .wrap .tab-content").hide().eq($(this).index()).show();
+        getRegInfo('/getRegInfo?time='+time+'&&id='+$(".deptInfo").val())
+    });
+    $(".deptInfo").change(function(){
+        var now=new Date(),time=new Date();
+        time.setDate(now.getDate()-now.getDay()+1+$(".visits .tabs a.active").index());
+        time=time.getFullYear() + "-" + (time.getMonth()+1) + "-" + time.getDate();
+        getRegInfo('/getRegInfo?time='+time+'&&id='+$(".deptInfo").val())
+    })
+  function getDeptInfo(){
+      $.ajax({
+          url:'/getDeptInfo',
+          method: 'GET',
+          success: function (res) {
+              var datas =toJson(parseXML(res.datas.string._))
+              var deptInfo="";
+              if(typeof datas.res.deptInfo == "object"){
+                  deptInfo+='<option value='+datas.res.deptInfo.deptId+'>'+datas.res.deptInfo.deptName+'</option>'
+              }else{
+                  $.each(datas.res.deptInfo, function (i,item) {
+                      deptInfo+='<option value='+item.deptId+'>'+item.deptName+'</option>'
+                  });
+              }
+              $(".deptInfo").append(deptInfo);
+              getRegInfo('/getRegInfo?time='+timestamp(new Date())+'&&id='+$(".deptInfo").val())
+          }
+      })
+  }
+    function getRegInfo(url){
+        $.ajax({
+            url: url,
+            method: 'GET',
+            success: function (res) {
+                var datas =toJson(parseXML(res.datas.string._))
+                var regInfo="";
+                console.log(datas)
+               if(typeof datas.res.ErrorCode != "undefined" && datas.res.ErrorCode ==14){
+                    console.log(datas.res.resultDesc)
+                     regInfo+=('<img  src="/images/unlogin.png" class="unlogin">');
+               }else{
+                   if(typeof datas.res.regInfo == "object"){
+                       regInfo+='<table class="table"> <thead> <tr> <th class="th-width">科室</th> <th class="th-width">医师</th> <th>职称</th> </tr> </thead> <tbody>'
+                       regInfo+='<tr><td>'+$('.deptInfo option:selected').text()+'</td> <td>'+datas.res.regInfo.doctorName+'</td> <td>'+datas.res.regInfo.doctorTitle+'</td> </tr>'
+                       regInfo+='</tbody></table>'
+                   }else{
+                       regInfo+='<table class="table"> <thead> <tr> <th class="th-width">科室</th> <th class="th-width">医师</th> <th>职称</th> </tr> </thead> <tbody>'
+                       $.each(datas.res.regInfo, function(i,item) {
+                           regInfo+='<tr><td>'+$('.deptInfo option:selected').text()+'</td> <td>'+item.doctorName+'</td> <td>'+item.doctorTitle+'</td> </tr>'
+                       });
+                       regInfo+='</tbody></table>'
+                   }
+               }
+                $(".wrap").html(regInfo);
+            }
+        })
+    }
+    getDay()
+</script>

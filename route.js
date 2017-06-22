@@ -117,6 +117,9 @@ module.exports = function(app) {
         .get('/services',services.list)
         //获取医生列表
         .get('/doctors',services.doctors)
+        //获取医生列表
+        .get('/getRegInfo',services.getRegInfo)
+        .get('/getDeptInfo',services.getDeptInfo)
         //获取科研队伍分类介绍
         .get('/scientificTeam',scientific.team)
         .get('/scientificItem',scientific.item)
