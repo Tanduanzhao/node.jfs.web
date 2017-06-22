@@ -20,17 +20,13 @@
                }
             %>
             <% typeList.forEach(function(item){ %>
-                <a class="main-lf-item <% if(isInItem(item)){ %>active<% } %>" <%if(!item.children || !item.children.length){%> href="/info/<%=item._id%><%if(item.type=='article'){%>?type=article<%}%> <%}%>"><%= item.name%></a>
+                <a class="main-lf-item <% if(isInItem(item)){ %>active<% } %>"<%if(item.type=='link'){%> href="<%= item.link%>" target="_blank" <%}else if(!item.children || !item.children.length){%>href="/info/<%=item._id%><%if(item.type=='article'){%>?type=article<%}else if(item.type=='page'){%>?type=page&path=<%= item.page%><%}}%>">
+                    <%= item.name%>
+                </a>
                 <%if(item.children && !!item.children.length){%>
                     <div class="main-lf-sub-List">
-                        <% function isSubItem(item){
-                            if(item._id.toString()===active._id.toString()){
-                                return true;
-                            }
-                        }
-                        %>
                         <% item.children.forEach(function(item){%>
-                            <a class="main-lf-sub-item <% if(isSubItem(item)){ %>sub-active<% } %>" href="/info/<%= item._doc._id%><% if(item._doc._id =='58e45595ae3484063bc2b6b5'){ %>?type=nav<%}%><%if(item.type=='article'){%>?type=article<%}%>"><%= item.name%></a>
+                            <a class="main-lf-sub-item" <%if(item.type=='link'){%> href="<%= item.link%>"<%}else{%> href="/info/<%= item._doc._id%><% if(item._doc._id =='58e45595ae3484063bc2b6b5'){ %>?type=nav<%}%><%if(item.type=='article'){%>?type=article<%}}%>"><%= item.name%></a>
                         <%})%>
                     </div>
                 <%}%>
@@ -43,18 +39,8 @@
             <h3 class="main-rt-title">
                 <p class="title-text"><%= active.name%></p>
             </h3>
-            <% if(typeof(childrenType)== 'undefined'){ %>
-                <% include ./common/list %>
-                <% include ./common/pagnation %>
-            
-            <% }else if(childrenType == 'post'){ %>
-                <% include ./common/post %>
-            <%}else if(childrenType == 'article'){%>
-                <% include ./common/post %>
-            <%}else{%>
-                <% include ./common/nav_list %>
-            <% }%>
-            
+            <%- include('./common/content') %>
+
         </div>
     </div>
 </div>

@@ -17,7 +17,8 @@ const Post = new mongoose.Schema({
 	discription:String,
 	typeId:{type:mongoose.Schema.Types.ObjectId,ref:"type"},//文章所属分类Id，关联type表
 	keywords:String,//文章关键字
-	form:String
+	form:String,
+	outDate:Date//过期时间
 })
 
-module.exports = mongoose.model('archives',Post);
+module.exports = mongoose.model('post',Post);

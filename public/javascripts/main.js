@@ -29310,7 +29310,8 @@ var PostAdd = function (_Component) {
 			discription: '',
 			classify: [],
 			showDropdown: false,
-			defaultCategoryName: '未分类'
+			defaultCategoryName: '未分类',
+			outDate: ''
 		};
 		_this._getSinglePost = _this._getSinglePost.bind(_this);
 		_this._titleOnchange = _this._titleOnchange.bind(_this);
@@ -29361,7 +29362,8 @@ var PostAdd = function (_Component) {
 					fileId: this.state.fileId ? [this.state.fileId] : null,
 					keywords: this.state.keywords,
 					type: this.refs.type.value,
-					discription: this.state.discription
+					discription: this.state.discription,
+					outDate: this.state.outDate === '' ? null : this.state.outDate
 				}
 			}).then(function (res) {
 				if (res.status === 0) {
@@ -29388,7 +29390,8 @@ var PostAdd = function (_Component) {
 					fileId: this.state.fileId ? [this.state.fileId] : null,
 					keywords: this.state.keywords,
 					type: this.refs.type.value,
-					discription: this.state.discription
+					discription: this.state.discription,
+					outDate: this.state.outDate === '' ? null : this.state.outDate
 				}
 			}).then(function (res) {
 				if (!!res.status) {
@@ -29445,6 +29448,11 @@ var PostAdd = function (_Component) {
 				keywords: this.refs.keywords.value
 			});
 		}
+	}, {
+		key: '_outDateOnchange',
+		value: function _outDateOnchange() {
+			console.log(this.refs.outDate.value);
+		}
 		//请求问固定ID文章
 
 	}, {
@@ -29480,6 +29488,11 @@ var PostAdd = function (_Component) {
 							discription: res.datas.discription
 						});
 					}
+					if (!!res.datas.outDate) {
+						_this6.setState({
+							outDate: res.datas.outDate
+						});
+					}
 					_this6.ue.ready(_this6._setContent(res.datas.content));
 				} else {
 					alert(res.message);
@@ -29505,6 +29518,8 @@ var PostAdd = function (_Component) {
 	}, {
 		key: 'componentDidMount',
 		value: function componentDidMount() {
+			var _this8 = this;
+
 			this.ue = UE.getEditor(this.state.id);
 			this.getAllCategory();
 			if (this.props.params.id) {
@@ -29512,11 +29527,21 @@ var PostAdd = function (_Component) {
 			} else {
 				this._getClassify();
 			};
+
+			this.datepicker = UIkit.datepicker(this.refs.outDate, {
+				format: 'YYYY-MM-DD'
+			});
+
+			this.datepicker.on('hide.uk.datepicker', function () {
+				_this8.setState({
+					outDate: _this8.refs.outDate.value
+				});
+			});
 		}
 	}, {
 		key: '_uploadThumbnail',
 		value: function _uploadThumbnail() {
-			var _this8 = this;
+			var _this9 = this;
 
 			var item = this.refs.imgUrl.files[0];
 			var newFile = new FormData();
@@ -29526,7 +29551,7 @@ var PostAdd = function (_Component) {
 				type: 'file',
 				body: newFile
 			}).then(function (res) {
-				_this8.setState({
+				_this9.setState({
 					imgUrl: res.datas.path
 				});
 			});
@@ -29534,7 +29559,7 @@ var PostAdd = function (_Component) {
 	}, {
 		key: '_uploadfile',
 		value: function _uploadfile() {
-			var _this9 = this;
+			var _this10 = this;
 
 			var item = this.refs.file.files[0];
 			var newFile = new FormData();
@@ -29544,7 +29569,7 @@ var PostAdd = function (_Component) {
 				type: 'file',
 				body: newFile
 			}).then(function (res) {
-				_this9.setState({
+				_this10.setState({
 					file: res.datas,
 					fileId: [res.datas.id]
 				});
@@ -29608,7 +29633,7 @@ var PostAdd = function (_Component) {
 	}, {
 		key: '_renderNavs',
 		value: function _renderNavs(lists) {
-			var _this10 = this;
+			var _this11 = this;
 
 			if (lists.length == 0) return [];
 			var nodeLists = [];
@@ -29622,13 +29647,13 @@ var PostAdd = function (_Component) {
 						item.name
 					) : _react2.default.createElement(
 						'div',
-						{ onClick: _this10._toggleType.bind(_this10, item._id, item.name) },
+						{ onClick: _this11._toggleType.bind(_this11, item._id, item.name) },
 						item.name
 					),
 					item.children.length != 0 ? _react2.default.createElement(
 						'ul',
 						null,
-						_this10._renderNavs(item.children)
+						_this11._renderNavs(item.children)
 					) : null
 				));
 			});
@@ -29685,6 +29710,16 @@ var PostAdd = function (_Component) {
 							)
 						),
 						_react2.default.createElement('input', { ref: 'keywords', onChange: this._keywordsOnchange.bind(this), value: this.state.keywords, className: 'uk-form-input uk-form-width-large', type: 'text' })
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: 'uk-form-row' },
+						_react2.default.createElement(
+							'label',
+							{ className: 'uk-form-label' },
+							'\u6709\u6548\u671F'
+						),
+						_react2.default.createElement('input', { ref: 'outDate', onChange: this._outDateOnchange.bind(this), value: this.state.outDate, className: 'uk-form-input', type: 'text' })
 					),
 					_react2.default.createElement(
 						'div',
