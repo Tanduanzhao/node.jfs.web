@@ -58,7 +58,7 @@
               var datas =toJson(parseXML(res.datas.string._))
               var deptInfo="";
               if(typeof datas.res.deptInfo == "object"){
-                  deptInfo+='<option value='+datas.res.deptInfo.deptId+'>'+datas.res.deptInfo.deptName+'</option>'
+                    deptInfo+='<option value='+datas.res.deptInfo.deptId+'>'+datas.res.deptInfo.deptName+'</option>'
               }else{
                   $.each(datas.res.deptInfo, function (i,item) {
                       deptInfo+='<option value='+item.deptId+'>'+item.deptName+'</option>'
