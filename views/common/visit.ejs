@@ -55,17 +55,19 @@
           url:'/getDeptInfo',
           method: 'GET',
           success: function (res) {
-              var datas =toJson(parseXML(res.datas.string._))
-              var deptInfo="";
-              if(typeof datas.res.deptInfo == "object"){
-                  deptInfo+='<option value='+datas.res.deptInfo.deptId+'>'+datas.res.deptInfo.deptName+'</option>'
-              }else{
-                  $.each(datas.res.deptInfo, function (i,item) {
-                      deptInfo+='<option value='+item.deptId+'>'+item.deptName+'</option>'
-                  });
+              if(res.status === 1){
+                  var datas =toJson(parseXML(res.datas.string._))
+                  var deptInfo="";
+                  if(typeof datas.res.deptInfo == "object"){
+                      deptInfo+='<option value='+datas.res.deptInfo.deptId+'>'+datas.res.deptInfo.deptName+'</option>'
+                  }else{
+                      $.each(datas.res.deptInfo, function (i,item) {
+                          deptInfo+='<option value='+item.deptId+'>'+item.deptName+'</option>'
+                      });
+                  }
+                  $(".deptInfo").append(deptInfo);
+                  getRegInfo('/getRegInfo?time='+timestamp(new Date())+'&&id='+$(".deptInfo").val())
               }
-              $(".deptInfo").append(deptInfo);
-              getRegInfo('/getRegInfo?time='+timestamp(new Date())+'&&id='+$(".deptInfo").val())
           }
       })
   }
