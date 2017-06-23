@@ -29,8 +29,10 @@ module.exports = {
 			,headers:{'Accept-Charset':'utf-8'}
 		},(err,respones,body)=>{
 			parseString(body,{explicitArray : false},function(err,result){
-				res.locals.status = 1;
-				res.locals.datas = result;
+				if(typeof result != "undefined" &&  result != ""){
+					res.locals.status = 1;
+					res.locals.datas = result;
+				}
 				next();
 			})
 		})
@@ -40,8 +42,10 @@ module.exports = {
 		regInfoUrl="http://192.168.1.234/Default.asmx/getDeptInfo?Request=<req><hospitalId>31</hospitalId><deptId></deptId><deptType></deptType></req>";
 		request(regInfoUrl,(err,respones,body)=>{
 			parseString(body,{explicitArray : false},function(err,result){
-				res.locals.datas={};
-				res.locals.datas=result;
+				if(typeof result != "undefined" &&  result != ""){
+					res.locals.status=1;
+					res.locals.datas=result;
+				}
 				next();
 			})
 		})
@@ -50,8 +54,10 @@ module.exports = {
 		var deptInfoTodayUrl='http://192.168.1.234/Default.asmx/getRegInfo?Request=<req><hospitalId>31</hospitalId><deptId>'+req.query.id+'</deptId><doctorId /><startDate>'+req.query.time+'</startDate><endDate>'+req.query.time+'</endDate></req>';
 		request(deptInfoTodayUrl,(err,respones,body)=>{
 			parseString(body,{explicitArray : false},function(err,result){
-				res.locals.status = 1;
-				res.locals.datas=result;
+				if(typeof result != "undefined" &&  result != ""){
+					res.locals.status=1;
+					res.locals.datas=result;
+				}
 				next();
 			})
 		})

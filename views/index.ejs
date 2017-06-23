@@ -313,27 +313,44 @@
                 if(res.status == 1){
                     var datas =toJson(parseXML(res.datas.string._))
                     var list='';
-                    $.each(datas.res.doctorInfo, function (i,item) {
-                        if(i<4){
-                            if(i%2 == 0){
-                                list+= '<div class="md-list"> ';
-                            }
-                            list+= '<div class="md-item lf"> <div class="item-lf-img lf"> ';
-                            if(typeof item.img == 'undefined' || item.img == ""){
+                    if(typeof datas.res.doctorInfo == "object"){
+                        list+= '<div class="md-list"> ';
+                        list+= '<div class="md-item lf"> <div class="item-lf-img lf"> ';
+                            if(typeof datas.res.doctorInfo.picturePath == 'undefined' || datas.res.doctorInfo.picturePath == ""){
                                 list+='<div class="item-img-box defImg">';
                             }else{
-                                list+= '<div class="item-img-box"><img class="item-img" src='+item.img+' alt="">';
+                                list+= '<div class="item-img-box"><img class="item-img" src='+datas.res.doctorInfo.picturePath+' alt="">';
                             }
-                            list+=  ' </div></div><div class="md-item-rt lf">';
-                            list+=  '<h4 class="name">'+item.doctorName+'</h4>';
-                            list+=  '<div class="item-info">'+item.doctorTitle+'</div>'
-                            list+=  '<div class="item-info"> 科室：'+item.deptName+'</div>'
-                            list+= '<a class="btn" href="/service/58fdc89d642663116fc5122e?type=page&path=doctors">简介详情</a> </div> </div>'
-                            if((i+1)%2 == 0){
-                                list+= '</div>'
-                            }
+                        list+=  ' </div></div><div class="md-item-rt lf">';
+                        list+=  '<h4 class="name">'+datas.res.doctorInfo.doctorName+'</h4>';
+                        list+=  '<div class="item-info">'+datas.res.doctorInfo.doctorTitle+'</div>'
+                        list+=  '<div class="item-info"> 科室：'+datas.res.doctorInfo.deptName+'</div>'
+                        list+= '<a class="btn" href="/service/58fdc89d642663116fc5122e?type=page&path=doctors">简介详情</a> </div> </div>'
+                        list+= '</div>'
                         }
-                    });
+                    }else {
+                        $.each(datas.res.doctorInfo, function (i,item) {
+                            if(i<4){
+                                if(i%2 == 0){
+                                    list+= '<div class="md-list"> ';
+                                }
+                                list+= '<div class="md-item lf"> <div class="item-lf-img lf"> ';
+                                if(typeof item.picturePath == 'undefined' || item.picturePath == ""){
+                                    list+='<div class="item-img-box defImg">';
+                                }else{
+                                    list+= '<div class="item-img-box"><img class="item-img" src='+item.picturePath+' alt="">';
+                                }
+                                list+=  ' </div></div><div class="md-item-rt lf">';
+                                list+=  '<h4 class="name">'+item.doctorName+'</h4>';
+                                list+=  '<div class="item-info">'+item.doctorTitle+'</div>'
+                                list+=  '<div class="item-info"> 科室：'+item.deptName+'</div>'
+                                list+= '<a class="btn" href="/service/58fdc89d642663116fc5122e?type=page&path=doctors">简介详情</a> </div> </div>'
+                                if((i+1)%2 == 0){
+                                    list+= '</div>'
+                                }
+                            }
+                        });
+                    }
                     $('.jyfw-lf').append(list);
 
                 }
