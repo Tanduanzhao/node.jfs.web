@@ -1,8 +1,7 @@
 <% if(typeof(childrenType)== 'undefined' || childrenType == 'list' ){ %>
     <% include list %>
     <% include pagnation %>
-
-<% }else if(childrenType == 'post'){ %>
+<% }else if(childrenType == 'post' || childrenType == 'article'){ %>
     <% include post %>
 <%}else if(childrenType == 'page'){%>
 	<% if(path){%>

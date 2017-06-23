@@ -51,7 +51,7 @@ module.exports = {
 		if(!obj._doc){
 			obj.publishDate = moment(obj.publishDate).format('YYYY-MM-DD');
 		}else{
-			
+
 			obj._doc.publishDate = moment(obj.publishDate).format('YYYY-MM-DD');
 		}
 		return obj;
@@ -175,11 +175,11 @@ module.exports = {
 		return new Promise(function(resolve,reject){
 			post
 				.count()
-				.where({typeId:id})
+				.where({$and:[{typeId:id},{$or:[{outDate:{$gte:new Date()}},{outDate:null}]}]})
 				.exec(function(err,total){
 					post
 						.find()
-						.where({typeId:id})
+						.where({$and:[{typeId:id},{$or:[{outDate:{$gte:new Date()}},{outDate:null}]}]})
 						.select('_id title publishDate')
 						.sort({publishDate:-1})
 						.limit(size)
@@ -196,11 +196,11 @@ module.exports = {
 		return new Promise(function(resolve,reject){
 			post
 				.count()
-				.where({typeId:{"$in":ids}})
+				.where({$and:[{typeId:{"$in":ids}},{$or:[{outDate:{$gte:new Date()}},{outDate:null}]}]})
 				.exec(function(err,total){
 					post
 						.find()
-						.where({typeId:{"$in":ids}})
+						.where({$and:[{typeId:{"$in":ids}},{$or:[{outDate:{$gte:new Date()}},{outDate:null}]}]})
 						.select('_id title publishDate type files imgUrl discription')
 						.sort({publishDate:-1})
 						.populate('files')
@@ -233,7 +233,7 @@ module.exports = {
 					}else{
 						callback();
 					}
-					
+
 				})
 		}
 		return new Promise(function(_r,_s){
@@ -242,14 +242,14 @@ module.exports = {
 				if(!!t){
 					clearTimeout(t);
 				}
-				t = setTimeout(()=>_r(_idArr),10);	
+				t = setTimeout(()=>_r(_idArr),10);
 			})
 		})
-		
+
 
 	},
 	nav:function(){
-		
+
 
 		return new Promise((res,rej)=>{
 			type.find()

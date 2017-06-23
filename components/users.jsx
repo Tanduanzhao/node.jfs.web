@@ -6,7 +6,7 @@ const moment = require('moment');
 export default class Users extends PureComponent{
 	constructor(props) {
 	  super(props);
-	
+
 	  this.state = {
 	  	dataSources:[],
 	  	page:1,
@@ -15,7 +15,7 @@ export default class Users extends PureComponent{
 	}
 	_loadUserList(){
 		Ajax({
-			url:`admin/users?page=${this.state.page}`,
+			url:`/admin/users?page=${this.state.page}`,
 			method:'GET'
 		}).then((res)=>{
 			this.setState({

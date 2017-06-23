@@ -33,6 +33,8 @@ const total = require('./routes/total.js');
 
 const Post = require('./model/post.js');
 
+const laws = require('./routes/laws.js');
+
 /* GET home page. */
 module.exports = function(app) {
     app
@@ -138,7 +140,7 @@ module.exports = function(app) {
         .get('/total/doc',total.doc)
           //--获取文章统计excel
         .get('/download/:date',total.docExcel)
-
+        .get('/laws',laws)
         //微门户
         .get('/ww',function(req,res,next){
             res.render('ww');

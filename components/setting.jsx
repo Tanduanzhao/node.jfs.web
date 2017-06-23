@@ -3,7 +3,7 @@ import {Ajax} from './functions/ajax.js';
 export default class Setting extends PureComponent{
 	constructor(props) {
 	  super(props);
-	
+
 	  this.state = {
 	  	webSite:'',
 	  	keywords:'',
@@ -14,7 +14,7 @@ export default class Setting extends PureComponent{
 
 	_loadDate(){
 		Ajax({
-			url:'admin/setting',
+			url:'/admin/setting',
 			method:'GET'
 		}).then((res)=>{
 			if(!!res.datas){
@@ -47,7 +47,7 @@ export default class Setting extends PureComponent{
 
 	_updateDate(){
 		Ajax({
-			url:'admin/setting',
+			url:'/admin/setting',
 			method:'PUT',
 			datas:{
 				webSite:this.state.webSite,

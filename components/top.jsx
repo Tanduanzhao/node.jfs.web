@@ -3,7 +3,7 @@ import {Ajax} from './functions/ajax.js';
 export default class Top extends PureComponent{
 	_loginOut(){
 		Ajax({
-			url:'admin/loginOut'
+			url:'/admin/loginOut'
 		}).then((res)=>{
 			this.props.router.replace('/login');
 		})

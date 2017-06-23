@@ -3,7 +3,7 @@ import {Ajax} from './functions/ajax.js';
 export default class UserEdit extends PureComponent{
 	constructor(props) {
 	  super(props);
-	
+
 	  this.state = {
 	  	username:'',
 	  	password:'',
@@ -12,7 +12,7 @@ export default class UserEdit extends PureComponent{
 	}
 	_loadUser(){
 		Ajax({
-			url:`admin/user/${this.props.params.id}`,
+			url:`/admin/user/${this.props.params.id}`,
 			method:'GET'
 		}).then((res)=>{
 			console.log(res);
@@ -24,7 +24,7 @@ export default class UserEdit extends PureComponent{
 	}
 	_addUser(){
 		Ajax({
-			url:'admin/user',
+			url:'/admin/user',
 			datas:{
 				username:this.state.username,
 				password:this.state.password,
@@ -38,7 +38,7 @@ export default class UserEdit extends PureComponent{
 	}
 	_updateUser(){
 		Ajax({
-			url:`admin/user/${this.props.params.id}`,
+			url:`/admin/user/${this.props.params.id}`,
 			method:'POST',
 			datas:{
 				username:this.state.username,

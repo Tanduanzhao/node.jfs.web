@@ -15,7 +15,7 @@ export default class PostList extends PureComponent{
 	}
 	_delAction(id){
 		Ajax({
-			url:`admin/post/${id}`,
+			url:`/admin/post/${id}`,
 			method:'DELETE'
 		}).then((res)=>{
 			if(!res.status){
@@ -35,7 +35,7 @@ export default class PostList extends PureComponent{
 		});
 	}
 	_loadPostList(){
-		let url= 'admin/post?page=' + this.state.page+'&searchValue='+this.refs.searchArticle.value;
+		let url= '/admin/post?page=' + this.state.page+'&searchValue='+this.refs.searchArticle.value;
 		if(this.state.categoryId!=undefined){
 			url += '&cid='+this.state.categoryId
 		}

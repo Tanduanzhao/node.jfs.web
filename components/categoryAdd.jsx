@@ -3,7 +3,7 @@ import {Ajax} from './functions/ajax.js';
 export default class CategoryAdd extends Component{
 	constructor(props) {
 	  super(props);
-	
+
 	  this.state = {
 	  	ue:null,
 	  	imgUrl:null,
@@ -35,7 +35,7 @@ export default class CategoryAdd extends Component{
 
 	getSingleCategory(){
 		Ajax({
-			url:`admin/category/${this.props.params.id}`,
+			url:`/admin/category/${this.props.params.id}`,
 			method:'GET'
 		}).then((res)=>{
 			if(!!res.status){
@@ -54,10 +54,10 @@ export default class CategoryAdd extends Component{
 						if(!!res.datas.article){
 							this.state.ue.setContent(res.datas.article);
 						}
-						
+
 						this.state.ue.show();
 					})
-					
+
 
 				}
 			}else{
@@ -67,7 +67,7 @@ export default class CategoryAdd extends Component{
 	}
 	getClassify(){
 		Ajax({
-			url:'classify',
+			url:'/classify',
 			method:'GET'
 		}).then((res)=>{
 			if(!!res.status){
@@ -104,7 +104,7 @@ export default class CategoryAdd extends Component{
 	}
 	updateAction(){
 		Ajax({
-			url:`admin/category/${this.props.params.id}`,
+			url:`/admin/category/${this.props.params.id}`,
 			method:'post',
 			datas:{
 				title:this.state.name,
@@ -254,7 +254,7 @@ export default class CategoryAdd extends Component{
 						{
 							<script id={this.state.ueditorId} style={{width:'100%',height:'400px'}}></script>
 						}
-						
+
 					</div>
 					<div className="uk-form-row">
 						{

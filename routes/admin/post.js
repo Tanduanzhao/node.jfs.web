@@ -1,8 +1,10 @@
 const Post = require('../../model/post.js');
 const Type = require('../../model/type.js');
 const Classify = require('../../model/classify.js');
+const moment = require('moment');
 module.exports = {
 	list:function(req, res, next) {
+		console.log(1);
         let page = new Number(req.query.page) || 1,obj={},newArr=[],searchTotal=0,total=0,searchId;
         const pageSize = 20;
 				let search = Post;
@@ -47,6 +49,7 @@ module.exports = {
             searchId= {name: {$regex:req.query.searchValue}}
         }
        getIdByType(searchId).then((result)=>{
+		   console.log(2);
             if( typeof req.query.searchValue == 'undefined' || req.query.searchValue == ''){
                 obj = null;
             }else{
@@ -54,9 +57,11 @@ module.exports = {
             }
             return totalSearch(obj);
         }).then((count)=>{
+			console.log(3);
              searchTotal = count;
            return totalPost()
        }).then((count)=>{
+		   console.log('result');
             search.find().where(obj).limit(pageSize).skip((page - 1) * pageSize).populate('typeId', "_id name").sort({_id:-1}).exec(function(err, result) {
                 if (err) {
                     console.log(err);
@@ -86,6 +91,8 @@ module.exports = {
                 res.locals.message = '查询文章失败!';
             } else {
                 res.locals.status = 1;
+				result = result.toObject();
+				result.outDate = moment(result.outDate).format('YYYY-MM-DD');
                 res.locals.datas = result;
                 res.locals.message = '查询文章成功';
             }
@@ -94,6 +101,7 @@ module.exports = {
             if(err){
                 console.log('查询分类出错!');
             }else{
+
                 res.locals.classify = result;
             }
         })
@@ -116,6 +124,9 @@ module.exports = {
         if(req.body.fileId){
             newPost.files = [req.body.fileId]
         }
+		if(req.body.outDate){
+			newPost.outDate = new Date(req.body.outDate)
+		}
         const post = new Post(newPost);
         post.save(function(err, result) {
             if (err) {
@@ -143,6 +154,10 @@ module.exports = {
         if(req.body.fileId){
             newPost.files = [req.body.fileId]
         }
+		if(req.body.outDate){
+			newPost.outDate = new Date(req.body.outDate)
+		}
+		console.log(newPost);
         Post.update({
             _id: req.params.id
         }, {

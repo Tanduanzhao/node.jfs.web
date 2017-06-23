@@ -62,7 +62,9 @@ module.exports = {
         next();
     },
     has:function(req, res, next) {
+        console.log('enter');
         if (!req.session.username) {
+            console.log('no');
             // res.locals.message = '用户没登录!';
         } else {
             res.locals.status = 1;

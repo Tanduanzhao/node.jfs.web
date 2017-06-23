@@ -4,7 +4,6 @@ import {Ajax} from './functions/ajax.js';
 export default class PostAdd extends Component{
 	constructor(props) {
 	  super(props);
-
 	  this.state = {
 	  	id:'edit',
 	  	imgUrl:null,
@@ -16,7 +15,8 @@ export default class PostAdd extends Component{
 	  	discription:'',
 	  	classify:[],
 		showDropdown:false,
-		defaultCategoryName:'未分类'
+		defaultCategoryName:'未分类',
+		outDate:''
 	  };
 	  this._getSinglePost = this._getSinglePost.bind(this);
 	  this._titleOnchange = this._titleOnchange.bind(this);
@@ -55,7 +55,8 @@ export default class PostAdd extends Component{
 				fileId:(this.state.fileId ? [this.state.fileId] : null),
 				keywords:this.state.keywords,
 				type:this.refs.type.value,
-				discription:this.state.discription
+				discription:this.state.discription,
+				outDate:this.state.outDate === '' ? null : this.state.outDate
 			}
 		}).then((res)=>{
 			if(res.status === 0){
@@ -68,7 +69,7 @@ export default class PostAdd extends Component{
 	}
 	updateAction(){
 		Ajax({
-			url:`admin/post/${this.props.params.id}`,
+			url:`/admin/post/${this.props.params.id}`,
 			method:'POST',
 			datas:{
 				title:this.state.title,
@@ -78,7 +79,8 @@ export default class PostAdd extends Component{
 				fileId:(this.state.fileId ? [this.state.fileId] : null),
 				keywords:this.state.keywords,
 				type:this.refs.type.value,
-				discription:this.state.discription
+				discription:this.state.discription,
+				outDate:this.state.outDate === '' ? null : this.state.outDate
 			}
 		}).then((res)=>{
 			if(!!res.status){
@@ -123,6 +125,9 @@ export default class PostAdd extends Component{
 			keywords:this.refs.keywords.value
 		})
 	}
+	_outDateOnchange(){
+		console.log(this.refs.outDate.value);
+	}
 	//请求问固定ID文章
 	_getSinglePost(){
 		Ajax({
@@ -153,6 +158,11 @@ export default class PostAdd extends Component{
 						discription:res.datas.discription
 					})
 				}
+				if(!!res.datas.outDate){
+					this.setState({
+						outDate:res.datas.outDate
+					})
+				}
 				this.ue.ready(this._setContent(res.datas.content))
 			}else{
 				alert(res.message);
@@ -161,7 +171,7 @@ export default class PostAdd extends Component{
 	}
 	_getClassify(){
 		Ajax({
-			url:'classify',
+			url:'/classify',
 			method:'GET'
 		}).then((res)=>{
 			if(!!res.status){
@@ -180,6 +190,16 @@ export default class PostAdd extends Component{
 		}else{
 			this._getClassify();
 		};
+
+		this.datepicker = UIkit.datepicker(this.refs.outDate,{
+			format:'YYYY-MM-DD'
+		});
+
+		this.datepicker.on('hide.uk.datepicker',()=>{
+			this.setState({
+				outDate:this.refs.outDate.value
+			})
+		})
 	}
 
 	_uploadThumbnail(){
@@ -256,6 +276,7 @@ export default class PostAdd extends Component{
 		this._typeIdOnchange(id);
 	}
 
+
 	_renderNavs(lists){
 		if(lists.length==0) return [];
 		let nodeLists = [];
@@ -295,6 +316,10 @@ export default class PostAdd extends Component{
 					<div className="uk-form-row">
 						<label className="uk-form-label">关键字<small className="uk-margin-left">(多关键字请用|分开)</small></label>
 						<input ref="keywords" onChange={this._keywordsOnchange.bind(this)} value={this.state.keywords} className="uk-form-input uk-form-width-large" type="text"/>
+					</div>
+					<div className="uk-form-row">
+						<label className="uk-form-label">有效期</label>
+						<input ref="outDate" onChange={this._outDateOnchange.bind(this)} value={this.state.outDate} className="uk-form-input" type="text"/>
 					</div>
 					<div className="uk-form-row">
 						<label className="uk-form-label">描述</label>
