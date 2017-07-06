@@ -92,7 +92,9 @@ module.exports = {
             } else {
                 res.locals.status = 1;
 				result = result.toObject();
-				result.outDate = moment(result.outDate).format('YYYY-MM-DD');
+				if(!!result.outDate){
+					result.outDate = moment(result.outDate).format('YYYY-MM-DD');
+				}
                 res.locals.datas = result;
                 res.locals.message = '查询文章成功';
             }
