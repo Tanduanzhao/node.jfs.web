@@ -9,7 +9,7 @@ function getLawsList(req){
         typeId:'59267491ae9782082cf1d8b7'
     };
     if(req.query._k){
-        conditions.title = {$in:req.query._k.split(conditions).map((ele)=> new RegExp(`/${ele}/i`))}
+        conditions.title = new RegExp(req.query._k);
     }
     return post
             .find()
@@ -22,13 +22,6 @@ function getLawsList(req){
                 if(err){
                     throw new Error('查询政策法规文章失败！');
                     console.log(err);
-                }else{
-                    result = result.map(ele=>{
-                        ele = ele.toObject();
-                        ele.publishDate = moment(ele.publishDate).format('YYYY-MM-DD')
-                        return ele;
-                    })
-                    return result;
                 }
             })
 }
@@ -38,7 +31,7 @@ function countLawsList(req){
         typeId:'59267491ae9782082cf1d8b7'
     };
     if(req.query._k){
-        conditions.title = {$in:req.query._k.split(conditions).map((ele)=> new RegExp(`/${ele}/i`))}
+        conditions.title = new RegExp(req.query._k);
     }
     return new Promise((resolve,reject)=>{
         post
@@ -68,6 +61,15 @@ module.exports = (req,res,next)=>{
         return getLawsList(req)
     })
     .then((result)=>{
+        result = result.map(ele=>{
+            ele = ele.toObject();
+            if(!!ele.publishDate){
+                ele.publishDate = moment(ele.publishDate).format('YYYY-MM-DD')
+            }else{
+                ele.publishDate = '不详';
+            }
+            return ele;
+        })
         res.locals.datas = result;
         res.locals.status = 1;
         next();

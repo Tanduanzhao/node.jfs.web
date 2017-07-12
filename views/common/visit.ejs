@@ -55,6 +55,7 @@
           url:'/getDeptInfo',
           method: 'GET',
           success: function (res) {
+            if(res.status === 1){
               var datas =toJson(parseXML(res.datas.string._))
               var deptInfo="";
               if(typeof datas.res.deptInfo == "object"){
@@ -64,8 +65,7 @@
                       deptInfo+='<option value='+item.deptId+'>'+item.deptName+'</option>'
                   });
               }
-              $(".deptInfo").append(deptInfo);
-              getRegInfo('/getRegInfo?time='+timestamp(new Date())+'&&id='+$(".deptInfo").val())
+             }
           }
       })
   }
@@ -74,26 +74,28 @@
             url: url,
             method: 'GET',
             success: function (res) {
-                var datas =toJson(parseXML(res.datas.string._))
-                var regInfo="";
-                console.log(datas)
-               if(typeof datas.res.ErrorCode != "undefined" && datas.res.ErrorCode ==14){
-                    console.log(datas.res.resultDesc)
-                     regInfo+=('<img  src="/images/unlogin.png" class="unlogin">');
-               }else{
-                   if(typeof datas.res.regInfo == "object"){
-                       regInfo+='<table class="table"> <thead> <tr> <th class="th-width">科室</th> <th class="th-width">医师</th> <th>职称</th> </tr> </thead> <tbody>'
-                       regInfo+='<tr><td>'+$('.deptInfo option:selected').text()+'</td> <td>'+datas.res.regInfo.doctorName+'</td> <td>'+datas.res.regInfo.doctorTitle+'</td> </tr>'
-                       regInfo+='</tbody></table>'
+                if(res.status === 1){
+                    var datas =toJson(parseXML(res.datas.string._))
+                    var regInfo="";
+                    console.log(datas)
+                   if(typeof datas.res.ErrorCode != "undefined" && datas.res.ErrorCode ==14){
+                        console.log(datas.res.resultDesc)
+                         regInfo+=('<img  src="/images/unlogin.png" class="unlogin">');
                    }else{
-                       regInfo+='<table class="table"> <thead> <tr> <th class="th-width">科室</th> <th class="th-width">医师</th> <th>职称</th> </tr> </thead> <tbody>'
-                       $.each(datas.res.regInfo, function(i,item) {
-                           regInfo+='<tr><td>'+$('.deptInfo option:selected').text()+'</td> <td>'+item.doctorName+'</td> <td>'+item.doctorTitle+'</td> </tr>'
-                       });
-                       regInfo+='</tbody></table>'
+                       if(typeof datas.res.regInfo == "object"){
+                           regInfo+='<table class="table"> <thead> <tr> <th class="th-width">科室</th> <th class="th-width">医师</th> <th>职称</th> </tr> </thead> <tbody>'
+                           regInfo+='<tr><td>'+$('.deptInfo option:selected').text()+'</td> <td>'+datas.res.regInfo.doctorName+'</td> <td>'+datas.res.regInfo.doctorTitle+'</td> </tr>'
+                           regInfo+='</tbody></table>'
+                       }else{
+                           regInfo+='<table class="table"> <thead> <tr> <th class="th-width">科室</th> <th class="th-width">医师</th> <th>职称</th> </tr> </thead> <tbody>'
+                           $.each(datas.res.regInfo, function(i,item) {
+                               regInfo+='<tr><td>'+$('.deptInfo option:selected').text()+'</td> <td>'+item.doctorName+'</td> <td>'+item.doctorTitle+'</td> </tr>'
+                           });
+                           regInfo+='</tbody></table>'
+                       }
                    }
-               }
-                $(".wrap").html(regInfo);
+                    $(".wrap").html(regInfo);
+                }
             }
         })
     }
